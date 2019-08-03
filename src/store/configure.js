@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
-import * as modules from "./moduels";
+import * as modules from "./modules";
 
 const reducers = combineReducers(modules);
 const middlewares = [];
