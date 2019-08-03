@@ -2,24 +2,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Upload from "components/common/Upload";
-import { postFile } from "lib/api";
+import * as uploadActions from "store/modules/upload";
 
 class UploadContainer extends Component {
   constructor(props) {
     super(props);
+    const { UploadActions } = props;
     this.state = {
       uploadInfo: {
         name: "gz",
         aceept: "application/gzip, .gz",
+        beforeUpload: (file, fileList) => false,
         multiple: true,
-        action: postFile,
         onChange(info) {
-          const { status } = info.file;
-          if (status !== "uploading") {
-            console.log(info.file, info.fileList);
+          const { file, fileList } = info;
+          if (file.status !== "uploading") {
+            UploadActions.handleFileList(fileList);
           }
-          if (status === "done") {
-            console.log("a");
+          if (file.status === "done") {
           }
         }
       }
@@ -33,5 +33,7 @@ class UploadContainer extends Component {
 
 export default connect(
   null,
-  null
+  dispatch => ({
+    UploadActions: bindActionCreators(uploadActions, dispatch)
+  })
 )(UploadContainer);
