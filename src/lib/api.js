@@ -1,4 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-export const postFile = file => axios.post("/post/gz", file);
+const url = "/api/";
+
+export const tryLogin = param =>
+  axios.post(`${url}auth/login`, queryString.stringify(param));

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Login from "components/Login";
-import axios from "axios";
+import * as stateActions from "store/modules/state";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -22,10 +22,9 @@ class LoginContainer extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
-    axios
-      .post("/api/auth/login", { email, password })
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
+    const { StateActions } = this.props;
+    if (!email || !password) return;
+    StateActions.tryLogin({ email, password });
   };
 
   handleRegister = e => {
@@ -44,4 +43,9 @@ class LoginContainer extends Component {
   }
 }
 
-export default LoginContainer;
+export default connect(
+  null,
+  dispatch => ({
+    StateActions: bindActionCreators(stateActions, dispatch)
+  })
+)(LoginContainer);
