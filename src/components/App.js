@@ -1,12 +1,36 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { UploadPage } from "pages";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
+import { UploadPage, LoginPage } from "pages";
+import Loading from "components/Loading";
+import PrivateRouter from "lib/PrivateRouter";
 
-const App = () => {
-  return (
-    <Switch>
-      <Route path="/" component={UploadPage} exact />
-    </Switch>
-  );
-};
-export default App;
+class App extends Component {
+  render() {
+    const { authed } = this.props;
+    return (
+      <>
+        <HashRouter>
+          <Switch>
+            <Route path="/login" component={LoginPage} exact />
+            <PrivateRouter
+              path="/"
+              component={UploadPage}
+              authed={authed}
+            />
+            <Redirect to="/" />
+          </Switch>
+        </HashRouter>
+        <Loading />
+      </>
+    );
+  }
+}
+
+export default connect(
+  state => ({
+    authed: state.state.get("authed")
+  }),
+  null
+)(App);

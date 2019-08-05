@@ -3,16 +3,22 @@ import { Map } from "immutable";
 
 const SHOW_MSG = "state/SHOW_MSG";
 const HIDE_MSG = "state/HIDE_MSG";
+const SET_PENDING = "state/SET_PENDING";
+const SET_FINISH = "state/SET_FINISH";
 
 export const showMsg = createAction(SHOW_MSG);
 export const hideMsg = createAction(HIDE_MSG);
+export const setPending = createAction(SET_PENDING);
+export const setFinish = createAction(SET_FINISH);
 
 const initialState = Map({
   msg: {
     status: "",
     content: "",
     show: false
-  }
+  },
+  loading: false,
+  authed: false
 });
 
 export default handleActions(
@@ -29,6 +35,12 @@ export default handleActions(
         .setIn(["msg", "status"], "")
         .setIn(["msg", "content"], "")
         .setIn(["msg", "show"], false);
+    },
+    [SET_PENDING]: (state, action) => {
+      return state.set("loading", true);
+    },
+    [SET_FINISH]: (state, action) => {
+      return state.set("loading", false);
     }
   },
   initialState
