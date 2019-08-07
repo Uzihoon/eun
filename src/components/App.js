@@ -15,7 +15,7 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={LoginPage} exact />
             <PrivateRouter
-              path="/"
+              path="/upload"
               component={UploadPage}
               authed={authed}
             />

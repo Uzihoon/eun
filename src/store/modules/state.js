@@ -20,7 +20,7 @@ const initialState = Map({
     show: false
   },
   loading: false,
-  authed: false
+  authed: true
 });
 
 export default handleActions(
