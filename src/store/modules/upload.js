@@ -2,8 +2,12 @@ import { createAction, handleActions } from "redux-actions";
 import { Map, List, fromJS } from "immutable";
 
 const HANDLE_FILE_LIST = "upload/HANDLE_FILE_LIST";
+const FORMAT_DATA = "upload/FORMAT_DATA";
+const SET_UPLOAD = "upload/SET_UPLOAD";
 
 export const handleFileList = createAction(HANDLE_FILE_LIST);
+export const formatData = createAction(FORMAT_DATA);
+export const setUpload = createAction(SET_UPLOAD);
 
 const initialState = Map({
   fileList: List([]),
@@ -23,7 +27,8 @@ const initialState = Map({
       value: "1"
     },
     {
-      title: "StCas9 from Streptococcus thermophilus: 5'-NNAGAAW-3' (W = A or T)",
+      title:
+        "StCas9 from Streptococcus thermophilus: 5'-NNAGAAW-3' (W = A or T)",
       value: "2"
     },
     {
@@ -39,7 +44,8 @@ const initialState = Map({
       value: "5"
     },
     {
-      title: "AsCpf1 from Acidaminococcus or LbCpf1 from Lachnospiraceae: 5'-TTTN-3'",
+      title:
+        "AsCpf1 from Acidaminococcus or LbCpf1 from Lachnospiraceae: 5'-TTTN-3'",
       value: "6"
     },
     {
@@ -51,14 +57,16 @@ const initialState = Map({
       value: "12"
     },
     {
-      title: "Spy-macCas9 from Streptococcus pyogenes and Streptococcus macacae: 5'-NAAN-3'",
+      title:
+        "Spy-macCas9 from Streptococcus pyogenes and Streptococcus macacae: 5'-NAAN-3'",
       value: "13"
     },
     {
       title: "XCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'",
       value: "14"
     }
-  ])
+  ]),
+  format: Map({})
 });
 
 export default handleActions(
@@ -66,6 +74,11 @@ export default handleActions(
     [HANDLE_FILE_LIST]: (state, action) => {
       const { payload: fileList } = action;
       return state.set("fileList", fromJS(fileList));
+    },
+    [SET_UPLOAD]: (state, action) => {
+      const { type, data } = action.payload;
+
+      return state.set(type, fromJS(data));
     }
   },
   initialState

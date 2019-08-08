@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Upload from "components/Upload";
+import WebWorker from "worker/Webworker";
+import worker from "worker/worker";
+
 import * as uploadActions from "store/modules/upload";
 
 class UploadContainer extends Component {
@@ -26,15 +29,38 @@ class UploadContainer extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { format } = nextProps;
+    if(format && !format.equals(this.props.format)) {
+      console.log(format.toJS());
+    }
+
+    return true;
+  }
+
+  componentDidMount() {
+    this.worker = new WebWorker(worker);
+    this.worker.onmessage = msg => {
+      console.log(msg);
+    }
+  }
+
   wrappedComponentRef = ref => {
     this.uploadForm = ref;
   };
 
+  formatData = data => {
+
+  }
+
   handleSubmit = _ => {
+    const { UploadActions } = this.props;
     const form = this.uploadForm.props.form;
     form.validateFields((err, val) => {
       if (err) return;
-      console.log(val);
+      // console.log(this.worker);
+      // this.worker.postMessage(val);
+      UploadActions.formatData(val);
     });
   };
 
@@ -46,7 +72,8 @@ class UploadContainer extends Component {
 export default connect(
   state => ({
     nucleaseTypeList: state.upload.get("nucleaseTypeList").toJS(),
-    nucleaseList: state.upload.get("nucleaseList").toJS()
+    nucleaseList: state.upload.get("nucleaseList").toJS(),
+    format: state.upload.get("format")
   }),
   dispatch => ({
     UploadActions: bindActionCreators(uploadActions, dispatch)

@@ -55,7 +55,7 @@ export default Form.create({ name: "upload" })(
             <div className={cx("item-title")}>
               Target DNA sequence (5 to 3, without PAM sequence)
             </div>
-            {getFieldDecorator("rgenseq1", {
+            {getFieldDecorator("rgenseq", {
               rules: [
                 { required: true, message: "Please input target DNA sequence" }
               ]
