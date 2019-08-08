@@ -35,7 +35,7 @@ export function* formatData(action) {
     const format = {
       msgtype: 0,
       seq_wt,
-      rgen_type,
+      rgen_type,   
       seq_RGEN,
       seq_RGEN2,
       end_range,
