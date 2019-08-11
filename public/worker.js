@@ -547,11 +547,14 @@ self.onmessage = e => {
     let flag_back;
     let end_pos;
     let start_pos;
-    let err_cycle;
+    let err_cycle = 0;
     let err_v;
 
     for (let i = 0; i < seqs.length; i++) {
       const seq = seqs[i];
+      flag_for = 0;
+      flag_back = 0;
+
       for (let j = 0; j < pri_for_patterns.length; j++) {
         let pattern = pri_for_patterns[j];
         pattern = new RegExp(pattern);
@@ -878,8 +881,8 @@ self.onmessage = e => {
 
     const read_fq = () => {
       const eofs = [false, false];
-      for (let j = 0; j <= 1; j++) {
-        for (let k = 0; k <= 3; k++) {
+      for (let j = 0; j < 2; j++) {
+        for (let k = 0; k < 4; k++) {
           let line;
           try {
             line = readers[j].readline();
@@ -889,6 +892,7 @@ self.onmessage = e => {
             }
           } catch (error) {
             post(1, error);
+            return 2;
           }
 
           if (k === 0) {
@@ -906,10 +910,7 @@ self.onmessage = e => {
           }
         }
         if (fq[j].id.n === 0 || (fq[j].id.n !== 0 && fq[j].id.s[0] !== "@")) {
-          self.postMessage({
-            msgType: 1,
-            error: "Input files is not FASTQ!"
-          });
+          post(1, "Input files is not FASTQ!");
           return 2;
         }
       }
@@ -917,10 +918,7 @@ self.onmessage = e => {
         (eofs[0] === true && eofs[1] === false) ||
         (eofs[0] === false && eofs[1] === true)
       ) {
-        self.postMessage({
-          msgType: 1,
-          error: "# of rows in mate file doesnt's match primary file!"
-        });
+        post(1, "# of rows in mate file doesnt's match primary file!");
         return 2;
       } else if (eofs[0] === true && eofs[1] === true) {
         return 1;
@@ -941,7 +939,7 @@ self.onmessage = e => {
       maxo = helper.min(fq[0].seq.n, rc.seq.n);
       bestscore = 2147483647;
       besto = -1;
-      for (let i = mino; i < maxo; i++) {
+      for (let i = mino; i <= maxo; i++) {
         mind = Math.floor((pctdiff * i) / 100);
         d = helper.hd(fq[0].seq.s, fq[0].seq.n - i, rc.seq.s, i);
         if (d <= mind) {
@@ -1039,11 +1037,10 @@ self.onmessage = e => {
       }
 
       const item_cnt = store.seq_count[seq];
-      console.log(item_cnt);
       totlr_count += item_cnt;
       if (item_cnt > filt_n) {
         count_seqs.push({ seq: seq, count: item_cnt });
-        tot_count += item_cnt.cnt;
+        tot_count += item_cnt;
       }
 
       if (i % n === 0) {
@@ -1171,6 +1168,7 @@ self.onmessage = e => {
     data.hdr = cnt_hdr;
     data.joins_length = store.joins_length;
     data.totlr_count = totlr_count;
+    data.tot_count = tot_count;
     data.cnt_ins = cnt_ins;
     data.cnt_del = cnt_del;
     pgcallback(100);
