@@ -1,4 +1,3 @@
-import pako from "pako";
 
 
 export function* analysisFiles(action) {

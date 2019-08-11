@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Upload from "components/Upload";
 import WorkerComponent from "components/WebWorker";
+import Loading from "components/common/Loading";
+import { withRouter } from "react-router";
 
 import * as uploadActions from "store/modules/upload";
-
+import * as analysisActions from "store/modules/analysis";
 class UploadContainer extends Component {
   constructor(props) {
     super(props);
@@ -17,14 +19,17 @@ class UploadContainer extends Component {
         beforeUpload: (file, fileList) => false,
         multiple: true,
         onChange(info) {
-          const { file, fileList } = info;
+          const { file } = info;
           if (file.status !== "uploading") {
             UploadActions.handleFileList(file);
           }
           if (file.status === "done") {
           }
         }
-      }
+      },
+      loading: false,
+      title: "",
+      gauge: 0
     };
   }
 
@@ -33,9 +38,21 @@ class UploadContainer extends Component {
     if (format && !format.equals(this.props.format)) {
       const data = format.toJS() || {};
       this.worker.postMessage(data);
+      this.setState({
+        loading: true,
+        title: "Analyzing"
+      });
     }
 
-    return true;
+    if (this.state.loading !== nextState.loading) {
+      return true;
+    }
+
+    if (this.state.gauge !== nextState.gauge) {
+      return true;
+    }
+
+    return false;
   }
 
   componentDidMount() {
@@ -63,29 +80,50 @@ class UploadContainer extends Component {
   };
 
   handleData = data => {
-    console.log(data);
+    const { AnalysisActions, history } = this.props;
+    if (data.msgType === 2) {
+      this.setState({
+        gauge: data.msg
+      });
+    } else {
+      if (data.msgType === 0) {
+        AnalysisActions.saveAnalysis({ type: "summary", data: data.msg });
+      }
+      if (data.msgType === 4) {
+        AnalysisActions.saveAnalysis({ type: "analysis", data: data.msg });
+        this.setState({
+          loading: false
+        });
+        history.push("/analysis");
+      }
+    }
   };
 
   render() {
+    const { loading, title, gauge } = this.state;
     return (
       <>
         <Upload {...this.state} {...this} {...this.props} />
         {this.worker && (
           <WorkerComponent worker={this.worker} handleData={this.handleData} />
         )}
+        {loading && <Loading title={title} gauge={gauge} />}
       </>
     );
   }
 }
 
-export default connect(
-  state => ({
-    nucleaseTypeList: state.upload.get("nucleaseTypeList").toJS(),
-    nucleaseList: state.upload.get("nucleaseList").toJS(),
-    format: state.upload.get("format"),
-    fileList: state.upload.get("fileList")
-  }),
-  dispatch => ({
-    UploadActions: bindActionCreators(uploadActions, dispatch)
-  })
-)(UploadContainer);
+export default withRouter(
+  connect(
+    state => ({
+      nucleaseTypeList: state.upload.get("nucleaseTypeList").toJS(),
+      nucleaseList: state.upload.get("nucleaseList").toJS(),
+      format: state.upload.get("format"),
+      fileList: state.upload.get("fileList")
+    }),
+    dispatch => ({
+      UploadActions: bindActionCreators(uploadActions, dispatch),
+      AnalysisActions: bindActionCreators(analysisActions, dispatch)
+    })
+  )(UploadContainer)
+);

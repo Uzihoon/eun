@@ -1068,45 +1068,45 @@ self.onmessage = e => {
       if (count_seqs[i].seq.length === 0) {
         continue;
       }
-      const entry = [];
+      const entry = {};
       const p = needle(seq_range, count_seqs[i].seq, 10, 0.5, 10, 0.5);
-      entry[0] = i + 1;
-      entry[1] = p[0];
-      entry[2] = p[2];
-      entry[3] = p[1];
-      entry[4] = count_seqs[i].seq.length;
-      entry[5] = count_seqs[i].count;
-      if (seq_range.length === entry[4]) {
-        entry[6] = 0;
+      entry.id = i + 1;
+      entry.origin = p[0];
+      entry.change = p[2];
+      entry.graphic = p[1];
+      entry.length = count_seqs[i].seq.length;
+      entry.count = count_seqs[i].count;
+      if (seq_range.length === entry.length) {
+        entry.type = 0;
       } else {
         if (
           filt_r > 0 &&
           s_seq !== "" &&
           count_seqs[i].seq.indexOf(s_seq) > 0
         ) {
-          entry[6] = 0;
+          entry.type = 0;
         } else {
-          if (entry[4] > seq_range.length) {
-            entry[6] = 1;
-            cnt_ins += entry[5];
+          if (entry.length > seq_range.length) {
+            entry.type = 1;
+            cnt_ins += entry.count;
           } else {
-            entry[6] = 2;
-            cnt_del += entry[5];
+            entry.type = 2;
+            cnt_del += entry.count;
           }
         }
       }
       if (!seq_hdr || seq_hdr === "") {
-        entry[7] = -2;
+        entry.hdr = -2;
       } else {
-        entry[7] = count_seqs[i].seq.indexOf(seq_hdr);
-        if (entry[7] > 0) {
-          cnt_hdr += entry[5];
+        entry.hdr = count_seqs[i].seq.indexOf(seq_hdr);
+        if (entry.hdr > 0) {
+          cnt_hdr += entry.count;
         }
       }
       data.table.push(entry);
-      if (entry[6] === 1) {
+      if (entry.type === 1) {
         while (true) {
-          const m = re_gap.exec(entry[1]);
+          const m = re_gap.exec(entry.origin);
           if (m) {
             const gap = m[0];
             if (data.is.length < gap.length) {
@@ -1119,20 +1119,20 @@ self.onmessage = e => {
             break;
           }
         }
-        for (let j = 0; j < entry[1].length; j++) {
-          if (entry[1][j] !== "-") {
+        for (let j = 0; j < entry.origin.length; j++) {
+          if (entry.origin[j] !== "-") {
             cpos += 1;
             if (cpos >= seq_range.length) {
               break;
             }
-            if (entry[1][j + 1] === "-") {
+            if (entry.origin[j + 1] === "-") {
               data.il[cpos][1] += count_seqs[i].count;
             }
           }
         }
-      } else if (entry[6] === 2) {
+      } else if (entry.type === 2) {
         while (true) {
-          const m = re_gap.exec(entry[2]);
+          const m = re_gap.exec(entry.change);
           if (m) {
             const gap = m[0];
             if (data.ds.length < gap.length) {
@@ -1145,11 +1145,11 @@ self.onmessage = e => {
             break;
           }
         }
-        for (let j = 0; j <= entry[1].length; j++) {
-          if (entry[2][j] === "-") {
+        for (let j = 0; j <= entry.origin.length; j++) {
+          if (entry.change[j] === "-") {
             data.dl[cpos][1] += count_seqs[i].count;
           }
-          if (entry[1][j] !== "-") {
+          if (entry.origin[j] !== "-") {
             cpos += 1;
           }
         }
@@ -1176,7 +1176,6 @@ self.onmessage = e => {
   };
 
   run_fastq_join(files, pgcallback, process_chunk, true);
-  console.log(seq_range);
   const final_data = run_cas_analyser(
     seq_range,
     seq_hdr,
