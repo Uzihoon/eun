@@ -8,6 +8,7 @@ export function* formatData(action) {
     const { fullseq, rgenseq, nuctype, nucleases, files } = data;
     const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
     const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
+    const msgType = 0;
 
     //TODO: optfile select box 설정 필요 우선 하드코딩
     const fileopt = 0;
@@ -17,7 +18,8 @@ export function* formatData(action) {
     const filt_r = 5;
     const end_range = 70;
 
-    let rgen_type, seq_RGEN2;
+    let rgen_type = 0;
+    let seq_RGEN2 = "";
 
     if (+nuctype === 0 && +nucleases === 6) {
       rgen_type = 1;
@@ -35,13 +37,14 @@ export function* formatData(action) {
     const format = {
       msgtype: 0,
       seq_wt,
-      rgen_type,   
+      rgen_type,
       seq_RGEN,
       seq_RGEN2,
       end_range,
       filt_n,
       filt_r,
-      files
+      files,
+      msgType
     };
 
     yield put(uploadActions.setUpload({ type: "format", data: format }));

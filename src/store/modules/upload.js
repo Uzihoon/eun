@@ -72,7 +72,9 @@ const initialState = Map({
 export default handleActions(
   {
     [HANDLE_FILE_LIST]: (state, action) => {
-      const { payload: fileList } = action;
+      const { payload: file } = action;
+      const fileList = state.get("fileList").toJS();
+      fileList.push(file);
       return state.set("fileList", fromJS(fileList));
     },
     [SET_UPLOAD]: (state, action) => {

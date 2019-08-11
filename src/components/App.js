@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
 import { UploadPage, LoginPage } from "pages";
+import TestPage from "pages/TestPage";
 import Loading from "components/Loading";
 import PrivateRouter from "lib/PrivateRouter";
 
@@ -17,6 +18,11 @@ class App extends Component {
             <PrivateRouter
               path="/upload"
               component={UploadPage}
+              authed={authed}
+            />
+            <PrivateRouter
+              path="/test"
+              component={TestPage}
               authed={authed}
             />
             <Redirect to="/" />
