@@ -95,7 +95,6 @@
   }
 }
 
-
 :global {
   .value-wrapper {
     display: flex;
@@ -106,4 +105,40 @@
       letter-spacing: 5.15px;
     }
   }
+}
+
+.char-box {
+  flex: 1;
+
+  .char {
+    text-align: center;
+  }
+}
+
+.change-seq {
+  display: flex;
+  align-items: center;
+
+  .seq {
+    font-size: 3em;
+    margin: 0px 10px;
+    font-weight: bold;
+  }
+
+  & svg {
+    font-size: 3em;
+  }
+}
+
+.change-result {
+  width: 100%;
+  text-align: center;
+  font-size: 3.2em;
+  font-weight: bold;
+}
+
+.total {
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
 }

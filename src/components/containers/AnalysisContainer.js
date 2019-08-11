@@ -38,7 +38,6 @@ class AnalysisContainer extends Component {
           title: "Sequence",
           dataIndex: "origin",
           render: (text, val) => {
-            console.log(text, val);
             return (
               <div className={"value-wrapper"}>
                 <div>{val.origin}</div>
@@ -76,7 +75,8 @@ class AnalysisContainer extends Component {
             return "O";
           }
         }
-      ]
+      ],
+      sequenceCharList: ["A","C","G","T"]
     };
   }
 

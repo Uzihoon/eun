@@ -5,7 +5,15 @@ import * as uploadActions from "store/modules/upload";
 export function* formatData(action) {
   try {
     const { payload: data } = action;
-    const { fullseq, rgenseq, nuctype, nucleases, files } = data;
+    const {
+      fullseq,
+      rgenseq,
+      nuctype,
+      nucleases,
+      files,
+      targetSeq,
+      changeSeq
+    } = data;
     const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
     const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
     const msgType = 0;
@@ -44,7 +52,9 @@ export function* formatData(action) {
       filt_n,
       filt_r,
       files,
-      msgType
+      msgType,
+      targetSeq: targetSeq.toUpperCase(),
+      changeSeq: changeSeq.toUpperCase()
     };
 
     yield put(uploadActions.setUpload({ type: "format", data: format }));

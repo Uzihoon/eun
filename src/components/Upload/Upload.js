@@ -82,6 +82,22 @@ export default Form.create({ name: "upload" })(
               ]
             })(<Input />)}
           </Item>
+          <Item>
+            <div className={cx("item-title")}>Target</div>
+            {getFieldDecorator("targetSeq", {
+              rules: [
+                {required: true, message: "Please input target"}
+              ]
+            })(<Input/>)}
+          </Item>
+          <Item>
+            <div className={cx("item-title")}>Change</div>
+            {getFieldDecorator("changeSeq", {
+              rules: [
+                {required: true, message: "Please input change"}
+              ]
+            })(<Input/>)}
+          </Item>
           <div className={cx("button-box")}>
             <Button onClick={handleSubmit}>Submit</Button>
           </div>

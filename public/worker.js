@@ -305,10 +305,6 @@ function needle(a, b, gapopen, gapextend, endgapopen, endgapextend) {
   return [aln_a, aln_r, aln_b];
 }
 
-const store = {
-  joins_length: 0,
-  seq_count: {}
-};
 const helper = {
   revcompstr(s) {
     let i, l, _i, _ref;
@@ -397,6 +393,13 @@ const helper = {
 self.onmessage = e => {
   if (!e) return;
   const data = e.data;
+
+  const store = {
+    joins_length: 0,
+    seq_count: {},
+    chartIndex: [],
+    changed: 0
+  };
   const pri_len = 15;
   const {
     rgen_type,
@@ -407,7 +410,9 @@ self.onmessage = e => {
     filt_n,
     filt_r,
     files,
-    seq_hdr
+    seq_hdr,
+    targetSeq,
+    changeSeq
   } = data;
   let bp, m;
   if (rgen_type < 2) {
@@ -540,6 +545,41 @@ self.onmessage = e => {
     }
     return _line;
   })();
+
+  // 변경된 sequence 찾음
+
+  const findChangeSeq = (origin, change, count) => {
+    let changed = 0;
+    const reg = new RegExp(seq_RGEN);
+    const originTarget = origin.match(reg);
+    if (!originTarget) return {};
+    const changeTarget = change.slice(
+      originTarget.index,
+      originTarget.index + seq_RGEN.length
+    );
+
+    for (let i = 0; i < seq_RGEN.length; i++) {
+      const a = seq_RGEN.charAt(i);
+      const b = changeTarget.charAt(i);
+      if (a === targetSeq) {
+        if (b === changeSeq) {
+          const data = count;
+          changed += data;
+          store.changed += data;
+        }
+      }
+      if (!store.chartIndex[i]) {
+        store.chartIndex[i] = {
+          [b]: 1 * count
+        };
+      } else if (!store.chartIndex[i][b]) {
+        store.chartIndex[i][b] = 1 * count;
+      } else {
+        store.chartIndex[i][b] += 1 * count;
+      }
+    }
+    return changed;
+  };
 
   const process_chunk = seqs => {
     let cut_seq;
@@ -1070,12 +1110,14 @@ self.onmessage = e => {
       }
       const entry = {};
       const p = needle(seq_range, count_seqs[i].seq, 10, 0.5, 10, 0.5);
+      const changed = findChangeSeq(p[0], p[2], count_seqs[i].count);
       entry.id = i + 1;
       entry.origin = p[0];
       entry.change = p[2];
       entry.graphic = p[1];
       entry.length = count_seqs[i].seq.length;
       entry.count = count_seqs[i].count;
+      entry.changedCount = changed;
       if (seq_range.length === entry.length) {
         entry.type = 0;
       } else {
@@ -1171,6 +1213,8 @@ self.onmessage = e => {
     data.tot_count = tot_count;
     data.cnt_ins = cnt_ins;
     data.cnt_del = cnt_del;
+    data.changed = store.changed;
+    data.chartIndex = store.chartIndex;
     pgcallback(100);
     return data;
   };
