@@ -400,6 +400,7 @@ self.onmessage = e => {
     chartIndex: [],
     changed: 0
   };
+  console.log(store, data.fileId);
   const pri_len = 15;
   const {
     rgen_type,
@@ -412,7 +413,8 @@ self.onmessage = e => {
     files,
     seq_hdr,
     targetSeq,
-    changeSeq
+    changeSeq,
+    fileId
   } = data;
   let bp, m;
   if (rgen_type < 2) {
@@ -1096,7 +1098,8 @@ self.onmessage = e => {
       dl: [],
       is: [],
       ds: [],
-      hdr: 0
+      hdr: 0,
+      fileId
     };
 
     for (let i = 0; i < length_range; i++) {

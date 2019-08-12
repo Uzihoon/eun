@@ -12,15 +12,15 @@ export function* formatData(action) {
       nucleases,
       files,
       targetSeq,
-      changeSeq
+      changeSeq,
+      namePattern,
+      indexPattern
     } = data;
     const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
     const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
     const msgType = 0;
-
     //TODO: optfile select box 설정 필요 우선 하드코딩
     const fileopt = 0;
-
     //OPTIONAL
     const filt_n = 1;
     const filt_r = 5;
@@ -42,6 +42,20 @@ export function* formatData(action) {
       }
     }
 
+    const fileList = {};
+    const filePattern = new RegExp(`${namePattern}(.*)${indexPattern}`);
+
+    files.forEach(e => {
+      const match = filePattern.exec(e.name);
+      if (match) {
+        if (fileList[match[1]]) {
+          fileList[match[1]].push(e);
+        } else {
+          fileList[match[1]] = [e];
+        }
+      }
+    });
+
     const format = {
       msgtype: 0,
       seq_wt,
@@ -51,7 +65,7 @@ export function* formatData(action) {
       end_range,
       filt_n,
       filt_r,
-      files,
+      fileList,
       msgType,
       targetSeq: targetSeq.toUpperCase(),
       changeSeq: changeSeq.toUpperCase()

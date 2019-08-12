@@ -5,6 +5,7 @@ import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
 import { UploadPage, LoginPage, AnalysisPage } from "pages";
 import TestPage from "pages/TestPage";
 import PrivateRouter from "lib/PrivateRouter";
+import InfoMessage from "components/common/InfoMessage";
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
             <Redirect to="/" />
           </Switch>
         </HashRouter>
+        <InfoMessage />
       </>
     );
   }

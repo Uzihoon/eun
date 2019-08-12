@@ -94,7 +94,7 @@ export default withRouter(
   connect(
     state => ({
       summary: state.analysis.get("summary").toJS(),
-      analysis: state.analysis.get("analysis").toJS(),
+      analysisList: state.analysis.get("analysis").toJS(),
       format: state.upload.get("format").toJS()
     }),
     null

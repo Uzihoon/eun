@@ -17,12 +17,39 @@ export default Form.create({ name: "upload" })(
         nucleaseTypeList,
         nucleaseList,
         handleSubmit,
-        uploadInfo
+        uploadInfo,
+        validationCheck
       } = this.props;
       const { getFieldDecorator } = this.props.form;
 
       return (
         <Form>
+          <div className={cx("full-item")}>
+            <Item className={cx("half-item")}>
+              <div className={cx("item-title")}>File Name Pattern</div>
+              {getFieldDecorator("namePattern", {
+                initialValue: "Sample-ID-",
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input file pattern"
+                  }
+                ]
+              })(<Input />)}
+            </Item>
+            <Item className={cx("half-item")}>
+              <div className={cx("item-title")}>File Index Pattern</div>
+              {getFieldDecorator("indexPattern", {
+                initialValue: "_L001_",
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input file pattern"
+                  }
+                ]
+              })(<Input />)}
+            </Item>
+          </div>
           <Item>
             <div className={cx("item-title")}>Sequencing Data</div>
             {getFieldDecorator("files", {
@@ -39,7 +66,8 @@ export default Form.create({ name: "upload" })(
           <Item>
             <div className={cx("item-title")}>Full reference sequence</div>
             {getFieldDecorator("fullseq", {
-              initialValue: "GGACGTCTGCCCAATATGTAAAATAACGGAATGAATGGATTCCTTGGAAACAATGATAACAAGACCTGGCTGAGCTAACTGTGACAGCATGTGGTAATTTTCCAGCCCGCTGGCCCTGTAAAGGAAACTGGAACACAAAGCATAGACTGCGGGGCGGGCCAGCCTGAATAGCTGCAAACAAGTGCAGAATATCTGATGATGTCATACGCACAGTTTGACAGATG",
+              initialValue:
+                "GGACGTCTGCCCAATATGTAAAATAACGGAATGAATGGATTCCTTGGAAACAATGATAACAAGACCTGGCTGAGCTAACTGTGACAGCATGTGGTAATTTTCCAGCCCGCTGGCCCTGTAAAGGAAACTGGAACACAAAGCATAGACTGCGGGGCGGGCCAGCCTGAATAGCTGCAAACAAGTGCAGAATATCTGATGATGTCATACGCACAGTTTGACAGATG",
               rules: [{ required: true, message: "Please input Full Sequence" }]
             })(<TextArea />)}
           </Item>
@@ -86,17 +114,23 @@ export default Form.create({ name: "upload" })(
             <div className={cx("item-title")}>Target</div>
             {getFieldDecorator("targetSeq", {
               rules: [
-                {required: true, message: "Please input target"}
+                { required: true, message: "Please input target" },
+                {
+                  /* { validator: validationCheck } */
+                }
               ]
-            })(<Input/>)}
+            })(<Input />)}
           </Item>
           <Item>
             <div className={cx("item-title")}>Change</div>
             {getFieldDecorator("changeSeq", {
               rules: [
-                {required: true, message: "Please input change"}
+                { required: true, message: "Please input change" },
+                {
+                  /* { validator: validationCheck } */
+                }
               ]
-            })(<Input/>)}
+            })(<Input />)}
           </Item>
           <div className={cx("button-box")}>
             <Button onClick={handleSubmit}>Submit</Button>

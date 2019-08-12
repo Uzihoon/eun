@@ -2,10 +2,12 @@ import { createAction, handleActions } from "redux-actions";
 import { Map, List, fromJS } from "immutable";
 
 const HANDLE_FILE_LIST = "upload/HANDLE_FILE_LIST";
+const DELETE_FILE_LIST = "upload/DELTE_FILE_LIST";
 const FORMAT_DATA = "upload/FORMAT_DATA";
 const SET_UPLOAD = "upload/SET_UPLOAD";
 
 export const handleFileList = createAction(HANDLE_FILE_LIST);
+export const deleteFileList = createAction(DELETE_FILE_LIST);
 export const formatData = createAction(FORMAT_DATA);
 export const setUpload = createAction(SET_UPLOAD);
 
@@ -76,6 +78,12 @@ export default handleActions(
       const fileList = state.get("fileList").toJS();
       fileList.push(file);
       return state.set("fileList", fromJS(fileList));
+    },
+    [DELETE_FILE_LIST]: (state, action) => {
+      const { payload: file } = action;
+      const fileList = state.get("fileList").toJS();
+      const newFileList = fileList.filter(e => e.name !== file.name);
+      return state.set("fileList", fromJS(newFileList));
     },
     [SET_UPLOAD]: (state, action) => {
       const { type, data } = action.payload;
