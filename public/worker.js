@@ -2,6 +2,7 @@ importScripts("./pako.js");
 
 const post = (msgType, msg) => postMessage({ msgType, msg });
 const pgcallback = p => post(2, p);
+const ORIGIN_LEN = 140;
 
 function needle(a, b, gapopen, gapextend, endgapopen, endgapextend) {
   function E_FPEQ(a, b, e) {
@@ -400,7 +401,6 @@ self.onmessage = e => {
     chartIndex: [],
     changed: 0
   };
-  console.log(store, data.fileId);
   const pri_len = 15;
   const {
     rgen_type,
@@ -554,7 +554,8 @@ self.onmessage = e => {
     let changed = 0;
     const reg = new RegExp(seq_RGEN);
     const originTarget = origin.match(reg);
-    if (!originTarget) return {};
+    if (!originTarget) return 0;
+    if (origin.length !== ORIGIN_LEN || change.length !== ORIGIN_LEN) return 0;
     const changeTarget = change.slice(
       originTarget.index,
       originTarget.index + seq_RGEN.length
@@ -1068,7 +1069,6 @@ self.onmessage = e => {
     let dscnt = 1;
     let iscnt = 1;
     let re_gap = /-+/g;
-    let cpos = 0;
     let length_range = seq_range.length;
     let n = Math.floor(Object.keys(store.seq_count).length / 20);
     let i = 0;
@@ -1101,13 +1101,14 @@ self.onmessage = e => {
       hdr: 0,
       fileId
     };
-
-    for (let i = 0; i < length_range; i++) {
+    console.log(length_range);
+    for (let i = 0; i <= length_range; i++) {
       data.il.push([i, 0]);
       data.dl.push([i, 0]);
     }
     n = Math.floor(count_seqs.length / 20);
-    for (let i = 0; i < count_seqs.length; i++) {
+    const countLen = count_seqs.length;
+    for (let i = 0; i < countLen; i++) {
       if (count_seqs[i].seq.length === 0) {
         continue;
       }
@@ -1149,6 +1150,7 @@ self.onmessage = e => {
         }
       }
       data.table.push(entry);
+      let cpos = 0;
       if (entry.type === 1) {
         while (true) {
           const m = re_gap.exec(entry.origin);
@@ -1181,7 +1183,8 @@ self.onmessage = e => {
           if (m) {
             const gap = m[0];
             if (data.ds.length < gap.length) {
-              for (let j = 0; j <= gap.length - data.ds.length; j++) {
+              const loop = gap.length - data.ds.length;
+              for (let j = 0; j <= loop; j++) {
                 data.ds.push([dscnt++, 0]);
               }
             }
@@ -1190,7 +1193,8 @@ self.onmessage = e => {
             break;
           }
         }
-        for (let j = 0; j <= entry.origin.length; j++) {
+        const originLoop = entry.origin.length;
+        for (let j = 0; j <= originLoop; j++) {
           if (entry.change[j] === "-") {
             data.dl[cpos][1] += count_seqs[i].count;
           }
@@ -1204,7 +1208,7 @@ self.onmessage = e => {
         pgcallback(50 + (50 * i) / (count_seqs.length - 1));
       }
     }
-    for (let i = 0; i < seq_range.length; i++) {
+    for (let i = 0; i <= seq_range.length; i++) {
       data.il[i][1] /= tot_count;
       data.dl[i][1] /= tot_count;
       data.il[i][1] *= 100;

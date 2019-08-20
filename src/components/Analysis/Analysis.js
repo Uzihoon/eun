@@ -107,7 +107,7 @@ const Analysis = ({
                       <div className={cx("char-box")} key={i}>
                         {sequenceCharList.map((k, j) => {
                           const val =
-                            e[k] > 0 ? ((e[k] / total) * 100).toFixed(2) : 0;
+                            e[k] > 0 ? Math.round((e[k] / total) * 100) : 0;
                           return (
                             <Tooltip key={j} title={e[k]}>
                               <div className={cx("char")}>{val}</div>
@@ -132,7 +132,10 @@ const Analysis = ({
                   <Tooltip title={`${analysis.changed}/${analysis.tot_count}`}>
                     <div className={cx("change-result")}>
                       {analysis.changed > 0
-                        ? analysis.changed / analysis.tot_count
+                        ? (
+                            (analysis.changed / analysis.tot_count) *
+                            100
+                          ).toFixed(2) + "%"
                         : 0}
                     </div>
                   </Tooltip>

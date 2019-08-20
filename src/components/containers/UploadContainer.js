@@ -85,6 +85,10 @@ class UploadContainer extends Component {
           title: "Analyzing",
           workerNum
         });
+        window.addEventListener("beforeunload", function(e) {
+          e.preventDefault();
+          e.returnValue = "";
+        });
       }
     }
 
@@ -93,6 +97,7 @@ class UploadContainer extends Component {
         this.setState({ loading: false });
         history.push("/analysis");
       }
+      // window.removeEventListener("beforeunload");
     }
 
     if (this.state.loading !== nextState.loading) {
@@ -106,9 +111,7 @@ class UploadContainer extends Component {
     return false;
   }
 
-  componentDidMount() {
-    this.worker = new Worker("./worker.js");
-  }
+  componentDidMount() {}
 
   wrappedComponentRef = ref => {
     this.uploadForm = ref;
@@ -171,9 +174,6 @@ class UploadContainer extends Component {
     return (
       <>
         <Upload {...this.state} {...this} {...this.props} />
-        {this.worker && (
-          <WorkerComponent worker={this.worker} handleData={this.handleData} />
-        )}
         {loading && <Loading title={title} gauge={gauge} />}
       </>
     );

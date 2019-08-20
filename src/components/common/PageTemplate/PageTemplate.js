@@ -14,7 +14,7 @@ class PageTemplate extends Component {
       <Layout className={cx("full-layout")}>
         <Header className="header">
           <div className="logo" />
-          <Menu
+          {/* <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["2"]}
@@ -22,15 +22,10 @@ class PageTemplate extends Component {
             <Menu.Item key="1">nav 1</Menu.Item>
             <Menu.Item key="2">nav 2</Menu.Item>
             <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
+          </Menu> */}
         </Header>
         <Layout>
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          <Layout style={{ padding: "24px" }}>
             <Content
               style={{
                 background: "#fff",
