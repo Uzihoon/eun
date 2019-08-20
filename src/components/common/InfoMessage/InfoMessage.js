@@ -13,7 +13,6 @@ class InfoMessage extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { msg } = nextProps;
-    console.log(msg);
     if (msg.show !== this.props.msg.show && msg.show) {
       this.handleMessage(msg);
       return true;

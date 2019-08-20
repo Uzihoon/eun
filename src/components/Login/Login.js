@@ -6,21 +6,74 @@ import { Form, Icon, Input, Button } from "antd";
 const cx = classNames.bind(styles);
 const Item = Form.Item;
 
-const Login = ({ handleSubmit, handleRegister, handleChagne }) => {
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input name="id" onChange={e => handleChagne("email", e)} />
-        <input name="password" onChange={e => handleChagne("password", e)} />
-        <button type="subtmi">LOGIN</button>
-      </form>
-      <form onSubmit={handleRegister}>
-        <input />
-        <input />
-        <button type="subtmi">REGISTER</button>
-      </form>
-    </>
-  );
-};
+export default Form.create({ name: "login" })(
+  class extends React.Component {
+    render() {
+      const {
+        handleSubmit,
+        handleRegister,
+        handleChagne,
+        handleUpload
+      } = this.props;
+      const { getFieldDecorator } = this.props.form;
 
-export default Login;
+      return (
+        <Form className={cx("login-container")}>
+          <div className={cx("logo-box")} onClick={handleUpload}>
+            {/* <svg width="0" height="0">
+          <filter id="gooey-black-hole">
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="20"
+              result="blur"
+            />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 50 -16"
+              result="goo"
+            />
+          </filter>
+        </svg>
+        <div className={cx("black-hole")}>
+          <ul className={cx("gooey-container")}>
+            <li className={cx("bubble")} />
+            <li className={cx("bubble")} />
+            <li className={cx("bubble")} />
+            <li className={cx("bubble")} />
+            <li className={cx("bubble")} />
+            <li className={cx("bubble")} />
+          </ul>
+        </div> */}
+
+            <svg width="0" height="0">
+              <filter id="gooey-plasma-2">
+                <feGaussianBlur
+                  in="SourceGraphic"
+                  stdDeviation="20"
+                  result="blur"
+                />
+                <feColorMatrix
+                  in="blur"
+                  mode="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 50 -16"
+                  result="goo"
+                />
+              </filter>
+            </svg>
+            <div className={cx("plasma-2")}>
+              <ul className={cx("gooey-container")}>
+                <li className={cx("bubble")} />
+                <li className={cx("bubble")} />
+                <li className={cx("bubble")} />
+                <li className={cx("bubble")} />
+                <li className={cx("bubble")} />
+                <li className={cx("bubble")} />
+              </ul>
+            </div>
+          </div>
+        </Form>
+      );
+    }
+  }
+);

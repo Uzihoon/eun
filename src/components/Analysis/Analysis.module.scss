@@ -106,11 +106,22 @@
 :global {
   .value-wrapper {
     display: flex;
-    flex-direction: column;
+    //flex-direction: column;
     flex-wrap: wrap;
 
     .graphic {
       letter-spacing: 5.15px;
+    }
+
+    .value-box {
+      margin: 0 1px;
+      & * {
+        font-size: 0.9em;
+      }
+      .diff {
+        color: rgb(255, 67, 67);
+        font-weight: bold;
+      }
     }
   }
 }
@@ -121,6 +132,10 @@
   .char {
     text-align: center;
     cursor: pointer;
+    padding: 3px 0;
+    &.char-title {
+      font-weight: bold;
+    }
   }
 }
 
@@ -135,7 +150,8 @@
   }
 
   & svg {
-    font-size: 3em;
+    font-size: 2em;
+    margin: 0 20px;
   }
 }
 

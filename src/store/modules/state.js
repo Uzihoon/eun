@@ -6,12 +6,14 @@ const HIDE_MSG = "state/HIDE_MSG";
 const SET_PENDING = "state/SET_PENDING";
 const SET_FINISH = "state/SET_FINISH";
 const TRY_LOGIN = "state/TRY_LOGIN";
+const LOGIN_SUCCESS = "state/LOGIN_SUCCESS";
 
 export const showMsg = createAction(SHOW_MSG);
 export const hideMsg = createAction(HIDE_MSG);
 export const setPending = createAction(SET_PENDING);
 export const setFinish = createAction(SET_FINISH);
 export const tryLogin = createAction(TRY_LOGIN);
+export const loginSuccess = createAction(LOGIN_SUCCESS);
 
 const initialState = Map({
   msg: {
@@ -43,6 +45,9 @@ export default handleActions(
     },
     [SET_FINISH]: (state, action) => {
       return state.set("loading", false);
+    },
+    [LOGIN_SUCCESS]: (state, action) => {
+      return state.set("authed", true);
     }
   },
   initialState

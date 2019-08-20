@@ -38,11 +38,18 @@ class AnalysisContainer extends Component {
           title: "Sequence",
           dataIndex: "origin",
           render: (text, val) => {
+            const seq = val.origin.split("");
             return (
               <div className={"value-wrapper"}>
-                <div>{val.origin}</div>
-                <div className={"graphic"}>{val.graphic}</div>
-                <div>{val.change}</div>
+                {seq.map((e, i) => {
+                  const diff = val.graphic[i] !== "|" ? "diff" : "";
+                  return (
+                    <div className="value-box" key={i}>
+                      <div className={diff}>{val.origin[i]}</div>
+                      <div className={diff}>{val.change[i]}</div>
+                    </div>
+                  );
+                })}
               </div>
             );
           }
@@ -50,12 +57,12 @@ class AnalysisContainer extends Component {
         {
           title: "Length",
           dataIndex: "length",
-          sorter: (a, b) => a.length - b.length,
+          sorter: (a, b) => a.length - b.length
         },
         {
           title: "Count",
           dataIndex: "count",
-          sorter: (a, b) => a.count - b.count,
+          sorter: (a, b) => a.count - b.count
         },
         {
           title: "Type",
@@ -76,7 +83,7 @@ class AnalysisContainer extends Component {
           }
         }
       ],
-      sequenceCharList: ["A","C","G","T"]
+      sequenceCharList: ["A", "C", "G", "T"]
     };
   }
 
@@ -95,7 +102,8 @@ export default withRouter(
     state => ({
       summary: state.analysis.get("summary").toJS(),
       analysisList: state.analysis.get("analysis").toJS(),
-      format: state.upload.get("format").toJS()
+      format: state.upload.get("format").toJS(),
+      failList: state.analysis.get("failList").toJS()
     }),
     null
   )(AnalysisContainer)

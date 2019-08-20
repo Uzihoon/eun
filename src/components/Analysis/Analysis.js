@@ -11,8 +11,10 @@ const Analysis = ({
   format,
   resultList,
   sequenceCharList,
-  sequenceList
+  sequenceList,
+  failList
 }) => {
+  console.log(failList);
   const summaryList = Object.keys(analysisList);
   return (
     <div className={cx("analysis-wrapper")}>
@@ -95,7 +97,7 @@ const Analysis = ({
                 <div className={cx("sum-val")}>
                   <div className={cx("char-box")}>
                     {sequenceCharList.map((k, j) => (
-                      <div className={cx("char")} key={j}>
+                      <div className={cx("char", "char-title")} key={j}>
                         {k}
                       </div>
                     ))}
@@ -107,7 +109,7 @@ const Analysis = ({
                       <div className={cx("char-box")} key={i}>
                         {sequenceCharList.map((k, j) => {
                           const val =
-                            e[k] > 0 ? Math.round((e[k] / total) * 100) : 0;
+                            e[k] > 0 ? ((e[k] / total) * 100).toFixed(1) : 0;
                           return (
                             <Tooltip key={j} title={e[k]}>
                               <div className={cx("char")}>{val}</div>
@@ -126,7 +128,7 @@ const Analysis = ({
                 <div className={cx("sum-val")}>
                   <div className={cx("change-seq")}>
                     <div className={cx("seq")}>{format.targetSeq}</div>
-                    <Icon type="right" />
+                    <Icon type="arrow-right" />
                     <div className={cx("seq")}>{format.changeSeq}</div>
                   </div>
                   <Tooltip title={`${analysis.changed}/${analysis.tot_count}`}>

@@ -115,9 +115,7 @@ export default Form.create({ name: "upload" })(
             {getFieldDecorator("targetSeq", {
               rules: [
                 { required: true, message: "Please input target" },
-                {
-                  /* { validator: validationCheck } */
-                }
+                { validator: validationCheck }
               ]
             })(<Input />)}
           </Item>
@@ -126,9 +124,7 @@ export default Form.create({ name: "upload" })(
             {getFieldDecorator("changeSeq", {
               rules: [
                 { required: true, message: "Please input change" },
-                {
-                  /* { validator: validationCheck } */
-                }
+                { validator: validationCheck }
               ]
             })(<Input />)}
           </Item>

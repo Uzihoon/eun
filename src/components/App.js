@@ -14,7 +14,7 @@ class App extends Component {
       <>
         <HashRouter>
           <Switch>
-            <Route path="/login" component={LoginPage} exact />
+            <Route path="/" component={LoginPage} exact />
             <PrivateRouter
               path="/upload"
               component={UploadPage}

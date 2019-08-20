@@ -47,12 +47,18 @@ class UploadContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { format, StateActions, AnalysisActions, history } = nextProps;
+    const {
+      format,
+      StateActions,
+      AnalysisActions,
+      history,
+      failList
+    } = nextProps;
     const { handleData } = this;
     if (format && !format.equals(this.props.format)) {
       const data = format.toJS() || {};
       const { fileList } = data;
-      const failList = [];
+      const fail = [];
       let workerNum = 0;
       let worker;
 
@@ -61,7 +67,7 @@ class UploadContainer extends Component {
           ("" + a.name).localeCompare(b.name)
         );
         if (files.length < 2) {
-          failList.push(i);
+          fail.push(i);
         } else {
           data.files = files;
           data.fileId = i;
@@ -73,13 +79,15 @@ class UploadContainer extends Component {
           ++workerNum;
         }
       }
-      if (failList.length === Object.keys(fileList)) {
+
+      if (fail.length === Object.keys(fileList).length) {
         StateActions.showMsg({
           status: "warning",
           content: "Please check file again!"
         });
       } else {
-        AnalysisActions.saveAnalysis({ type: "failList", data: failList });
+        const newFailList = failList.concat(fail);
+        AnalysisActions.saveAnalysis({ type: "failList", data: newFailList });
         this.setState({
           loading: true,
           title: "Analyzing",
@@ -126,7 +134,6 @@ class UploadContainer extends Component {
     form.validateFields((err, val) => {
       if (err) return;
       const evenFile = files.length % 2;
-      // TODO: 파일은 짝수여야 한다고 경고 메세지 띄우기
       if (evenFile > 0) {
         StateActions.showMsg({
           status: "warning",
@@ -149,11 +156,12 @@ class UploadContainer extends Component {
     } else {
       if (data.msgType === 0) {
         AnalysisActions.saveAnalysis({ type: "summary", data: data.msg });
-      }
-      if (data.msgType === 4) {
+      } else if (data.msgType === 4) {
         const fileId = data.msg.fileId;
         AnalysisActions.analysised({ fileId, data: data.msg });
         this.setState({ postWorker: ++postWorker });
+      } else {
+        console.log(data.msg);
       }
     }
   };
@@ -161,12 +169,11 @@ class UploadContainer extends Component {
   validationCheck = (rule, value, callback) => {
     const char = value.toUpperCase();
     const sequence = ["A", "C", "G", "T"];
-    console.log(rule);
+    let msg = undefined;
     if (!sequence.includes(char)) {
-      callback("Please check sequence");
+      msg = "Please check sequence";
     }
-    callback(value);
-    return true;
+    return callback(msg);
   };
 
   render() {
@@ -186,7 +193,8 @@ export default withRouter(
       nucleaseTypeList: state.upload.get("nucleaseTypeList").toJS(),
       nucleaseList: state.upload.get("nucleaseList").toJS(),
       format: state.upload.get("format"),
-      fileList: state.upload.get("fileList")
+      fileList: state.upload.get("fileList"),
+      failList: state.analysis.get("failList").toJS()
     }),
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),

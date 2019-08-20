@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Login from "components/Login";
+import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
 class LoginContainer extends Component {
@@ -32,20 +33,29 @@ class LoginContainer extends Component {
     console.log(e);
   };
 
+  handleUpload = () => {
+    const { history, StateActions } = this.props;
+    StateActions.loginSuccess();
+    history.push("/upload");
+  };
+
   render() {
     return (
       <Login
         handleSubmit={this.handleSubmit}
         handleRegister={this.handleRegister}
         handleChagne={this.handleChagne}
+        handleUpload={this.handleUpload}
       />
     );
   }
 }
 
-export default connect(
-  null,
-  dispatch => ({
-    StateActions: bindActionCreators(stateActions, dispatch)
-  })
-)(LoginContainer);
+export default withRouter(
+  connect(
+    null,
+    dispatch => ({
+      StateActions: bindActionCreators(stateActions, dispatch)
+    })
+  )(LoginContainer)
+);

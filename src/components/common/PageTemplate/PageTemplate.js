@@ -2,18 +2,26 @@ import React, { Component } from "react";
 import classNames from "classnames/bind";
 import styles from "./PageTemplate.module.scss";
 import { Layout, Menu, Breadcrumb } from "antd";
+import { withRouter } from "react-router";
 
 const { Header, Content } = Layout;
 
 const cx = classNames.bind(styles);
 
 class PageTemplate extends Component {
+  pushUpload = _ => {
+    const { history } = this.props;
+    history.push("/upload");
+  };
+
   render() {
     const { children } = this.props;
     return (
       <Layout className={cx("full-layout")}>
-        <Header className="header">
-          <div className="logo" />
+        <Header className="header" style={{ padding: " 0 24px" }}>
+          <div className={cx("logo")} onClick={this.pushUpload}>
+            EUN
+          </div>
           {/* <Menu
             theme="dark"
             mode="horizontal"
@@ -42,4 +50,4 @@ class PageTemplate extends Component {
   }
 }
 
-export default PageTemplate;
+export default withRouter(PageTemplate);

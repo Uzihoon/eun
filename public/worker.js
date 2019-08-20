@@ -1101,7 +1101,6 @@ self.onmessage = e => {
       hdr: 0,
       fileId
     };
-    console.log(length_range);
     for (let i = 0; i <= length_range; i++) {
       data.il.push([i, 0]);
       data.dl.push([i, 0]);

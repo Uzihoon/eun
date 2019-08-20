@@ -1,6 +1,8 @@
 import { put } from "redux-saga/effects";
 
 import * as uploadActions from "store/modules/upload";
+import * as stateActions from "store/modules/state";
+import * as analysisActions from "store/modules/analysis";
 
 export function* formatData(action) {
   try {
@@ -43,6 +45,7 @@ export function* formatData(action) {
     }
 
     const fileList = {};
+    const failList = [];
     const filePattern = new RegExp(`${namePattern}(.*)${indexPattern}`);
 
     files.forEach(e => {
@@ -53,25 +56,39 @@ export function* formatData(action) {
         } else {
           fileList[match[1]] = [e];
         }
+      } else {
+        failList.push(e.name);
       }
     });
 
-    const format = {
-      msgtype: 0,
-      seq_wt,
-      rgen_type,
-      seq_RGEN,
-      seq_RGEN2,
-      end_range,
-      filt_n,
-      filt_r,
-      fileList,
-      msgType,
-      targetSeq: targetSeq.toUpperCase(),
-      changeSeq: changeSeq.toUpperCase()
-    };
+    if (Object.keys(fileList).length <= 0) {
+      yield put(
+        stateActions.showMsg({
+          status: "warning",
+          content: "Please check file again!"
+        })
+      );
+    } else {
+      const format = {
+        msgtype: 0,
+        seq_wt,
+        rgen_type,
+        seq_RGEN,
+        seq_RGEN2,
+        end_range,
+        filt_n,
+        filt_r,
+        fileList,
+        msgType,
+        targetSeq: targetSeq.toUpperCase(),
+        changeSeq: changeSeq.toUpperCase()
+      };
 
-    yield put(uploadActions.setUpload({ type: "format", data: format }));
+      yield put(uploadActions.setUpload({ type: "format", data: format }));
+      yield put(
+        analysisActions.saveAnalysis({ type: "failList", data: failList })
+      );
+    }
   } catch (error) {
     console.error(error);
   }
