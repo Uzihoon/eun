@@ -56,7 +56,7 @@ export default Form.create({ name: "upload" })(
               rules: [{ required: true, message: "Please submit files" }]
             })(
               <Dragger {...uploadInfo}>
-                <p>
+                <p className={cx("upload-icon")}>
                   <Icon type="inbox" />
                 </p>
                 <p>Click or drag file to this area to upload</p>
@@ -66,8 +66,7 @@ export default Form.create({ name: "upload" })(
           <Item>
             <div className={cx("item-title")}>Full reference sequence</div>
             {getFieldDecorator("fullseq", {
-              initialValue:
-                "GGACGTCTGCCCAATATGTAAAATAACGGAATGAATGGATTCCTTGGAAACAATGATAACAAGACCTGGCTGAGCTAACTGTGACAGCATGTGGTAATTTTCCAGCCCGCTGGCCCTGTAAAGGAAACTGGAACACAAAGCATAGACTGCGGGGCGGGCCAGCCTGAATAGCTGCAAACAAGTGCAGAATATCTGATGATGTCATACGCACAGTTTGACAGATG",
+              initialValue: "",
               rules: [{ required: true, message: "Please input Full Sequence" }]
             })(<TextArea />)}
           </Item>
@@ -104,7 +103,7 @@ export default Form.create({ name: "upload" })(
               Target DNA sequence (5 to 3, without PAM sequence)
             </div>
             {getFieldDecorator("rgenseq", {
-              initialValue: "GAACACAAAGCATAGACTGC",
+              initialValue: "",
               rules: [
                 { required: true, message: "Please input target DNA sequence" }
               ]

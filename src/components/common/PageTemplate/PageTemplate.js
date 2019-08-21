@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import classNames from "classnames/bind";
 import styles from "./PageTemplate.module.scss";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout } from "antd";
 import { withRouter } from "react-router";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Auth } from "aws-amplify";
+import * as stateActions from "store/modules/state";
 
 const { Header, Content } = Layout;
 
@@ -14,23 +18,26 @@ class PageTemplate extends Component {
     history.push("/upload");
   };
 
+  handleLogout = async _ => {
+    const { StateActions, history } = this.props;
+    await Auth.signOut();
+    StateActions.logout();
+    history.push("/login");
+  };
+
   render() {
     const { children } = this.props;
     return (
       <Layout className={cx("full-layout")}>
         <Header className="header" style={{ padding: " 0 24px" }}>
-          <div className={cx("logo")} onClick={this.pushUpload}>
-            EUN
+          <div className={cx("header-box")}>
+            <div className={cx("logo")} onClick={this.pushUpload}>
+              EUN
+            </div>
+            <div className={cx("logout")} onClick={this.handleLogout}>
+              Logout
+            </div>
           </div>
-          {/* <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["2"]}
-            style={{ lineHeight: "64px" }}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu> */}
         </Header>
         <Layout>
           <Layout style={{ padding: "24px" }}>
@@ -50,4 +57,11 @@ class PageTemplate extends Component {
   }
 }
 
-export default withRouter(PageTemplate);
+export default withRouter(
+  connect(
+    null,
+    dispatch => ({
+      StateActions: bindActionCreators(stateActions, dispatch)
+    })
+  )(PageTemplate)
+);

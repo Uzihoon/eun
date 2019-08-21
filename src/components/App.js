@@ -2,19 +2,38 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
-import { UploadPage, LoginPage, AnalysisPage } from "pages";
+import { UploadPage, LoginPage, AnalysisPage, SignupPage } from "pages";
 import TestPage from "pages/TestPage";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
+import { Auth } from "aws-amplify";
+import { withRouter } from "react-router";
+import * as stateActions from "store/modules/state";
 
 class App extends Component {
+  async componentDidMount() {
+    const { StateActions, history } = this.props;
+    try {
+      await Auth.currentSession();
+      StateActions.loginSuccess({});
+      history.push("#upload");
+    } catch (error) {
+      if (error !== "No current user") {
+        StateActions.showMsg({
+          status: "warning",
+          content: error
+        });
+      }
+    }
+  }
   render() {
     const { authed } = this.props;
     return (
       <>
         <HashRouter>
           <Switch>
-            <Route path="/" component={LoginPage} exact />
+            <Route path="/login" component={LoginPage} exact />
+            <Route path="/signup" component={SignupPage} exact />
             <PrivateRouter
               path="/upload"
               component={UploadPage}
@@ -25,8 +44,7 @@ class App extends Component {
               component={AnalysisPage}
               authed={authed}
             />
-            <PrivateRouter path="/test" component={TestPage} authed={authed} />
-            <Redirect to="/" />
+            <Redirect to="/upload" />
           </Switch>
         </HashRouter>
         <InfoMessage />
@@ -35,9 +53,13 @@ class App extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    authed: state.state.get("authed")
-  }),
-  null
-)(App);
+export default withRouter(
+  connect(
+    state => ({
+      authed: state.state.get("authed")
+    }),
+    dispatch => ({
+      StateActions: bindActionCreators(stateActions, dispatch)
+    })
+  )(App)
+);

@@ -5,7 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 import Amplify from "aws-amplify";
 import "antd/dist/antd.css";
 import "styles/base.scss";
-import config from "/config";
+import config from "./config";
 
 Amplify.configure({
   Auth: {

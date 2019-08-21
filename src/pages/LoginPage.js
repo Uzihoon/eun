@@ -5,4 +5,4 @@ const LoginPage = () => {
   return <LoginContainer />;
 };
 
-export default LoginContainer;
+export default LoginPage;
