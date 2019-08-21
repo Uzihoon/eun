@@ -5,11 +5,13 @@ const HANDLE_FILE_LIST = "upload/HANDLE_FILE_LIST";
 const DELETE_FILE_LIST = "upload/DELTE_FILE_LIST";
 const FORMAT_DATA = "upload/FORMAT_DATA";
 const SET_UPLOAD = "upload/SET_UPLOAD";
+const RESET_UPLOAD = "upload/RESET_UPLOAD";
 
 export const handleFileList = createAction(HANDLE_FILE_LIST);
 export const deleteFileList = createAction(DELETE_FILE_LIST);
 export const formatData = createAction(FORMAT_DATA);
 export const setUpload = createAction(SET_UPLOAD);
+export const resetUpload = createAction(RESET_UPLOAD);
 
 const initialState = Map({
   fileList: List([]),
@@ -87,8 +89,10 @@ export default handleActions(
     },
     [SET_UPLOAD]: (state, action) => {
       const { type, data } = action.payload;
-
       return state.set(type, fromJS(data));
+    },
+    [RESET_UPLOAD]: (state, action) => {
+      return state.set("fileList", List([])).set("format", Map({}));
     }
   },
   initialState

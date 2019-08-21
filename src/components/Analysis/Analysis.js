@@ -93,6 +93,9 @@ const Analysis = ({
               <div className={cx("summary-item")}>
                 <div className={cx("sum-title")}>
                   <div className={cx("sum-title-text")}>Sequence</div>
+                  <div className={cx("excel-dwn")}>
+                    <Icon type="file-excel" />
+                  </div>
                 </div>
                 <div className={cx("sum-val")}>
                   <div className={cx("char-box")}>

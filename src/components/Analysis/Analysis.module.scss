@@ -119,6 +119,10 @@
         font-size: 0.9em;
       }
       .diff {
+        color: rgb(67, 92, 255);
+        font-weight: bold;
+      }
+      .target-diff {
         color: rgb(255, 67, 67);
         font-weight: bold;
       }
@@ -167,4 +171,11 @@
   width: 100%;
   text-align: center;
   font-size: 2em;
+}
+.excel-dwn {
+  cursor: pointer;
+  font-size: 1.2em;
+  & * {
+    font-size: 1em; 
+  }
 }

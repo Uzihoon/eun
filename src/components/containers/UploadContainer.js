@@ -55,7 +55,11 @@ class UploadContainer extends Component {
       failList
     } = nextProps;
     const { handleData } = this;
-    if (format && !format.equals(this.props.format)) {
+    if (
+      format &&
+      !format.equals(this.props.format) &&
+      Object.keys(format.toJS()).length >= 1
+    ) {
       const data = format.toJS() || {};
       const { fileList } = data;
       const fail = [];

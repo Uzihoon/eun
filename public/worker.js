@@ -560,15 +560,12 @@ self.onmessage = e => {
       originTarget.index,
       originTarget.index + seq_RGEN.length
     );
-
     for (let i = 0; i < seq_RGEN.length; i++) {
       const a = seq_RGEN.charAt(i);
       const b = changeTarget.charAt(i);
       if (a === targetSeq) {
         if (b === changeSeq) {
-          const data = count;
-          changed += data;
-          store.changed += data;
+          changed += 1;
         }
       }
       if (!store.chartIndex[i]) {
@@ -581,7 +578,11 @@ self.onmessage = e => {
         store.chartIndex[i][b] += 1 * count;
       }
     }
-    return changed;
+    if (changed >= 1) {
+      store.changed += count;
+      console.log(count);
+    }
+    return changed * count;
   };
 
   const process_chunk = seqs => {

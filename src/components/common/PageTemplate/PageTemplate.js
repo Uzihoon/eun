@@ -53,6 +53,7 @@ class PageTemplate extends Component {
                 }}>
                 {children}
               </Content>
+              <a className={cx("footer")} href="https://github.com/Uzihoon">Uzihoon @2019</a>
             </Layout>
           )}
         </Layout>

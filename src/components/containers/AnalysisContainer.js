@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
 import Analysis from "components/Analysis";
+import * as uploadActions from "store/modules/upload";
+import * as analysisActions from "store/modules/analysis";
 
 class AnalysisContainer extends Component {
   constructor(props) {
     super(props);
+    const { format } = props;
+    console.log(format);
     this.state = {
       resultList: [
         {
@@ -43,10 +48,16 @@ class AnalysisContainer extends Component {
               <div className={"value-wrapper"}>
                 {seq.map((e, i) => {
                   const diff = val.graphic[i] !== "|" ? "diff" : "";
+                  const targetDiff =
+                    val.origin[i] === format.targetSeq &&
+                    val.change[i] === format.changeSeq
+                      ? "target-diff"
+                      : null;
+                  const diffClass = targetDiff || diff;
                   return (
                     <div className="value-box" key={i}>
-                      <div className={diff}>{val.origin[i]}</div>
-                      <div className={diff}>{val.change[i]}</div>
+                      <div className={diffClass}>{val.origin[i]}</div>
+                      <div className={diffClass}>{val.change[i]}</div>
                     </div>
                   );
                 })}
@@ -92,6 +103,12 @@ class AnalysisContainer extends Component {
     if (summary.length <= 0) history.push("/upload");
   }
 
+  componentWillUnmount() {
+    const { UploadActions, AnalysisActions } = this.props;
+    UploadActions.resetUpload();
+    AnalysisActions.resetAnalysis();
+  }
+
   render() {
     return <Analysis {...this.state} {...this.props} />;
   }
@@ -105,6 +122,9 @@ export default withRouter(
       format: state.upload.get("format").toJS(),
       failList: state.analysis.get("failList").toJS()
     }),
-    null
+    dispatch => ({
+      UploadActions: bindActionCreators(uploadActions, dispatch),
+      AnalysisActions: bindActionCreators(analysisActions, dispatch)
+    })
   )(AnalysisContainer)
 );

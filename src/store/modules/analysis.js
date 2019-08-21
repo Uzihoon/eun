@@ -4,10 +4,12 @@ import { Map, fromJS, List } from "immutable";
 const ANALYSIS_FILES = "analysis/ANALYSIS_FILES";
 const ANALYSISED = "analysis/ANALYSISED";
 const SAVE_ANALYSIS = "analysis/SAVE_ANALYSIS";
+const REST_ANALYSIS = "analysis/RESET_ANALYSIS";
 
 export const analysisFiles = createAction(ANALYSIS_FILES);
 export const saveAnalysis = createAction(SAVE_ANALYSIS);
 export const analysised = createAction(ANALYSISED);
+export const resetAnalysis = createAction(REST_ANALYSIS);
 
 const initialState = Map({
   analysisFiles: Map({}),
@@ -25,6 +27,12 @@ export default handleActions(
     [ANALYSISED]: (state, action) => {
       const { fileId, data } = action.payload;
       return state.setIn(["analysis", fileId], fromJS(data));
+    },
+    [REST_ANALYSIS]: (state, action) => {
+      return state
+        .set("analysis", Map({}))
+        .set("failList", List([]))
+        .set("summary", List([]));
     }
   },
   initialState
