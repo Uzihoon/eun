@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 class PageTemplate extends Component {
   pushUpload = _ => {
     const { history } = this.props;
-    history.push("/list");
+    history.push("/upload");
   };
 
   handleLogout = async _ => {
