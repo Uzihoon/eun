@@ -31,7 +31,7 @@ export default Form.create({ name: "upload" })(
                 initialValue: "Sample-ID-",
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: "Please input file pattern"
                   }
                 ]
