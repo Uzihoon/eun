@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 class PageTemplate extends Component {
   pushUpload = _ => {
     const { history } = this.props;
-    history.push("/upload");
+    history.push("/list");
   };
 
   handleLogout = async _ => {
@@ -26,7 +26,7 @@ class PageTemplate extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, nolayout } = this.props;
     return (
       <Layout className={cx("full-layout")}>
         <Header className="header" style={{ padding: " 0 24px" }}>
@@ -40,17 +40,21 @@ class PageTemplate extends Component {
           </div>
         </Header>
         <Layout>
-          <Layout style={{ padding: "24px" }}>
-            <Content
-              style={{
-                background: "#fff",
-                padding: 24,
-                margin: 0,
-                minHeight: 280
-              }}>
-              {children}
-            </Content>
-          </Layout>
+          {nolayout ? (
+            children
+          ) : (
+            <Layout style={{ padding: "24px" }}>
+              <Content
+                style={{
+                  background: "#fff",
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280
+                }}>
+                {children}
+              </Content>
+            </Layout>
+          )}
         </Layout>
       </Layout>
     );

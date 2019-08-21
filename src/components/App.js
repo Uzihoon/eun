@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
-import { UploadPage, LoginPage, AnalysisPage, SignupPage } from "pages";
+import {
+  UploadPage,
+  LoginPage,
+  AnalysisPage,
+  SignupPage,
+  ListPage
+} from "pages";
 import TestPage from "pages/TestPage";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
@@ -14,8 +20,8 @@ class App extends Component {
   async componentDidMount() {
     const { StateActions, history } = this.props;
     try {
-      await Auth.currentSession();
-      StateActions.loginSuccess({});
+      const data = await Auth.currentSession();
+      StateActions.loginSuccess(data.idToken.payload);
       history.push("#upload");
     } catch (error) {
       if (error !== "No current user") {
@@ -34,6 +40,11 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={LoginPage} exact />
             <Route path="/signup" component={SignupPage} exact />
+            {/*<PrivateRouter
+              path="/list"
+              component={ListPage}
+              authed={authed}
+            />*/}
             <PrivateRouter
               path="/upload"
               component={UploadPage}

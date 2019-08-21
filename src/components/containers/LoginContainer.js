@@ -26,11 +26,10 @@ class LoginContainer extends Component {
         const { email, password } = val;
         const data = await Auth.signIn(email, password);
         this.setState({ pending: false });
-        StateActions.loginSuccess(data);
+        StateActions.loginSuccess(data.attributes);
         history.push("/upload");
       } catch (error) {
         const msg = error.message || error;
-        console.log(error);
         StateActions.showMsg({
           status: "error",
           content: msg
@@ -61,6 +60,8 @@ class LoginContainer extends Component {
   };
 
   render() {
+    const { authed } = this.props;
+    if (authed) return "";
     return <Login {...this} {...this.state} />;
   }
 }

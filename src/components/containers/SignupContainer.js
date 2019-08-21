@@ -12,7 +12,6 @@ class SignupContainer extends Component {
     this.state = {
       confirmDirty: false,
       newUser: null,
-      loading: false,
       refreshed: false
     };
   }
@@ -33,7 +32,6 @@ class SignupContainer extends Component {
     const form = this.signupForm.props.form;
     form.validateFields(async (err, val) => {
       if (err) return;
-      this.setState({ loading: true });
       try {
         const { username, password } = val;
         const newUser = await Auth.signUp({ username, password });
@@ -50,7 +48,6 @@ class SignupContainer extends Component {
         }
         this.handleError(error);
       }
-      this.setState({ loading: false });
     });
   };
 
@@ -61,7 +58,6 @@ class SignupContainer extends Component {
     const form = this.signupForm.props.form;
     form.validateFields(async (err, val) => {
       if (err) return;
-      this.setState({ loading: true });
       const { code } = val;
       try {
         await Auth.confirmSignUp(username, code);
@@ -77,9 +73,6 @@ class SignupContainer extends Component {
           history.push("/upload");
         }
       } catch (error) {
-        if (error.code === "CodeMismatchException") {
-          this.setState({ loading: false });
-        }
         this.handleError(error);
         if (error.code === "NotAuthorizedException") {
           history.push("/login");

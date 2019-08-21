@@ -14,9 +14,30 @@
     color: #ffffff !important;
   }
 
-  .signup-form {
+  .signup-form,
+  .confirm-form {
     width: 40%;
-    max-width: 600px;
+    max-width: 430px;
+
+    input {
+      background-color: transparent !important;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      -ms-border-radius: 0px;
+      -o-border-radius: 0px;
+      color: #ffffff;
+      border: 0px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+      &:focus {
+        background-color: transparent;
+      }
+    }
+
+    :global .ant-input-password-icon {
+      color: rgba(255, 255, 255, 0.55);
+    }
   }
 
   :global {
@@ -28,12 +49,69 @@
   .notification {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9em;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     .login-point {
       text-decoration: underline;
       cursor: pointer;
       display: inline-block;
       margin: 0 5px;
     }
+  }
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+
+  cursor: pointer;
+
+  svg {
+    height: 35px;
+    width: 90px;
+    fill: none;
+    stroke-width: 3;
+    display: block;
+
+    .o1 {
+      stroke: rgba(#ffffff, 0.5);
+      fill: transparent;
+      transition: all 1s ease-in-out;
+    }
+
+    .o2 {
+      stroke: white;
+      stroke-dasharray: 20 420;
+      stroke-dashoffset: 20;
+      transition: all 1s ease-in-out;
+    }
+  }
+
+  span {
+    position: absolute;
+    margin: auto 0;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: #ffffff;
+  }
+
+  &:hover {
+    .o1 {
+    }
+
+    .o2 {
+      stroke-dashoffset: -420;
+    }
+  }
+}
+
+.sent-noti {
+  color: rgba(#ffffff, 0.5);
+  font-size: 0.9em;
+  .point-send {
+    color: #ffffff;
+    font-size: 1.3em;
+    text-decoration: underline;
   }
 }

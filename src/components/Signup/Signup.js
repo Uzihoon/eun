@@ -15,7 +15,8 @@ export default Form.create({ name: "signup" })(
         compareToFirstPassword,
         handleConfirmBlur,
         handleSubmit,
-        loading
+        loading,
+        pushToLogin
       } = this.props;
       const { getFieldDecorator } = this.props.form;
 
@@ -64,10 +65,26 @@ export default Form.create({ name: "signup" })(
               ]
             })(<Password onBlur={handleConfirmBlur} />)}
           </Item>
+          <div className={cx("notification")}>
+            Alreay joined?
+            <span className={cx("login-point")} onClick={pushToLogin}>
+              Login
+            </span>
+          </div>
           <Item>
-            <Button htmlType="submit" loading={loading}>
-              Register
-            </Button>
+            <div className={cx("login-button")} onClick={handleSubmit}>
+              <span>Register</span>
+              <svg>
+                <polyline
+                  className={cx("o1")}
+                  points="0 0, 90 0, 90 35, 0 35, 0 0"
+                />
+                <polyline
+                  className={cx("o2")}
+                  points="0 0, 90 0, 90 35, 0 35, 0 0"
+                />
+              </svg>
+            </div>
           </Item>
         </Form>
       );
@@ -75,10 +92,13 @@ export default Form.create({ name: "signup" })(
 
     renderConform = () => {
       const { getFieldDecorator } = this.props.form;
-      const { loading, handleConfirmation, pushToLogin } = this.props;
+      const { loading, handleConfirmation, pushToLogin, username } = this.props;
 
       return (
-        <Form onSubmit={handleConfirmation}>
+        <Form onSubmit={handleConfirmation} className={cx("confirm-form")}>
+          <div className={cx("sent-noti")}>
+            Please check <span className={cx("point-send")}>{username}</span>
+          </div>
           <Item label="Confirmation Code">
             {getFieldDecorator("code", {
               rules: [
@@ -96,9 +116,19 @@ export default Form.create({ name: "signup" })(
             </span>
           </div>
           <Item>
-            <Button htmlType="submit" loading={loading}>
-              Confirm
-            </Button>
+            <div className={cx("login-button")} onClick={handleConfirmation}>
+              <span>Confirm</span>
+              <svg>
+                <polyline
+                  className={cx("o1")}
+                  points="0 0, 90 0, 90 35, 0 35, 0 0"
+                />
+                <polyline
+                  className={cx("o2")}
+                  points="0 0, 90 0, 90 35, 0 35, 0 0"
+                />
+              </svg>
+            </div>
           </Item>
         </Form>
       );
