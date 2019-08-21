@@ -10,26 +10,44 @@ class SignupContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirm: false,
       confirmDirty: false,
       newUser: null,
-      loading: false
+      loading: false,
+      refreshed: false
     };
+  }
+
+  componentDidMount() {
+    const { confirm, tempUsername } = this.props;
+    if (confirm && tempUsername) {
+      this.setState({
+        username: tempUsername,
+        refreshed: true
+      });
+    }
   }
 
   handleSubmit = e => {
     e.preventDefault();
+    const { StateActions } = this.props;
     const form = this.signupForm.props.form;
     form.validateFields(async (err, val) => {
       if (err) return;
-      console.log("?");
       this.setState({ loading: true });
       try {
         const { username, password } = val;
         const newUser = await Auth.signUp({ username, password });
-        this.setState({ newUser, username, password, confirm: true });
-        console.log(newUser);
+        this.setState({ newUser, username, password });
+        StateActions.handleConfirm();
       } catch (error) {
+        if (error.code === "UsernameExistsException") {
+          const { username } = val;
+          this.setState({
+            refreshed: true,
+            username
+          });
+          StateActions.handleConfirm();
+        }
         this.handleError(error);
       }
       this.setState({ loading: false });
@@ -39,7 +57,7 @@ class SignupContainer extends Component {
   handleConfirmation = e => {
     e.preventDefault();
     const { StateActions, history } = this.props;
-    const { username, password, newUser } = this.state;
+    const { username, password, newUser, refreshed } = this.state;
     const form = this.signupForm.props.form;
     form.validateFields(async (err, val) => {
       if (err) return;
@@ -47,13 +65,26 @@ class SignupContainer extends Component {
       const { code } = val;
       try {
         await Auth.confirmSignUp(username, code);
-        await Auth.signIn(username, password);
-        StateActions.loginSuccess(newUser);
-        history.push("/upload");
+        if (refreshed) {
+          history.push("/login");
+          StateActions.showMsg({
+            status: "success",
+            content: "Sign up successfully"
+          });
+        } else {
+          await Auth.signIn(username, password);
+          StateActions.loginSuccess(newUser);
+          history.push("/upload");
+        }
       } catch (error) {
+        if (error.code === "CodeMismatchException") {
+          this.setState({ loading: false });
+        }
         this.handleError(error);
+        if (error.code === "NotAuthorizedException") {
+          history.push("/login");
+        }
       }
-      this.setState({ loading: false });
     });
   };
 
@@ -61,7 +92,7 @@ class SignupContainer extends Component {
     const msg = err.message || err;
     const { StateActions } = this.props;
     StateActions.showMsg({
-      status: "warning",
+      status: "error",
       content: msg
     });
   };
@@ -96,14 +127,22 @@ class SignupContainer extends Component {
     callback(msg);
   };
 
+  pushToLogin = _ => {
+    const { history } = this.props;
+    history.push("/login");
+  };
+
   render() {
-    return <Signup {...this.state} {...this} />;
+    return <Signup {...this.state} {...this} {...this.props} />;
   }
 }
 
 export default withRouter(
   connect(
-    null,
+    state => ({
+      confirm: state.state.get("confirm"),
+      tempUsername: state.state.get("tempUsername")
+    }),
     dispatch => ({
       StateActions: bindActionCreators(stateActions, dispatch)
     })

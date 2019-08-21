@@ -75,7 +75,7 @@ export default Form.create({ name: "signup" })(
 
     renderConform = () => {
       const { getFieldDecorator } = this.props.form;
-      const { loading, handleConfirmation } = this.props;
+      const { loading, handleConfirmation, pushToLogin } = this.props;
 
       return (
         <Form onSubmit={handleConfirmation}>
@@ -89,6 +89,12 @@ export default Form.create({ name: "signup" })(
               ]
             })(<Input />)}
           </Item>
+          <div className={cx("notification")}>
+            Alreay confirmed?
+            <span className={cx("login-point")} onClick={pushToLogin}>
+              Login
+            </span>
+          </div>
           <Item>
             <Button htmlType="submit" loading={loading}>
               Confirm

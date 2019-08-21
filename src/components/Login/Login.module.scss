@@ -200,6 +200,8 @@
       -ms-border-radius: 0px;
       -o-border-radius: 0px;
       color: #ffffff;
+      border: 0px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 
       &:focus {
         background-color: transparent;
@@ -207,7 +209,6 @@
     }
   }
 }
-
 
 .button-box {
   text-align: center;

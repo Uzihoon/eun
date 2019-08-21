@@ -29,10 +29,19 @@ class LoginContainer extends Component {
         StateActions.loginSuccess(data);
         history.push("/upload");
       } catch (error) {
+        const msg = error.message || error;
+        console.log(error);
         StateActions.showMsg({
-          status: "warning",
-          content: error
+          status: "error",
+          content: msg
         });
+        if (error.code === "UserNotConfirmedException") {
+          StateActions.handleConfirm();
+          StateActions.setTempUsername(val.email);
+          history.push("/signup");
+        } else {
+          this.setState({ pending: false });
+        }
       }
     });
   };

@@ -19,5 +19,21 @@
     max-width: 600px;
   }
 
-  
+  :global {
+    .ant-row.ant-form-item {
+      margin-bottom: 5px;
+    }
+  }
+
+  .notification {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    .login-point {
+      text-decoration: underline;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
 }
