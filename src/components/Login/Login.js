@@ -84,10 +84,32 @@ export default Form.create({ name: "login" })(
               )}
             </Item>
             <div className={cx("button-box")}>
-              <Button htmlType="submit" loading={pending}>
-                LOGIN
-              </Button>
-              <Button onClick={handleRegister}>Register</Button>
+              <div className={cx("login-button")} onClick={handleSubmit}>
+                <span>LOGIN</span>
+                <svg>
+                  <polyline
+                    className={cx("o1")}
+                    points="0 0, 90 0, 90 35, 0 35, 0 0"
+                  />
+                  <polyline
+                    className={cx("o2")}
+                    points="0 0, 90 0, 90 35, 0 35, 0 0"
+                  />
+                </svg>
+              </div>
+              <div className={cx("login-button")} onClick={handleRegister}>
+                <span>Register</span>
+                <svg>
+                  <polyline
+                    className={cx("o1")}
+                    points="0 0, 90 0, 90 35, 0 35, 0 0"
+                  />
+                  <polyline
+                    className={cx("o2")}
+                    points="0 0, 90 0, 90 35, 0 35, 0 0"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </Form>
