@@ -10,7 +10,6 @@ class AnalysisContainer extends Component {
   constructor(props) {
     super(props);
     const { format } = props;
-    console.log(format);
     this.state = {
       resultList: [
         {
@@ -79,8 +78,8 @@ class AnalysisContainer extends Component {
           title: "Type",
           dataIndex: "type",
           redner: text => {
-            if (text === 0) return "WT or Sub";
-            if (text === 1) return "Ins";
+            if (+text === 0) return "WT or Sub";
+            if (+text === 1) return "Ins";
             return "del";
           }
         },
@@ -101,6 +100,7 @@ class AnalysisContainer extends Component {
   componentDidMount() {
     const { summary, history } = this.props;
     if (summary.length <= 0) history.push("/upload");
+    window.removeEventListener("beforeunload");
   }
 
   componentWillUnmount() {

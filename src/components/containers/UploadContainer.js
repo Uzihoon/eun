@@ -18,23 +18,27 @@ class UploadContainer extends Component {
       uploadInfo: {
         name: "gz",
         aceept: "application/gzip, .gz",
-        beforeUpload: (file, fileList) => false,
+        beforeUpload: file => {
+          const { fileList } = this.props;
+          const list = fileList ? fileList.toJS() : [];
+          const hasFile = list.findIndex(e => e.name === file.name);
+          if (hasFile < 0) {
+            UploadActions.handleFileList(file);
+          }
+          return false;
+        },
         multiple: true,
         onRemove(file) {
           UploadActions.deleteFileList(file);
           return true;
         },
         onChange: info => {
-          const { fileList } = this.props;
           const { file } = info;
           if (file.status !== "uploading") {
-            const list = fileList ? fileList.toJS() : [];
-            const hasFile = list.findIndex(e => e.name === file.name);
-            if (hasFile < 0) {
-              UploadActions.handleFileList(file);
-            }
+            // upload 중이 아닐 때 실행할 action
           }
           if (file.status === "done") {
+            // upload 완료 후 실행할 액션
           }
         }
       },
@@ -109,7 +113,6 @@ class UploadContainer extends Component {
         this.setState({ loading: false });
         history.push("/analysis");
       }
-      // window.removeEventListener("beforeunload");
     }
 
     if (this.state.loading !== nextState.loading) {
@@ -151,7 +154,7 @@ class UploadContainer extends Component {
   };
 
   handleData = data => {
-    const { AnalysisActions } = this.props;
+    const { AnalysisActions, StateActions } = this.props;
     let { postWorker } = this.state;
     if (data.msgType === 2) {
       this.setState({
@@ -165,7 +168,10 @@ class UploadContainer extends Component {
         AnalysisActions.analysised({ fileId, data: data.msg });
         this.setState({ postWorker: ++postWorker });
       } else {
-        console.log(data.msg);
+        StateActions.showMsg({
+          status: "error",
+          content: data.msg
+        });
       }
     }
   };

@@ -580,7 +580,6 @@ self.onmessage = e => {
     }
     if (changed >= 1) {
       store.changed += count;
-      console.log(count);
     }
     return changed * count;
   };
