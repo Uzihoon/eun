@@ -26,11 +26,11 @@ class AnalysisContainer extends Component {
         },
         {
           title: "Insertions",
-          value: "ins_count"
+          value: "cnt_ins"
         },
         {
           title: "Deletions",
-          value: "del_count"
+          value: "cnt_del"
         }
       ],
       sequenceList: [
@@ -77,7 +77,7 @@ class AnalysisContainer extends Component {
         {
           title: "Type",
           dataIndex: "type",
-          redner: text => {
+          render: text => {
             if (+text === 0) return "WT or Sub";
             if (+text === 1) return "Ins";
             return "del";
@@ -100,7 +100,6 @@ class AnalysisContainer extends Component {
   componentDidMount() {
     const { summary, history } = this.props;
     if (summary.length <= 0) history.push("/upload");
-    window.removeEventListener("beforeunload");
   }
 
   componentWillUnmount() {
@@ -109,8 +108,15 @@ class AnalysisContainer extends Component {
     AnalysisActions.resetAnalysis();
   }
 
+  handleExcel = _ => {
+    const { analysisList, summary } = this.props;
+
+    console.log(analysisList);
+    console.log(summary)
+  };
+
   render() {
-    return <Analysis {...this.state} {...this.props} />;
+    return <Analysis {...this.state} {...this.props} {...this} />;
   }
 }
 

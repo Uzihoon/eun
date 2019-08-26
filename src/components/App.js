@@ -17,34 +17,41 @@ import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      localAuthed: false
+    };
+  }
+
   async componentDidMount() {
-    const { StateActions, history } = this.props;
-    try {
-      const data = await Auth.currentSession();
-      StateActions.loginSuccess(data.idToken.payload);
-      history.push("#upload");
-    } catch (error) {
-      if (error !== "No current user") {
-        StateActions.showMsg({
-          status: "warning",
-          content: error
-        });
+    const { StateActions, history, authed, location } = this.props;
+    if (!authed) {
+      try {
+        const data = await Auth.currentSession();
+        StateActions.loginSuccess(data.idToken.payload);
+        const prevLocation = location.hash;
+        history.push(prevLocation);
+        this.setState({ localAuthed: true });
+      } catch (error) {
+        if (error !== "No current user") {
+          StateActions.showMsg({
+            status: "warning",
+            content: error
+          });
+        }
       }
     }
   }
   render() {
-    const { authed } = this.props;
+    const { localAuthed: authed } = this.state;
     return (
       <>
         <HashRouter>
           <Switch>
-            <Route path="/login" component={LoginPage} exact />
-            <Route path="/signup" component={SignupPage} exact />
-            {/*<PrivateRouter
-              path="/list"
-              component={ListPage}
-              authed={authed}
-            />*/}
+            <Route path="/login" component={LoginPage} />
+            <Route path="/signup" component={SignupPage} />
+            <PrivateRouter path="/list" component={ListPage} authed={authed} />
             <PrivateRouter
               path="/upload"
               component={UploadPage}

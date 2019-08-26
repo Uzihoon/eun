@@ -97,7 +97,8 @@ export default Form.create({ name: "login" })(
                   />
                 </svg>
               </div>
-              <div className={cx("login-button")} onClick={handleRegister}>
+              {/* 190826 disable register */}
+              {/*<div className={cx("login-button")} onClick={handleRegister}>
                 <span>Register</span>
                 <svg>
                   <polyline
@@ -109,7 +110,7 @@ export default Form.create({ name: "login" })(
                     points="0 0, 90 0, 90 35, 0 35, 0 0"
                   />
                 </svg>
-              </div>
+              </div>*/}
             </div>
           </div>
         </Form>

@@ -12,14 +12,23 @@ const Analysis = ({
   resultList,
   sequenceCharList,
   sequenceList,
+  handleExcel,
   failList
 }) => {
-  console.log(failList);
+  console.log(analysisList);
+  console.log(sequenceList);
   const summaryList = Object.keys(analysisList);
   return (
     <div className={cx("analysis-wrapper")}>
       <div className={cx("summary")}>
-        <div className={cx("title")}>Summary</div>
+        <div className={cx("title-box")}>
+          <div className={cx("title")}>Summary</div>
+          <div className={cx("download-box")}>
+            <div className={cx("excel-btn")} onClick={handleExcel}>
+              <Icon type="file-excel" />
+            </div>
+          </div>
+        </div>
         <div className={cx("summary-item")}>
           <div className={cx("sum-title")}>
             <div className={cx("sum-title-text")}>WT Sequence</div>
@@ -93,9 +102,6 @@ const Analysis = ({
               <div className={cx("summary-item")}>
                 <div className={cx("sum-title")}>
                   <div className={cx("sum-title-text")}>Sequence</div>
-                  <div className={cx("excel-dwn")}>
-                    <Icon type="file-excel" />
-                  </div>
                 </div>
                 <div className={cx("sum-val")}>
                   <div className={cx("char-box")}>

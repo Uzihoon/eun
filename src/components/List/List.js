@@ -9,11 +9,10 @@ const List = ({ userInfo }) => {
   const user = userInfo.email || "Unkown";
   return (
     <div className={cx("list-wrapper")}>
-      <div className={cx("welcome")}>
-        <span className={cx("point")}>{user}</span> 저장된 결과 0개
-      </div>
-      <div className={cx("summary")}>
-        <Button>분석하기</Button>
+      <div className={cx("list-container")}>
+        <div className={cx("welcome")}>
+          Welcome, <span className={cx("point")}>{user}</span>
+        </div>
       </div>
     </div>
   );

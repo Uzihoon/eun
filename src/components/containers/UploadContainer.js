@@ -50,6 +50,11 @@ class UploadContainer extends Component {
     };
   }
 
+  handleBeforeUpload = e => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     const {
       format,
@@ -101,16 +106,14 @@ class UploadContainer extends Component {
           title: "Analyzing",
           workerNum
         });
-        window.addEventListener("beforeunload", function(e) {
-          e.preventDefault();
-          e.returnValue = "";
-        });
+        window.addEventListener("beforeunload", this.handleBeforeUpload);
       }
     }
 
     if (this.state.postWorker !== nextState.postWorker) {
       if (nextState.postWorker === this.state.workerNum) {
         this.setState({ loading: false });
+        window.removeEventListener("beforeunload", this.handleBeforeUpload);
         history.push("/analysis");
       }
     }
