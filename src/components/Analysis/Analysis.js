@@ -2,21 +2,21 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Analysis.module.scss";
 import { Table, Icon, Tooltip } from "antd";
+import Excel from "components/Excel";
 
 const cx = classNames.bind(styles);
 
-const Analysis = ({
-  summary,
-  analysisList,
-  format,
-  resultList,
-  sequenceCharList,
-  sequenceList,
-  handleExcel,
-  failList
-}) => {
-  console.log(analysisList);
-  console.log(sequenceList);
+const Analysis = props => {
+  const {
+    summary,
+    analysisList,
+    format,
+    resultList,
+    sequenceCharList,
+    sequenceList,
+    handleExcel,
+    failList
+  } = props;
   const summaryList = Object.keys(analysisList);
   return (
     <div className={cx("analysis-wrapper")}>
@@ -27,6 +27,7 @@ const Analysis = ({
             <div className={cx("excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />
             </div>
+            {/*<Excel {...props} />*/}
           </div>
         </div>
         <div className={cx("summary-item")}>

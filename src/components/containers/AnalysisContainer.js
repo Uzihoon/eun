@@ -33,6 +33,46 @@ class AnalysisContainer extends Component {
           value: "cnt_del"
         }
       ],
+      excelList: [
+        {
+          title: "ID",
+          key: "id"
+        },
+        {
+          title: "WT Sequence",
+          key: "origin"
+        },
+        {
+          title: "Treated Sequence",
+          key: "change"
+        },
+        {
+          title: "Length",
+          key: "length"
+        },
+        {
+          title: "Count",
+          key: "count"
+        },
+        {
+          title: "Type",
+          key: "type",
+          render: text => {
+            if (+text === 0) return "WT or Sub";
+            if (+text === 1) return "Ins";
+            return "del";
+          }
+        },
+        {
+          title: "HDR",
+          key: "hdr",
+          render: text => {
+            if (text < -1) return "N/A";
+            if (text === -1) return "X";
+            return "O";
+          }
+        }
+      ],
       sequenceList: [
         {
           title: "ID",
@@ -112,7 +152,7 @@ class AnalysisContainer extends Component {
     const { analysisList, summary } = this.props;
 
     console.log(analysisList);
-    console.log(summary)
+    console.log(summary);
   };
 
   render() {

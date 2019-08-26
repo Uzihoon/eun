@@ -1156,7 +1156,8 @@ self.onmessage = e => {
           if (m) {
             const gap = m[0];
             if (data.is.length < gap.length) {
-              for (let j = 0; j <= gap.length - data.is.length; j++) {
+              const len = gap.length - data.is.length;
+              for (let j = 0; j <= len; j++) {
                 data.is.push([iscnt++, 0]);
               }
             }
