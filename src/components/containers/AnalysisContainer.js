@@ -128,6 +128,7 @@ class AnalysisContainer extends Component {
   handleExcel = _ => {
     const { resultList, sequenceCharList } = this.state;
     const { analysisList, format } = this.props;
+    this.setState({ download: false, excelData: null });
     this.worker.postMessage({
       analysisList,
       resultList,
