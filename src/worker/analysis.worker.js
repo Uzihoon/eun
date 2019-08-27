@@ -1,7 +1,6 @@
-const self = this;
 
 export default () => {
-  self.onmessage = e => {
+  onmessage = e => {
     if (!e) return;
     const data = e.data;
     const { analysisList, resultList, sequenceCharList, format } = data;
@@ -97,6 +96,6 @@ export default () => {
       return { id, data: itemData };
     });
 
-    self.postMessage(dataset);
+    postMessage(dataset);
   };
 };
