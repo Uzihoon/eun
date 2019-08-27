@@ -9,7 +9,6 @@ import {
   SignupPage,
   ListPage
 } from "pages";
-import TestPage from "pages/TestPage";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
 import { Auth } from "aws-amplify";
@@ -22,6 +21,21 @@ class App extends Component {
     this.state = {
       localAuthed: false
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { authed } = nextProps;
+    const { localAuthed } = nextState;
+
+    if (this.props.authed !== authed && localAuthed !== authed) {
+      this.setState({ localAuthed: authed });
+    }
+
+    if (this.state !== nextState) {
+      return true;
+    }
+
+    return false;
   }
 
   async componentDidMount() {
@@ -43,6 +57,7 @@ class App extends Component {
       }
     }
   }
+
   render() {
     const { localAuthed: authed } = this.state;
     return (

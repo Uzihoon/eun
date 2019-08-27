@@ -52,12 +52,17 @@ class LoginContainer extends Component {
 
   componentDidMount() {
     const { authed, history } = this.props;
-    if (authed) history.push("/upload");
+    //if (authed) history.push("/upload");
   }
 
   wrappedComponentRef = ref => {
     this.loginForm = ref;
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+
+    return false;
+  }
 
   render() {
     const { authed } = this.props;

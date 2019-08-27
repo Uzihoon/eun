@@ -17,7 +17,10 @@ const Analysis = props => {
     handleExcel,
     failList
   } = props;
-  const summaryList = Object.keys(analysisList);
+  const summaryList = Object.keys(analysisList).sort((a, b) =>
+    a.localeCompare(b)
+  );
+  console.log(summaryList);
   return (
     <div className={cx("analysis-wrapper")}>
       <div className={cx("summary")}>
@@ -27,7 +30,7 @@ const Analysis = props => {
             <div className={cx("excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />
             </div>
-            {/*<Excel {...props} />*/}
+            <Excel {...props} />
           </div>
         </div>
         <div className={cx("summary-item")}>

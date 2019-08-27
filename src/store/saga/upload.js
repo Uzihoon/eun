@@ -69,6 +69,8 @@ export function* formatData(action) {
         })
       );
     } else {
+
+      console.log(fileList);
       const format = {
         msgtype: 0,
         seq_wt,
