@@ -53,14 +53,28 @@ class LoginContainer extends Component {
   componentDidMount() {
     const { authed, history } = this.props;
     //if (authed) history.push("/upload");
+    const { enterEvent } = this;
+    window.addEventListener("keydown", enterEvent);
   }
+
+  componentWillUnmount() {
+    const { enterEvent } = this;
+    window.removeEventListener("keydown", enterEvent);
+  }
+
+  enterEvent = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+
+      this.handleSubmit();
+    }
+  };
 
   wrappedComponentRef = ref => {
     this.loginForm = ref;
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-
     return false;
   }
 
