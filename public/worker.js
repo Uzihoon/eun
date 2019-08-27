@@ -726,7 +726,7 @@ self.onmessage = e => {
             this.inflater = new _inflater();
           }
         } else {
-          throw "Something wrong with the gzipped file!";
+          throw new Error("Something wrong with the gzipped file!");
         }
       } else {
         s = this.reader.readAsText(blob);

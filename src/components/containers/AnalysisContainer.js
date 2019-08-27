@@ -5,6 +5,8 @@ import { withRouter } from "react-router";
 import Analysis from "components/Analysis";
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
+import Webworker from "worker/Webworker";
+import worker from "worker/analysis.worker.js";
 
 class AnalysisContainer extends Component {
   constructor(props) {
@@ -31,46 +33,6 @@ class AnalysisContainer extends Component {
         {
           title: "Deletions",
           value: "cnt_del"
-        }
-      ],
-      excelList: [
-        {
-          title: "ID",
-          key: "id"
-        },
-        {
-          title: "WT Sequence",
-          key: "origin"
-        },
-        {
-          title: "Treated Sequence",
-          key: "change"
-        },
-        {
-          title: "Length",
-          key: "length"
-        },
-        {
-          title: "Count",
-          key: "count"
-        },
-        {
-          title: "Type",
-          key: "type",
-          render: text => {
-            if (+text === 0) return "WT or Sub";
-            if (+text === 1) return "Ins";
-            return "del";
-          }
-        },
-        {
-          title: "HDR",
-          key: "hdr",
-          render: text => {
-            if (text < -1) return "N/A";
-            if (text === -1) return "X";
-            return "O";
-          }
         }
       ],
       sequenceList: [
@@ -119,8 +81,8 @@ class AnalysisContainer extends Component {
           dataIndex: "type",
           render: text => {
             if (+text === 0) return "WT or Sub";
-            if (+text === 1) return "Ins";
-            return "del";
+            if (+text === 1) return "INS";
+            return "DEL";
           }
         },
         {
@@ -133,14 +95,29 @@ class AnalysisContainer extends Component {
           }
         }
       ],
-      sequenceCharList: ["A", "C", "G", "T"]
+      sequenceCharList: ["A", "C", "G", "T"],
+      download: false,
+      excelData: null
     };
   }
 
   componentDidMount() {
     const { summary, history } = this.props;
-    if (summary.length <= 0) history.push("/upload");
+    if (summary.length <= 0) {
+      history.push("/upload");
+    } else {
+      this.worker = new Webworker(worker);
+      this.worker.onmessage = this.getDownload;
+    }
   }
+
+  getDownload = e => {
+    const data = e.data;
+    this.setState({
+      download: true,
+      excelData: data
+    });
+  };
 
   componentWillUnmount() {
     const { UploadActions, AnalysisActions } = this.props;
@@ -149,10 +126,14 @@ class AnalysisContainer extends Component {
   }
 
   handleExcel = _ => {
-    const { analysisList, summary } = this.props;
-
-    console.log(analysisList);
-    console.log(summary);
+    const { resultList, sequenceCharList } = this.state;
+    const { analysisList, format } = this.props;
+    this.worker.postMessage({
+      analysisList,
+      resultList,
+      sequenceCharList,
+      format
+    });
   };
 
   render() {

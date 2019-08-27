@@ -1,56 +1,34 @@
 import React from "react";
 import ReactExport from "react-export-excel";
+import moment from "moment";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-const Excel = ({ summary, analysisList, format, resultList, excelList }) => {
+const Excel = ({ summary, format, download, excelData }) => {
   const summaryText = summary.map(e => e.data).join("");
-  const analysis = Object.keys(analysisList);
 
-  const dataset = (item, title) => {
-    const resultData = resultList.map(e => item[e.value]);
-    const sequenceData = item.table.map(k => {
-      const data = excelList.map(j => {
-        return j.render ? j.render(k[j.key]) : k[j.key];
-      });
-      return data;
-    });
-
-    const test = []
-    for(let i = 0; i < 2; i++) {
-      test.push(item.table[i])
+  const summaryDataset = [
+    {
+      columns: ["Analysed Date"],
+      data: [[moment().format("YYYY-MM-DD")]]
+    },
+    {
+      columns: ["WT Sequence"],
+      data: [[summaryText]]
+    },
+    {
+      columns: ["crRNA sequence"],
+      data: [[format.seq_RGEN]]
     }
-    
-    return [
-      {
-        columns: ["WT Sequence", "crRNA sequence"],
-        data: [[summaryText, format.seq_RGEN]]
-      },
-      {
-        columns: resultList.map(e => e.title),
-        data: [resultData]
-      },
-      {
-        ySteps: 1,
-        columns: excelList.map(e => e.title),
-        data: [sequenceData, "aaa"]
-      }
-    ];
-  };
-
+  ];
+  const filename = `EUN-${moment().format("YYYY-MM-DD")}`;
   return (
-    <ExcelFile element={<button>Download</button>}>
-      {/*<ExcelSheet name="Summary">
-        <ExcelColumn label="WT Sequence" value={summaryText} />
-        <ExcelColumn label="crRNA sequence" value={format.seq_RGEN} />
-      </ExcelSheet>*/}
-      {analysis.map((e, i) => {
-        const dataSet = dataset(analysisList[e], e);
-        console.log(dataSet);
-        return <ExcelSheet key={i} name={e} dataSet={dataSet} />;
-      })}
+    <ExcelFile hideElement={download} filename={filename}>
+      <ExcelSheet name="Summary" dataSet={summaryDataset} />
+      {excelData.map((e, i) => (
+        <ExcelSheet key={i} name={e.id} dataSet={e.data} />
+      ))}
     </ExcelFile>
   );
 };
