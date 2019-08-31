@@ -16,40 +16,15 @@ export default Form.create({ name: "login" })(
 
       return (
         <Form className={cx("login-container")} onSubmit={handleSubmit}>
-          {/*<div className={cx("logo-box")}>
-            <svg width="0" height="0">
-              <filter id="gooey-plasma-2">
-                <feGaussianBlur
-                  in="SourceGraphic"
-                  stdDeviation="20"
-                  result="blur"
-                />
-                <feColorMatrix
-                  in="blur"
-                  mode="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 50 -16"
-                  result="goo"
-                />
-              </filter>
-            </svg>
-            <div className={cx("plasma-2")}>
-              <ul className={cx("gooey-container")}>
-                <li className={cx("bubble")} />
-                <li className={cx("bubble")} />
-                <li className={cx("bubble")} />
-                <li className={cx("bubble")} />
-                <li className={cx("bubble")} />
-                <li className={cx("bubble")} />
-              </ul>
-            </div>
-          </div>*/}
           <div className={cx("circle")}>
             <img src={bg} />
           </div>
           <div className={cx("project-info")}>
-            <div className={cx("desc")}>This is first projecy by Uzihoon</div>
+            <div className={cx("desc")}>
+              This is the first project by Uzihoon
+            </div>
             <div className={cx("small")}>
-              If you want to register, you can contac me via email
+              If you want to register, you can contact me via email
             </div>
             <div className={cx("email")}>uzihoon.dev@gmail.com</div>
             <div className={cx("sns-box")}>
@@ -117,18 +92,18 @@ export default Form.create({ name: "login" })(
                 </div>
                 {/* 190826 disable register */}
                 <div className={cx("login-button")} onClick={handleRegister}>
-                <span>Register</span>
-                <svg>
-                  <polyline
-                    className={cx("o1")}
-                    points="0 0, 90 0, 90 35, 0 35, 0 0"
-                  />
-                  <polyline
-                    className={cx("o2")}
-                    points="0 0, 90 0, 90 35, 0 35, 0 0"
-                  />
-                </svg>
-              </div>
+                  <span>Register</span>
+                  <svg>
+                    <polyline
+                      className={cx("o1")}
+                      points="0 0, 90 0, 90 35, 0 35, 0 0"
+                    />
+                    <polyline
+                      className={cx("o2")}
+                      points="0 0, 90 0, 90 35, 0 35, 0 0"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>

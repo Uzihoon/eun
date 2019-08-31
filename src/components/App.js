@@ -7,7 +7,8 @@ import {
   LoginPage,
   AnalysisPage,
   SignupPage,
-  ListPage
+  ListPage,
+  HiddenPage
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
@@ -75,6 +76,11 @@ class App extends Component {
             <PrivateRouter
               path="/analysis"
               component={AnalysisPage}
+              authed={authed}
+            />
+            <PrivateRouter
+              path="/daeunyoon"
+              component={HiddenPage}
               authed={authed}
             />
             <Redirect to="/upload" />

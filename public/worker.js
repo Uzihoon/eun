@@ -2,7 +2,6 @@ importScripts("./pako.js");
 
 const post = (msgType, msg) => postMessage({ msgType, msg });
 const pgcallback = p => post(2, p);
-const ORIGIN_LEN = 140;
 
 function needle(a, b, gapopen, gapextend, endgapopen, endgapextend) {
   function E_FPEQ(a, b, e) {
@@ -401,6 +400,9 @@ self.onmessage = e => {
     chartIndex: [],
     changed: 0
   };
+
+  const lenStore = {};
+
   const pri_len = 15;
   const {
     rgen_type,
@@ -550,38 +552,51 @@ self.onmessage = e => {
 
   // 변경된 sequence 찾음
 
-  const findChangeSeq = (origin, change, count) => {
-    let changed = 0;
-    const reg = new RegExp(seq_RGEN);
-    const originTarget = origin.match(reg);
-    if (!originTarget) return 0;
-    if (origin.length !== ORIGIN_LEN || change.length !== ORIGIN_LEN) return 0;
-    const changeTarget = change.slice(
-      originTarget.index,
-      originTarget.index + seq_RGEN.length
-    );
-    for (let i = 0; i < seq_RGEN.length; i++) {
-      const a = seq_RGEN.charAt(i);
-      const b = changeTarget.charAt(i);
-      if (a === targetSeq) {
-        if (b === changeSeq) {
-          changed += 1;
+  const findChangeSeq = list => {
+    const lenVal = Object.values(lenStore);
+    const lenKey = Object.keys(lenStore);
+    const maxIndex = lenVal.indexOf(Math.max(...lenVal));
+    const ORIGIN_LEN = +lenKey[maxIndex]
+    store.standardLen = ORIGIN_LEN;
+
+
+    for (let i = 0; i < list.length; i++) {
+      const origin = list[i].origin;
+      const change = list[i].change;
+      const count = list[i].count;
+
+      let changed = 0;
+      const reg = new RegExp(seq_RGEN);
+      const originTarget = origin.match(reg);
+      if (!originTarget) return 0;
+      if (origin.length !== ORIGIN_LEN || change.length !== ORIGIN_LEN)
+        return 0;
+      const changeTarget = change.slice(
+        originTarget.index,
+        originTarget.index + seq_RGEN.length
+      );
+      for (let i = 0; i < seq_RGEN.length; i++) {
+        const a = seq_RGEN.charAt(i);
+        const b = changeTarget.charAt(i);
+        if (a === targetSeq) {
+          if (b === changeSeq) {
+            changed += 1;
+          }
+        }
+        if (!store.chartIndex[i]) {
+          store.chartIndex[i] = {
+            [b]: 1 * count
+          };
+        } else if (!store.chartIndex[i][b]) {
+          store.chartIndex[i][b] = 1 * count;
+        } else {
+          store.chartIndex[i][b] += 1 * count;
         }
       }
-      if (!store.chartIndex[i]) {
-        store.chartIndex[i] = {
-          [b]: 1 * count
-        };
-      } else if (!store.chartIndex[i][b]) {
-        store.chartIndex[i][b] = 1 * count;
-      } else {
-        store.chartIndex[i][b] += 1 * count;
+      if (changed >= 1) {
+        store.changed += count;
       }
     }
-    if (changed >= 1) {
-      store.changed += count;
-    }
-    return changed * count;
   };
 
   const process_chunk = seqs => {
@@ -1112,15 +1127,18 @@ self.onmessage = e => {
       }
       const entry = {};
       const p = needle(seq_range, count_seqs[i].seq, 10, 0.5, 10, 0.5);
-      console.log(p);
-      const changed = findChangeSeq(p[0], p[2], count_seqs[i].count);
+      const seqLength = count_seqs[i].seq.length;
       entry.id = i + 1;
       entry.origin = p[0];
       entry.change = p[2];
       entry.graphic = p[1];
-      entry.length = count_seqs[i].seq.length;
+      entry.length = seqLength;
+      if (lenStore[seqLength]) {
+        lenStore[seqLength] = ++lenStore[seqLength];
+      } else {
+        lenStore[seqLength] = 1;
+      }
       entry.count = count_seqs[i].count;
-      entry.changedCount = changed;
       if (seq_range.length === entry.length) {
         entry.type = 0;
       } else {
@@ -1208,6 +1226,7 @@ self.onmessage = e => {
         pgcallback(50 + (50 * i) / (count_seqs.length - 1));
       }
     }
+    findChangeSeq(data.table);
     for (let i = 0; i <= seq_range.length; i++) {
       data.il[i][1] /= tot_count;
       data.dl[i][1] /= tot_count;
@@ -1222,7 +1241,9 @@ self.onmessage = e => {
     data.cnt_del = cnt_del;
     data.changed = store.changed;
     data.chartIndex = store.chartIndex;
+    data.standardLen = store.standardLen;
     pgcallback(100);
+    console.log(data);
     return data;
   };
 
