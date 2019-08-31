@@ -1072,7 +1072,6 @@ self.onmessage = e => {
     let length_range = seq_range.length;
     let n = Math.floor(Object.keys(store.seq_count).length / 20);
     let i = 0;
-
     for (let seq in store.seq_count) {
       if (!store.seq_count.hasOwnProperty(seq)) {
         continue;
@@ -1113,6 +1112,7 @@ self.onmessage = e => {
       }
       const entry = {};
       const p = needle(seq_range, count_seqs[i].seq, 10, 0.5, 10, 0.5);
+      console.log(p);
       const changed = findChangeSeq(p[0], p[2], count_seqs[i].count);
       entry.id = i + 1;
       entry.origin = p[0];

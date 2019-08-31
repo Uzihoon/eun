@@ -2,6 +2,14 @@
   width: 100%;
   min-height: 100vh !important;
   height: 100%;
+  .header {
+    background: rgb(44, 172, 209);
+    background: linear-gradient(
+      138deg,
+      rgba(44, 172, 209, 1) 0%,
+      rgba(44, 101, 177, 1) 100%
+    );
+  }
 }
 
 .logo {

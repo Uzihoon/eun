@@ -29,7 +29,7 @@ class PageTemplate extends Component {
     const { children, nolayout } = this.props;
     return (
       <Layout className={cx("full-layout")}>
-        <Header className="header" style={{ padding: " 0 24px" }}>
+        <Header className={cx("header")} style={{ padding: " 0 24px" }}>
           <div className={cx("header-box")}>
             <div className={cx("logo")} onClick={this.pushUpload}>
               EUN
@@ -53,7 +53,9 @@ class PageTemplate extends Component {
                 }}>
                 {children}
               </Content>
-              <a className={cx("footer")} href="https://github.com/Uzihoon">Uzihoon @2019</a>
+              <a className={cx("footer")} href="https://github.com/Uzihoon">
+                Uzihoon @2019
+              </a>
             </Layout>
           )}
         </Layout>

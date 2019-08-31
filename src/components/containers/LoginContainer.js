@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Login from "components/Login";
 import { withRouter } from "react-router";
+import { Redirect } from "react-router-dom";
 import * as stateActions from "store/modules/state";
 import { Auth } from "aws-amplify";
 
@@ -75,12 +76,13 @@ class LoginContainer extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    if(this.props.authed !== nextProps.authed) return true;
     return false;
   }
 
   render() {
     const { authed } = this.props;
-    if (authed) return "";
+    if (authed) return <Redirect to="/upload" />;
     return <Login {...this} {...this.state} />;
   }
 }
