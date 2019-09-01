@@ -164,3 +164,34 @@
     }
   }
 }
+
+@media screen and (max-width: "1000px") {
+  .login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-box {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .title {
+      font-size: 4em;
+    }
+  }
+
+  .project-info {
+    display: none;
+  }
+
+  .circle {
+    top: auto;
+    bottom: -100px;
+    width: 400px;
+    height: 400px;
+    right: -100px;
+  }
+}
