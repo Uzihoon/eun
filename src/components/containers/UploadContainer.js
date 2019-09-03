@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Upload from "components/Upload";
-import WorkerComponent from "components/WebWorker";
 import Loading from "components/common/Loading";
 import { withRouter } from "react-router";
 

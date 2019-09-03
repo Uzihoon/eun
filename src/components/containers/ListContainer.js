@@ -4,12 +4,49 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 class ListContainer extends Component {
-  componentDidMount() {
-    const { userInfo } = this.props;
-    if(userInfo) {
-      console.log(userInfo);
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      listRender: [
+        {
+          title: "No",
+          key: "no",
+          render: (date, key) => key+1
+        },
+        {
+          title: "Name",
+          key: "name"
+        },
+        {
+          title: "Files",
+          key: "fileCount"
+        },
+        {
+          title: "Target",
+          key: "target"
+        },
+        {
+          title: "Change",
+          key: "change"
+        },
+        {
+          "title": "Average",
+          key: "average"
+        },
+        {
+          title: "Reported Date",
+          key: "date"
+        },
+        {
+          title: "",
+          key: "download",
+          render: date => <span>Test</span>
+        }
+      ]
     }
   }
+
   render() {
     return <List {...this} {...this.state} {...this.props} />;
   }

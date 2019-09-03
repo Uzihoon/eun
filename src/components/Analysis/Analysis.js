@@ -27,7 +27,6 @@ const Analysis = props => {
 
     return prev - next
   });
-  console.log(summaryList)
   return (
     <div className={cx("analysis-wrapper")}>
       <div className={cx("summary")}>

@@ -16,6 +16,7 @@ export default Form.create({ name: "login" })(
 
       return (
         <Form className={cx("login-container")} onSubmit={handleSubmit}>
+        <div className={cx("for-daeun")}>@2019 Uzihoon to Da-Eun Yoon</div>
           <div className={cx("circle")}>
             <img src={bg} />
           </div>
@@ -35,6 +36,11 @@ export default Form.create({ name: "login" })(
           </div>
           <div className={cx("login-box")}>
             <div className={cx("title")}>EUN Project</div>
+            <div className={cx("sub-desc")}>
+              This website provides the easy way to analyze CRISPR/Cas
+              efficiency.<br/>
+              Simple and fast with Javascript
+            </div>
             <div className={cx("login-form")}>
               <Item className={cx("input-box")}>
                 {getFieldDecorator("email", {

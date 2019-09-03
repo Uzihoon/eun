@@ -1,5 +1,5 @@
 .list-wrapper {
-  height: 90vh;
+  min-height: 90vh;
   background-color: #ffffff;
   width: 100%;
   .list-container {
@@ -9,10 +9,64 @@
 
     padding: 50px 30px;
   }
-  .welcome {
+  .list-title {
     font-size: 1.5em;
     .point {
       font-size: 0.9em;
+    }
+  }
+
+  .list-header {
+    padding: 10px;
+    border-bottom: 1px solid rgb(187, 187, 187);
+    display: flex;
+    margin: 20px 0;
+
+    .list-item {
+      font-size: 0.9em;
+      color: rgb(182, 182, 182);
+      text-align: center;
+    }
+  }
+
+  .list-body {
+    .list-item-box {
+      width: 100%;
+      padding: 10px;
+      display: flex;
+
+      .list-item {
+        font-size: 0.9em;
+        padding: 0 3px; 
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .list-item {
+    &.no,
+    &.download,
+    &.fileCount {
+      width: 5%;
+    }
+
+    &.name {
+      width: 45%;
+    }
+
+    &.target,
+    &.change {
+      width: 10%;
+    }
+
+    &.average {
+      width: 8%;
+    }
+
+    &.date {
+      width: 12%;
     }
   }
 }

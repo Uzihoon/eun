@@ -50,10 +50,12 @@ class App extends Component {
         this.setState({ localAuthed: true });
       } catch (error) {
         if (error !== "No current user") {
-          StateActions.showMsg({
-            status: "warning",
-            content: error
-          });
+          if (typeof error === "string") {
+            StateActions.showMsg({
+              status: "warning",
+              content: error
+            });
+          }
         }
       }
     }
@@ -83,6 +85,7 @@ class App extends Component {
               component={HiddenPage}
               authed={authed}
             />
+            <PrivateRouter path="/list" component={ListPage} authed={authed} />
             <Redirect to="/upload" />
           </Switch>
         </HashRouter>
