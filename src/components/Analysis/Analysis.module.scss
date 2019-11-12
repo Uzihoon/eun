@@ -202,7 +202,6 @@
   }
 }
 
-
 @media screen and (max-width: "1000px") {
   .sum-title {
     flex-direction: column;
@@ -216,11 +215,15 @@
       align-items: flex-start;
     }
   }
-  
+
   .sum-val {
     flex-direction: column;
     & * {
       word-break: break-all;
     }
   }
+}
+.excel-guide {
+  opacity: 0.5;
+  font-size: 1.1em;
 }

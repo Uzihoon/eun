@@ -24,6 +24,7 @@ class UploadContainer extends Component {
           if (hasFile < 0) {
             UploadActions.handleFileList(file);
           }
+          console.log(file)
           return false;
         },
         multiple: true,
@@ -151,6 +152,7 @@ class UploadContainer extends Component {
         return;
       }
       val.files = files;
+      console.log(val);
       UploadActions.formatData(val);
     });
   };

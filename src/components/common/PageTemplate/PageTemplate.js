@@ -6,7 +6,16 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Auth } from "aws-amplify";
+
 import * as stateActions from "store/modules/state";
+import * as uploadActions from "store/modules/upload";
+
+import Sample1 from "asset/Sample-ID-71_S71_L001_R1_001.fastq.gz";
+import Sample2 from "asset/Sample-ID-71_S71_L001_R2_001.fastq.gz";
+import Sample3 from "asset/Sample-ID-72_S72_L001_R1_001.fastq.gz";
+import Sample4 from "asset/Sample-ID-72_S72_L001_R2_001.fastq.gz";
+
+import axios from "axios";
 
 const { Header, Content } = Layout;
 
@@ -25,6 +34,46 @@ class PageTemplate extends Component {
     history.push("/login");
   };
 
+  runSample = async _ => {
+    const { UploadActions } = this.props;
+    const fileURL = [
+      { url: Sample1, name: "71_S71_L001_R1" },
+      { url: Sample2, name: "71_S71_L001_R2" },
+      { url: Sample3, name: "72_S72_L001_R1" },
+      { url: Sample4, name: "72_S72_L001_R2" }
+    ];
+
+    const fileList = [];
+    const promise = [];
+    const header = { responseType: "blob" };
+    fileURL.map(file => promise.push(axios.get(file.url, header)));
+
+    await axios.all(promise).then(
+      axios.spread((...args) => {
+        args.map((result, index) => {
+          const title = `Sample-ID-${fileURL[index].name}_001.fastq.gz`;
+          const file = new File([result.data], title);
+          fileList.push(file);
+        });
+      })
+    );
+
+    const sample = {
+      changeSeq: "g",
+      files: fileList,
+      fullseq:
+        "ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT",
+      indexPattern: "_L001_",
+      namePattern: "",
+      nucleases: "1",
+      nuctype: "0",
+      rgenseq: "TCAGAAAGTGGTGGCTGGTG",
+      targetSeq: "a"
+    };
+
+    UploadActions.formatData(sample);
+  };
+
   render() {
     const { children, nolayout } = this.props;
     return (
@@ -34,8 +83,14 @@ class PageTemplate extends Component {
             <div className={cx("logo")} onClick={this.pushUpload}>
               EUN
             </div>
-            <div className={cx("logout")} onClick={this.handleLogout}>
-              Logout
+
+            <div className={cx("right-side")}>
+              <div className={cx("run-sample")} onClick={this.runSample}>
+                Run Sample
+              </div>
+              <div className={cx("logout")} onClick={this.handleLogout}>
+                Logout
+              </div>
             </div>
           </div>
         </Header>
@@ -50,7 +105,8 @@ class PageTemplate extends Component {
                   padding: 24,
                   margin: 0,
                   minHeight: 280
-                }}>
+                }}
+              >
                 {children}
               </Content>
               <a className={cx("footer")} href="https://github.com/Uzihoon">
@@ -65,10 +121,8 @@ class PageTemplate extends Component {
 }
 
 export default withRouter(
-  connect(
-    null,
-    dispatch => ({
-      StateActions: bindActionCreators(stateActions, dispatch)
-    })
-  )(PageTemplate)
+  connect(null, dispatch => ({
+    StateActions: bindActionCreators(stateActions, dispatch),
+    UploadActions: bindActionCreators(uploadActions, dispatch)
+  }))(PageTemplate)
 );

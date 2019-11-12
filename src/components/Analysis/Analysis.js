@@ -18,14 +18,14 @@ const Analysis = props => {
     failList,
     download
   } = props;
-  const summaryList = Object.keys(analysisList).sort((a, b) =>{
+  const summaryList = Object.keys(analysisList).sort((a, b) => {
     const findNumber = new RegExp(/[0-9]+/);
     const firstNumber = a.match(findNumber);
     const lastNumber = b.match(findNumber);
     const prev = firstNumber && firstNumber.length > 0 ? +firstNumber[0] : a;
     const next = lastNumber && lastNumber.length > 0 ? +lastNumber[0] : b;
 
-    return prev - next
+    return prev - next;
   });
   return (
     <div className={cx("analysis-wrapper")}>
@@ -36,7 +36,12 @@ const Analysis = props => {
             <div className={cx("excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />
             </div>
-            {download && <Excel {...props} />}
+            {download && (
+              <>
+                <Excel {...props} />
+                <span className={cx("excel-guide")}>Download for Excel</span>
+              </>
+            )}
           </div>
         </div>
         <div className={cx("summary-item")}>
@@ -76,7 +81,7 @@ const Analysis = props => {
         {summaryList.map((e, i) => {
           const analysis = analysisList[e];
           const charIndex = analysis.chartIndex || [];
-          
+
           return (
             <div className={cx("analysis-container")} key={i}>
               <div className={cx("analysis-id")}>{analysis.fileId}</div>
