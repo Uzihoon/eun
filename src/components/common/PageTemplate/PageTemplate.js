@@ -35,6 +35,7 @@ class PageTemplate extends Component {
   };
 
   runSample = async _ => {
+    // run sample
     const { UploadActions } = this.props;
     const fileURL = [
       { url: Sample1, name: "71_S71_L001_R1" },
