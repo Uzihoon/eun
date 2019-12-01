@@ -8,7 +8,8 @@ import {
   AnalysisPage,
   SignupPage,
   ListPage,
-  HiddenPage
+  HiddenPage,
+  IndelPage
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
@@ -83,6 +84,11 @@ class App extends Component {
             <PrivateRouter
               path="/daeunyoon"
               component={HiddenPage}
+              authed={authed}
+            />
+            <PrivateRouter
+              path="/indel"
+              component={IndelPage}
               authed={authed}
             />
             <PrivateRouter path="/list" component={ListPage} authed={authed} />

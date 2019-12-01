@@ -12,8 +12,16 @@
 
     .download-box {
       display: flex;
+      align-items: center;
 
-      .excel-btn {
+      .btn-guide {
+        opacity: 0.9;
+        font-size: .8rem;
+        color: rgb(187, 187, 187);
+        margin-left: 8px;
+      }
+
+      .btn-box {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -21,13 +29,7 @@
         font-size: 1.3em;
         font-weight: bold;
         cursor: pointer;
-
-        .excel-guide {
-          opacity: 0.9;
-          font-size: .8rem;
-          color: rgb(187, 187, 187);
-          margin-left: 8px;
-        }
+        margin: 0 10px;
       }
     }
   }

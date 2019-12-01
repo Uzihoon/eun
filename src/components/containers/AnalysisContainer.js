@@ -4,7 +4,9 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
 import Analysis from "components/Analysis";
 import Webworker from "worker/Webworker";
-import worker from "worker/analysis.worker.js";
+import analysisWorker from "worker/analysis.worker.js";
+import indelWorker from "worker/indel.worker.js";
+import Loading from "components/common/Loading";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -15,6 +17,10 @@ class AnalysisContainer extends Component {
     super(props);
     const { format } = props;
     this.state = {
+      indelStatus: {
+        loading: false,
+        gauge: 0
+      },
       resultList: [
         {
           title: "Total Sequences",
@@ -109,9 +115,16 @@ class AnalysisContainer extends Component {
     if (summary.length <= 0) {
       history.push("/upload");
     } else {
-      this.worker = new Webworker(worker);
-      this.worker.onmessage = this.getDownload;
+      this.analysisWorker = new Webworker(analysisWorker);
+      this.analysisWorker.onmessage = this.getDownload;
+
+      this.indelWorker = new Webworker(indelWorker);
+      this.indelWorker.onmessage = this.getIndelWorker;
     }
+  }
+
+  getIndelWorker = e => {
+    console.log(e);
   }
 
   getDownload = e => {
@@ -132,7 +145,7 @@ class AnalysisContainer extends Component {
     const { resultList, sequenceCharList } = this.state;
     const { analysisList, format } = this.props;
     this.setState({ download: false, excelData: null });
-    this.worker.postMessage({
+    this.analysisWorker.postMessage({
       analysisList,
       resultList,
       sequenceCharList,
@@ -140,8 +153,19 @@ class AnalysisContainer extends Component {
     });
   };
 
+  handleIndel = _ => {
+    const { analysisList } = this.props;
+    this.indelWorker.postMessage(analysisList);
+  }
+
   render() {
-    return <Analysis {...this.state} {...this.props} {...this} />;
+    const { indelStatus } = this.state;
+    return (
+      <>
+        <Analysis {...this.state} {...this.props} {...this} />
+        {indelStatus.loading && <Loading title="" gauge={indelStatus.gauge}/>}
+      </>
+    )
   }
 }
 

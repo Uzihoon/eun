@@ -8,7 +8,7 @@ function needle(a, b, gapopen, gapextend, endgapopen, endgapextend) {
     return b - e < a && a < b + e;
   }
 
-  var sub = [
+  const sub = [
     [5, -4, -4, -4, -4, 1, 1, -4, -4, 1, -4, -1, -1, -1, -2, -4],
     [-4, 5, -4, -4, -4, 1, -4, 1, 1, -4, -1, -4, -1, -1, -2, 5],
     [-4, -4, 5, -4, 1, -4, 1, -4, 1, -4, -1, -1, -4, -1, -2, -4],
@@ -26,7 +26,7 @@ function needle(a, b, gapopen, gapextend, endgapopen, endgapextend) {
     [-2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2],
     [-4, 5, -4, -4, -4, 1, -4, 1, 1, -4, -1, -4, -1, -1, -2, 5]
   ]; // EDNAFULL
-  var base_to_idx = {
+  const base_to_idx = {
     A: 0,
     C: 3,
     B: 10,
@@ -398,7 +398,8 @@ self.onmessage = e => {
     joins_length: 0,
     seq_count: {},
     chartIndex: [],
-    changed: 0
+    changed: 0,
+    change_target: {}
   };
 
   const lenStore = {};
@@ -559,11 +560,11 @@ self.onmessage = e => {
     const ORIGIN_LEN = +lenKey[maxIndex]
     store.standardLen = ORIGIN_LEN;
 
-
     for (let i = 0; i < list.length; i++) {
       const origin = list[i].origin;
       const change = list[i].change;
       const count = list[i].count;
+
 
       let changed = 0;
       const reg = new RegExp(seq_RGEN);
@@ -575,6 +576,9 @@ self.onmessage = e => {
         originTarget.index,
         originTarget.index + seq_RGEN.length
       );
+
+      store.change_target[list[i].id] = changeTarget;
+
       for (let i = 0; i < seq_RGEN.length; i++) {
         const a = seq_RGEN.charAt(i);
         const b = changeTarget.charAt(i);
@@ -1150,9 +1154,11 @@ self.onmessage = e => {
           entry.type = 0;
         } else {
           if (entry.length > seq_range.length) {
+            // insertion
             entry.type = 1;
             cnt_ins += entry.count;
           } else {
+            // deletion
             entry.type = 2;
             cnt_del += entry.count;
           }
@@ -1242,6 +1248,7 @@ self.onmessage = e => {
     data.changed = store.changed;
     data.chartIndex = store.chartIndex;
     data.standardLen = store.standardLen;
+    data.change_target = store.change_target;
     pgcallback(100);
     return data;
   };

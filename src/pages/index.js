@@ -4,3 +4,4 @@ export { default as AnalysisPage } from "./AnalysisPage";
 export { default as SignupPage } from "./SignupPage";
 export { default as ListPage } from "./ListPage";
 export { default as HiddenPage } from "./HiddenPage";
+export { default as IndelPage } from "./IndelPage";

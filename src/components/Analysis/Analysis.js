@@ -16,6 +16,7 @@ const Analysis = props => {
     sequenceList,
     handleExcel,
     failList,
+    handleIndel,
     download
   } = props;
   const summaryList = Object.keys(analysisList).sort((a, b) => {
@@ -33,14 +34,19 @@ const Analysis = props => {
         <div className={cx("title-box")}>
           <div className={cx("title")}>Summary</div>
           <div className={cx("download-box")}>
-            <div className={cx("excel-btn")} onClick={handleExcel}>
+            <div className={cx("btn-box")} onClick={handleIndel}>
+              <Icon type="line-chart" />
+              <span className={cx("btn-guide")}>INDEL Type Report</span>
+            </div>
+            <div className={cx("btn-box")} onClick={handleExcel}>
               <Icon type="file-excel" />
-              <span className={cx("excel-guide")}>Download for Excel</span>
+              <span className={cx("btn-guide")}>Download for Excel</span>
             </div>
             {download && (
               <Excel {...props} />
             )}
           </div>
+          
         </div>
         <div className={cx("summary-item")}>
           <div className={cx("sum-title")}>
