@@ -14,15 +14,20 @@
       display: flex;
 
       .excel-btn {
-        width: 25px;
-        height: 25px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #007337;
-        font-size: 1.5em;
+        font-size: 1.3em;
         font-weight: bold;
         cursor: pointer;
+
+        .excel-guide {
+          opacity: 0.9;
+          font-size: .8rem;
+          color: rgb(187, 187, 187);
+          margin-left: 8px;
+        }
       }
     }
   }
@@ -223,7 +228,4 @@
     }
   }
 }
-.excel-guide {
-  opacity: 0.5;
-  font-size: 1.1em;
-}
+

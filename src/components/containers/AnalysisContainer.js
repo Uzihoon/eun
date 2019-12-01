@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
 import Analysis from "components/Analysis";
-import * as uploadActions from "store/modules/upload";
-import * as analysisActions from "store/modules/analysis";
 import Webworker from "worker/Webworker";
 import worker from "worker/analysis.worker.js";
+
+import * as uploadActions from "store/modules/upload";
+import * as analysisActions from "store/modules/analysis";
+import * as stateActions from "store/modules/state";
 
 class AnalysisContainer extends Component {
   constructor(props) {
@@ -102,7 +104,8 @@ class AnalysisContainer extends Component {
   }
 
   componentDidMount() {
-    const { summary, history } = this.props;
+    const { summary, history, StateActions } = this.props;
+    StateActions.setState({ key: "sampleLoading", value: false });
     if (summary.length <= 0) {
       history.push("/upload");
     } else {
@@ -152,7 +155,8 @@ export default withRouter(
     }),
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),
-      AnalysisActions: bindActionCreators(analysisActions, dispatch)
+      AnalysisActions: bindActionCreators(analysisActions, dispatch),
+      StateActions: bindActionCreators(stateActions, dispatch)
     })
   )(AnalysisContainer)
 );

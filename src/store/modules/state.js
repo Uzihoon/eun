@@ -10,6 +10,7 @@ const LOGIN_SUCCESS = "state/LOGIN_SUCCESS";
 const LOGOUT = "state/LOGOUT";
 const HANDLE_CONFIRM = "state/HANDLE_CONFIRM";
 const SET_TEMP_USERNAME = "state/SET_TEMP_USERNAME";
+const SET_STATE = "state/SET_STATE";
 
 export const showMsg = createAction(SHOW_MSG);
 export const hideMsg = createAction(HIDE_MSG);
@@ -20,6 +21,7 @@ export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const logout = createAction(LOGOUT);
 export const handleConfirm = createAction(HANDLE_CONFIRM);
 export const setTempUsername = createAction(SET_TEMP_USERNAME);
+export const setState = createAction(SET_STATE);
 
 const initialState = Map({
   msg: {
@@ -31,7 +33,8 @@ const initialState = Map({
   authed: false,
   userInfo: Map({}),
   confirm: false,
-  tempUsername: null
+  tempUsername: null,
+  sampleLoading: false
 });
 
 export default handleActions(
@@ -68,6 +71,10 @@ export default handleActions(
     [SET_TEMP_USERNAME]: (state, action) => {
       const { payload: username } = action;
       return state.set("tempUsername", username);
+    },
+    [SET_STATE]: (state, action) => {
+      const { key, value } = action.payload;
+      return state.set(key, value);
     }
   },
   initialState

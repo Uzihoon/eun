@@ -36,7 +36,11 @@ class PageTemplate extends Component {
 
   runSample = async _ => {
     // run sample
-    const { UploadActions } = this.props;
+    const { UploadActions, StateActions, sampleLoading, history } = this.props;
+    const path = history.location.pathname;
+    if(sampleLoading || path === "/analysis") return false;
+    StateActions.setState({ key: "sampleLoading", value: true });
+
     const fileURL = [
       { url: Sample1, name: "71_S71_L001_R1" },
       { url: Sample2, name: "71_S71_L001_R2" },
@@ -76,7 +80,11 @@ class PageTemplate extends Component {
   };
 
   render() {
-    const { children, nolayout } = this.props;
+    const { children, nolayout, sampleLoading } = this.props;
+
+    const width = sampleLoading ? 110 : 110;
+    const cursor = sampleLoading ? "not-allowed" : "pointer"
+
     return (
       <Layout className={cx("full-layout")}>
         <Header className={cx("header")} style={{ padding: " 0 24px" }}>
@@ -84,11 +92,20 @@ class PageTemplate extends Component {
             <div className={cx("logo")} onClick={this.pushUpload}>
               EUN
             </div>
-
             <div className={cx("right-side")}>
-              <div className={cx("run-sample")} onClick={this.runSample}>
-                Run Sample
-              </div>
+              <div className={cx("run-sample")} onClick={this.runSample} style={{ cursor }}>
+                  <span>{sampleLoading ? "Loading..." : "Run Sample"}</span>
+                  <svg style={{width: `${width}px`}}>
+                    <polyline
+                      className={cx("o1")}
+                      points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
+                    />
+                    <polyline
+                      className={cx("o2")}
+                      points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
+                    />
+                  </svg>
+                </div>
               <div className={cx("logout")} onClick={this.handleLogout}>
                 Logout
               </div>
@@ -122,7 +139,11 @@ class PageTemplate extends Component {
 }
 
 export default withRouter(
-  connect(null, dispatch => ({
+  connect(
+  state => ({
+    sampleLoading: state.state.get("sampleLoading")
+  }), 
+  dispatch => ({
     StateActions: bindActionCreators(stateActions, dispatch),
     UploadActions: bindActionCreators(uploadActions, dispatch)
   }))(PageTemplate)

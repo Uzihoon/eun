@@ -1243,7 +1243,6 @@ self.onmessage = e => {
     data.chartIndex = store.chartIndex;
     data.standardLen = store.standardLen;
     pgcallback(100);
-    console.log(data);
     return data;
   };
 

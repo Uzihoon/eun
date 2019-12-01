@@ -35,12 +35,10 @@ const Analysis = props => {
           <div className={cx("download-box")}>
             <div className={cx("excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />
+              <span className={cx("excel-guide")}>Download for Excel</span>
             </div>
             {download && (
-              <>
-                <Excel {...props} />
-                <span className={cx("excel-guide")}>Download for Excel</span>
-              </>
+              <Excel {...props} />
             )}
           </div>
         </div>
