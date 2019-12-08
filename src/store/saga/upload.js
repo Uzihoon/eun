@@ -60,7 +60,6 @@ export function* formatData(action) {
         failList.push(e.name);
       }
     });
-
     if (Object.keys(fileList).length <= 0) {
       yield put(
         stateActions.showMsg({
@@ -69,7 +68,6 @@ export function* formatData(action) {
         })
       );
     } else {
-
       const format = {
         msgtype: 0,
         seq_wt,

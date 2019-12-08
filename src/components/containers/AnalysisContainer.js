@@ -87,6 +87,12 @@ class AnalysisContainer extends Component {
         {
           title: "Type",
           dataIndex: "type",
+          filters: [
+            { text: "WT or Sub", value: 0 },
+            { text: "INS", value: 1 },
+            { text: "DEL", value: 2 }
+          ],
+          onFilter: (value, record) => record.type === value,
           render: text => {
             if (+text === 0) return "WT or Sub";
             if (+text === 1) return "INS";
@@ -124,8 +130,10 @@ class AnalysisContainer extends Component {
   }
 
   getIndelWorker = e => {
-    console.log(e);
-  }
+    const { history, AnalysisActions } = this.props;
+    AnalysisActions.saveAnalysis({ type: "indel", data: e.data });
+    history.push("/indel");
+  };
 
   getDownload = e => {
     const data = e.data;
@@ -156,16 +164,16 @@ class AnalysisContainer extends Component {
   handleIndel = _ => {
     const { analysisList } = this.props;
     this.indelWorker.postMessage(analysisList);
-  }
+  };
 
   render() {
     const { indelStatus } = this.state;
     return (
       <>
         <Analysis {...this.state} {...this.props} {...this} />
-        {indelStatus.loading && <Loading title="" gauge={indelStatus.gauge}/>}
+        {indelStatus.loading && <Loading title="" gauge={indelStatus.gauge} />}
       </>
-    )
+    );
   }
 }
 

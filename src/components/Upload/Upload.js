@@ -40,7 +40,7 @@ export default Form.create({ name: "upload" })(
             <Item className={cx("half-item")}>
               <div className={cx("item-title")}>File Index Pattern</div>
               {getFieldDecorator("indexPattern", {
-                //initialValue: "_L001_",
+                // initialValue: "_L001_",
                 rules: [
                   {
                     required: true,
@@ -66,8 +66,7 @@ export default Form.create({ name: "upload" })(
           <Item>
             <div className={cx("item-title")}>Full reference sequence</div>
             {getFieldDecorator("fullseq", {
-              //initialValue:"GGACGTCTGCCCAATATGTAAAATAACGGAATGAATGGATTCCTTGGAAACAATGATAACAAGACCTGGCTGAGCTAACTGTGACAGCATGTGGTAATTTTCCAGCCCGCTGGCCCTGTAAAGGAAACTGGAACACAAAGCATAGACTGCGGGGCGGGCCAGCCTGAATAGCTGCAAACAAGTGCAGAATATCTGATGATGTCATACGCACAGTTTGACAGATG",
-              //initialValue: "ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT",
+              // initialValue:"GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
               rules: [{ required: true, message: "Please input Full Sequence" }]
             })(<TextArea />)}
           </Item>
@@ -104,8 +103,7 @@ export default Form.create({ name: "upload" })(
               Target DNA sequence (5 to 3, without PAM sequence)
             </div>
             {getFieldDecorator("rgenseq", {
-              //initialValue: "GAACACAAAGCATAGACTGC",
-              //initialValue: "TCAGAAAGTGGTGGCTGGTG",
+              // initialValue: "ACCTCAGTTCCCCTTCAAAG",
               rules: [
                 { required: true, message: "Please input target DNA sequence" }
               ]
@@ -114,7 +112,7 @@ export default Form.create({ name: "upload" })(
           <Item>
             <div className={cx("item-title")}>Target</div>
             {getFieldDecorator("targetSeq", {
-              //initialValue: "a",
+              // initialValue: "a",
               rules: [
                 { required: true, message: "Please input target" },
                 { validator: validationCheck }
@@ -124,7 +122,7 @@ export default Form.create({ name: "upload" })(
           <Item>
             <div className={cx("item-title")}>Change</div>
             {getFieldDecorator("changeSeq", {
-              //initialValue: "g",
+              // initialValue: "g",
               rules: [
                 { required: true, message: "Please input change" },
                 { validator: validationCheck }

@@ -4,7 +4,7 @@ import UploadContainer from "components/containers/UploadContainer";
 
 const UploadPage = () => {
   return (
-    <PageTemplate>
+    <PageTemplate sampleBtn={true}>
       <UploadContainer />
     </PageTemplate>
   );

@@ -5,23 +5,27 @@ const SHOW_MSG = "state/SHOW_MSG";
 const HIDE_MSG = "state/HIDE_MSG";
 const SET_PENDING = "state/SET_PENDING";
 const SET_FINISH = "state/SET_FINISH";
-const TRY_LOGIN = "state/TRY_LOGIN";
 const LOGIN_SUCCESS = "state/LOGIN_SUCCESS";
 const LOGOUT = "state/LOGOUT";
 const HANDLE_CONFIRM = "state/HANDLE_CONFIRM";
 const SET_TEMP_USERNAME = "state/SET_TEMP_USERNAME";
 const SET_STATE = "state/SET_STATE";
+const LOGIN = "state/LOGIN";
+const CHECK_AUTH = "state/CHECK_AUTH";
+const RESET_USER = "state/RESET_USER";
 
 export const showMsg = createAction(SHOW_MSG);
 export const hideMsg = createAction(HIDE_MSG);
 export const setPending = createAction(SET_PENDING);
 export const setFinish = createAction(SET_FINISH);
-export const tryLogin = createAction(TRY_LOGIN);
 export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const logout = createAction(LOGOUT);
 export const handleConfirm = createAction(HANDLE_CONFIRM);
 export const setTempUsername = createAction(SET_TEMP_USERNAME);
 export const setState = createAction(SET_STATE);
+export const login = createAction(LOGIN);
+export const checkAuth = createAction(CHECK_AUTH);
+export const resetUser = createAction(RESET_USER);
 
 const initialState = Map({
   msg: {
@@ -34,7 +38,18 @@ const initialState = Map({
   userInfo: Map({}),
   confirm: false,
   tempUsername: null,
-  sampleLoading: false
+  sampleLoading: false,
+  sample: Map({
+    changeSeq: "g",
+    fullseq:
+      "ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT",
+    indexPattern: "_L001_",
+    namePattern: "",
+    nucleases: "1",
+    nuctype: "0",
+    rgenseq: "TCAGAAAGTGGTGGCTGGTG",
+    targetSeq: "a"
+  })
 });
 
 export default handleActions(
@@ -62,7 +77,7 @@ export default handleActions(
       const { payload: userInfo } = action;
       return state.set("authed", true).set("userInfo", fromJS(userInfo));
     },
-    [LOGOUT]: (state, action) => {
+    [RESET_USER]: (state, action) => {
       return state.set("authed", false).set("userInfo", Map({}));
     },
     [HANDLE_CONFIRM]: (state, action) => {

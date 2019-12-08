@@ -11,12 +11,12 @@ const Password = Input.Password;
 export default Form.create({ name: "login" })(
   class extends React.Component {
     render() {
-      const { handleSubmit, pending, handleRegister } = this.props;
+      const { handleSubmit, handleRegister } = this.props;
       const { getFieldDecorator } = this.props.form;
 
       return (
         <Form className={cx("login-container")} onSubmit={handleSubmit}>
-        <div className={cx("for-daeun")}>@2019 Uzihoon to Da-Eun Yoon</div>
+          <div className={cx("for-daeun")}>@2019 Uzihoon to Da-Eun Yoon</div>
           <div className={cx("circle")}>
             <img src={bg} />
           </div>
@@ -38,7 +38,8 @@ export default Form.create({ name: "login" })(
             <div className={cx("title")}>EUN Project</div>
             <div className={cx("sub-desc")}>
               This website provides the easy way to analyze CRISPR/Cas
-              efficiency.<br/>
+              efficiency.
+              <br />
               Simple and fast with Javascript
             </div>
             <div className={cx("login-form")}>
@@ -96,7 +97,6 @@ export default Form.create({ name: "login" })(
                     />
                   </svg>
                 </div>
-                {/* 190826 disable register */}
                 <div className={cx("login-button")} onClick={handleRegister}>
                   <span>Register</span>
                   <svg>

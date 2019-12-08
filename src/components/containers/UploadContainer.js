@@ -128,13 +128,9 @@ class UploadContainer extends Component {
     return false;
   }
 
-  componentDidMount() {}
-
   wrappedComponentRef = ref => {
     this.uploadForm = ref;
   };
-
-  formatData = data => {};
 
   handleSubmit = _ => {
     const { UploadActions, fileList, StateActions } = this.props;

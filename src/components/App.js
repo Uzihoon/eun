@@ -9,11 +9,11 @@ import {
   SignupPage,
   ListPage,
   HiddenPage,
+  MainPage,
   IndelPage
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
-import { Auth } from "aws-amplify";
 import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
@@ -40,25 +40,10 @@ class App extends Component {
     return false;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { StateActions, history, authed, location } = this.props;
     if (!authed) {
-      try {
-        const data = await Auth.currentSession();
-        StateActions.loginSuccess(data.idToken.payload);
-        const prevLocation = location.hash;
-        history.push(prevLocation);
-        this.setState({ localAuthed: true });
-      } catch (error) {
-        if (error !== "No current user") {
-          if (typeof error === "string") {
-            StateActions.showMsg({
-              status: "warning",
-              content: error
-            });
-          }
-        }
-      }
+      StateActions.checkAuth({ location, history });
     }
   }
 
@@ -70,7 +55,12 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={LoginPage} />
             <Route path="/signup" component={SignupPage} />
-            <PrivateRouter path="/list" component={ListPage} authed={authed} />
+            <PrivateRouter
+              path="/"
+              component={MainPage}
+              exact
+              authed={authed}
+            />
             <PrivateRouter
               path="/upload"
               component={UploadPage}
@@ -92,7 +82,7 @@ class App extends Component {
               authed={authed}
             />
             <PrivateRouter path="/list" component={ListPage} authed={authed} />
-            <Redirect to="/upload" />
+            <Redirect to="/" />
           </Switch>
         </HashRouter>
         <InfoMessage />

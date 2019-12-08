@@ -5,44 +5,20 @@ import Login from "components/Login";
 import { withRouter } from "react-router";
 import { Redirect } from "react-router-dom";
 import * as stateActions from "store/modules/state";
-import { Auth } from "aws-amplify";
 
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pending: false
-    };
+    this.state = {};
   }
 
   handleSubmit = _ => {
     const { StateActions, history } = this.props;
     const form = this.loginForm.props.form;
 
-    form.validateFields(async (err, val) => {
+    form.validateFields((err, val) => {
       if (err) return;
-      this.setState({ pending: true });
-
-      try {
-        const { email, password } = val;
-        const data = await Auth.signIn(email, password);
-        this.setState({ pending: false });
-        StateActions.loginSuccess(data.attributes);
-        history.push("/upload");
-      } catch (error) {
-        const msg = error.message || error;
-        StateActions.showMsg({
-          status: "error",
-          content: msg
-        });
-        if (error.code === "UserNotConfirmedException") {
-          StateActions.handleConfirm();
-          StateActions.setTempUsername(val.email);
-          history.push("/signup");
-        } else {
-          this.setState({ pending: false });
-        }
-      }
+      StateActions.login({ val, history });
     });
   };
 
@@ -52,8 +28,6 @@ class LoginContainer extends Component {
   };
 
   componentDidMount() {
-    const { authed, history } = this.props;
-    //if (authed) history.push("/upload");
     const { enterEvent } = this;
     window.addEventListener("keydown", enterEvent);
   }
@@ -76,7 +50,7 @@ class LoginContainer extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(this.props.authed !== nextProps.authed) return true;
+    if (this.props.authed !== nextProps.authed) return true;
     return false;
   }
 

@@ -6,117 +6,45 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Auth } from "aws-amplify";
+import TopBar from "components/common/TopBar";
 
 import * as stateActions from "store/modules/state";
 import * as uploadActions from "store/modules/upload";
+import * as analysisActions from "store/modules/analysis";
 
-import Sample1 from "asset/Sample-ID-71_S71_L001_R1_001.fastq.gz";
-import Sample2 from "asset/Sample-ID-71_S71_L001_R2_001.fastq.gz";
-import Sample3 from "asset/Sample-ID-72_S72_L001_R1_001.fastq.gz";
-import Sample4 from "asset/Sample-ID-72_S72_L001_R2_001.fastq.gz";
-
-import axios from "axios";
-
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const cx = classNames.bind(styles);
 
 class PageTemplate extends Component {
   pushUpload = _ => {
     const { history } = this.props;
-    history.push("/upload");
+    history.push("/");
   };
 
-  handleLogout = async _ => {
+  handleLogout = _ => {
     const { StateActions, history } = this.props;
-    await Auth.signOut();
-    StateActions.logout();
-    history.push("/login");
+    StateActions.logout(history);
   };
 
-  runSample = async _ => {
+  runSample = _ => {
     // run sample
-    const { UploadActions, StateActions, sampleLoading, history } = this.props;
+    const { sampleLoading, history, AnalysisActions } = this.props;
     const path = history.location.pathname;
-    if(sampleLoading || path === "/analysis") return false;
-    StateActions.setState({ key: "sampleLoading", value: true });
-
-    const fileURL = [
-      { url: Sample1, name: "71_S71_L001_R1" },
-      { url: Sample2, name: "71_S71_L001_R2" },
-      { url: Sample3, name: "72_S72_L001_R1" },
-      { url: Sample4, name: "72_S72_L001_R2" }
-    ];
-
-    const fileList = [];
-    const promise = [];
-    const header = { responseType: "blob" };
-    fileURL.map(file => promise.push(axios.get(file.url, header)));
-
-    await axios.all(promise).then(
-      axios.spread((...args) => {
-        args.map((result, index) => {
-          const title = `Sample-ID-${fileURL[index].name}_001.fastq.gz`;
-          const file = new File([result.data], title);
-          fileList.push(file);
-        });
-      })
-    );
-
-    const sample = {
-      changeSeq: "g",
-      files: fileList,
-      fullseq:
-        "ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT",
-      indexPattern: "_L001_",
-      namePattern: "",
-      nucleases: "1",
-      nuctype: "0",
-      rgenseq: "TCAGAAAGTGGTGGCTGGTG",
-      targetSeq: "a"
-    };
-
-    UploadActions.formatData(sample);
+    if (sampleLoading || path === "/analysis") return false;
+    AnalysisActions.runSample();
   };
 
   render() {
-    const { children, nolayout, sampleLoading } = this.props;
-
-    const width = sampleLoading ? 110 : 110;
-    const cursor = sampleLoading ? "not-allowed" : "pointer"
-
+    const { children, nolayout } = this.props;
     return (
       <Layout className={cx("full-layout")}>
-        <Header className={cx("header")} style={{ padding: " 0 24px" }}>
-          <div className={cx("header-box")}>
-            <div className={cx("logo")} onClick={this.pushUpload}>
-              EUN
-            </div>
-            <div className={cx("right-side")}>
-              <div className={cx("run-sample")} onClick={this.runSample} style={{ cursor }}>
-                  <span>{sampleLoading ? "Loading..." : "Run Sample"}</span>
-                  <svg style={{width: `${width}px`}}>
-                    <polyline
-                      className={cx("o1")}
-                      points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
-                    />
-                    <polyline
-                      className={cx("o2")}
-                      points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
-                    />
-                  </svg>
-                </div>
-              <div className={cx("logout")} onClick={this.handleLogout}>
-                Logout
-              </div>
-            </div>
-          </div>
-        </Header>
+        <TopBar {...this.props} {...this} />
         <Layout>
           {nolayout ? (
             children
           ) : (
-            <Layout style={{ padding: "24px" }}>
+            <Layout style={{ padding: "24px 0", width: "85%", margin: "auto" }}>
               <Content
                 style={{
                   background: "#fff",
@@ -140,11 +68,13 @@ class PageTemplate extends Component {
 
 export default withRouter(
   connect(
-  state => ({
-    sampleLoading: state.state.get("sampleLoading")
-  }), 
-  dispatch => ({
-    StateActions: bindActionCreators(stateActions, dispatch),
-    UploadActions: bindActionCreators(uploadActions, dispatch)
-  }))(PageTemplate)
+    state => ({
+      sampleLoading: state.state.get("sampleLoading")
+    }),
+    dispatch => ({
+      StateActions: bindActionCreators(stateActions, dispatch),
+      UploadActions: bindActionCreators(uploadActions, dispatch),
+      AnalysisActions: bindActionCreators(analysisActions, dispatch)
+    })
+  )(PageTemplate)
 );

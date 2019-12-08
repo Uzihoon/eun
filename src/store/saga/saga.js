@@ -15,7 +15,9 @@ export default function* rootSaga() {
 }
 
 function* handleState() {
-  yield takeEvery(StateActions.tryLogin, StateSaga.tryLogin);
+  yield takeEvery(StateActions.login, StateSaga.login);
+  yield takeEvery(StateActions.checkAuth, StateSaga.checkAuth);
+  yield takeEvery(StateActions.logout, StateSaga.logout);
 }
 
 function* handleUpload() {
@@ -23,5 +25,5 @@ function* handleUpload() {
 }
 
 function* handleAnalysis() {
-  yield takeEvery(AnalysisActions.analysisFiles, AnalysisSaga.analysisFiles);
+  yield takeEvery(AnalysisActions.runSample, AnalysisSaga.runSample);
 }

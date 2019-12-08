@@ -1,3 +1,27 @@
+/*
+fastq-join.coffee
+(Based on Fastq-join 1.01 by Expression Analysis / Erik Aronesty)
+
+Copyright (c) 2015 Jeongbin Park
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ */
 importScripts("./pako.js");
 
 const post = (msgType, msg) => postMessage({ msgType, msg });
@@ -557,7 +581,7 @@ self.onmessage = e => {
     const lenVal = Object.values(lenStore);
     const lenKey = Object.keys(lenStore);
     const maxIndex = lenVal.indexOf(Math.max(...lenVal));
-    const ORIGIN_LEN = +lenKey[maxIndex]
+    const ORIGIN_LEN = +lenKey[maxIndex];
     store.standardLen = ORIGIN_LEN;
 
     for (let i = 0; i < list.length; i++) {
@@ -565,19 +589,22 @@ self.onmessage = e => {
       const change = list[i].change;
       const count = list[i].count;
 
-
       let changed = 0;
       const reg = new RegExp(seq_RGEN);
       const originTarget = origin.match(reg);
-      if (!originTarget) return 0;
-      if (origin.length !== ORIGIN_LEN || change.length !== ORIGIN_LEN)
-        return 0;
+      if (
+        !originTarget ||
+        origin.length !== ORIGIN_LEN ||
+        change.length !== ORIGIN_LEN
+      ) {
+        continue;
+      }
       const changeTarget = change.slice(
         originTarget.index,
         originTarget.index + seq_RGEN.length
       );
 
-      store.change_target[list[i].id] = changeTarget;
+      // store.change_target[list[i].id] = changeTarget;
 
       for (let i = 0; i < seq_RGEN.length; i++) {
         const a = seq_RGEN.charAt(i);
@@ -1249,6 +1276,7 @@ self.onmessage = e => {
     data.chartIndex = store.chartIndex;
     data.standardLen = store.standardLen;
     data.change_target = store.change_target;
+    data.standard_seq = seq_range;
     pgcallback(100);
     return data;
   };
