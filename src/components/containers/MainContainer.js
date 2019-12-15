@@ -1,32 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Main from "components/Main";
-import Line from "img/line.png";
-import Dna from "img/dna.png";
 import { withRouter } from "react-router";
+import { connect } from "react-redux";
 
 const MainContainer = props => {
   // state
-  const [state, setState] = useState({
-    menu: [
-      {
-        title: "Cas Analysis",
-        url: "/upload",
-        icon: Dna
-      },
-      {
-        title: "INDEL Type Report",
-        url: "/indel",
-        icon: Line
-      }
-    ]
-  });
+  const [state, setState] = useState({});
 
   // lifecycle
 
   // componentDidMount
-  useEffect(() => {
-    console.log("Hello");
-  }, []);
+  useEffect(() => {}, []);
 
   const clickToLink = url => {
     props.history.push(url);
@@ -35,4 +19,11 @@ const MainContainer = props => {
   return <Main {...props} {...state} clickToLink={clickToLink} />;
 };
 
-export default withRouter(MainContainer);
+export default withRouter(
+  connect(
+    state => ({
+      menuList: state.state.get("menuList")
+    }),
+    null
+  )(MainContainer)
+);

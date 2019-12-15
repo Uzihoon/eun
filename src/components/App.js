@@ -62,20 +62,21 @@ class App extends Component {
               authed={authed}
             />
             <PrivateRouter
-              path="/upload"
+              path="/analysis"
               component={UploadPage}
               authed={authed}
+              exact
             />
             <PrivateRouter
-              path="/analysis"
+              path="/analysis/:analysisId"
               component={AnalysisPage}
               authed={authed}
             />
-            <PrivateRouter
+            {/* <PrivateRouter
               path="/daeunyoon"
               component={HiddenPage}
               authed={authed}
-            />
+            /> */}
             <PrivateRouter
               path="/indel"
               component={IndelPage}

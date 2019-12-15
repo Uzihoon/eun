@@ -17,9 +17,9 @@ const { Content } = Layout;
 const cx = classNames.bind(styles);
 
 class PageTemplate extends Component {
-  pushUpload = _ => {
+  pushPage = url => {
     const { history } = this.props;
-    history.push("/");
+    history.push(url);
   };
 
   handleLogout = _ => {
@@ -69,7 +69,8 @@ class PageTemplate extends Component {
 export default withRouter(
   connect(
     state => ({
-      sampleLoading: state.state.get("sampleLoading")
+      sampleLoading: state.state.get("sampleLoading"),
+      menuList: state.state.get("menuList")
     }),
     dispatch => ({
       StateActions: bindActionCreators(stateActions, dispatch),

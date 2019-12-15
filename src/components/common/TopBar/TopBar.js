@@ -7,7 +7,7 @@ const { Header } = Layout;
 const cx = classNames.bind(styles);
 
 const TopBar = props => {
-  const { handleLogout, sampleLoading, nolayout } = props;
+  const { handleLogout, sampleLoading, nolayout, pushPage } = props;
   const [width, setWidth] = useState(110);
   const [cursor, setCursor] = useState("pointer");
   const [style, setStyle] = useState({});
@@ -50,9 +50,22 @@ const TopBar = props => {
   return (
     <Header className={cx("header")} style={style}>
       <div className={cx("header-box")}>
-        <div className={cx("logo")} onClick={props.pushUpload}>
-          EUN
+        <div className={cx("left-side")}>
+          <div className={cx("logo")} onClick={_ => pushPage("/")}>
+            EUN
+          </div>
+          {!nolayout &&
+            props.menuList.map((menu, i) => (
+              <div
+                className={cx("menu-box")}
+                key={i}
+                onClick={_ => pushPage(menu.url)}
+              >
+                <div className={cx("menu")}>{menu.title}</div>
+              </div>
+            ))}
         </div>
+
         <div className={cx("right-side")}>
           {props.sampleBtn && (
             <div

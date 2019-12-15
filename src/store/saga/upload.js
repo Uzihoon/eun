@@ -1,12 +1,15 @@
-import { put } from "redux-saga/effects";
+import { put, select } from "redux-saga/effects";
+import { fromJS } from "immutable";
 
 import * as uploadActions from "store/modules/upload";
 import * as stateActions from "store/modules/state";
 import * as analysisActions from "store/modules/analysis";
 
+const getAnalysisDataFromStore = state => state.analysis;
+
 export function* formatData(action) {
   try {
-    const { payload: data } = action;
+    const { data, analysisId } = action.payload;
     const {
       fullseq,
       rgenseq,
@@ -83,7 +86,13 @@ export function* formatData(action) {
         changeSeq: changeSeq.toUpperCase()
       };
 
-      yield put(uploadActions.setUpload({ type: "format", data: format }));
+      const analysisData = yield select(getAnalysisDataFromStore);
+      const prevFormat = analysisData.get("format");
+      const nextFormat = prevFormat.set(analysisId, fromJS(format));
+
+      yield put(
+        analysisActions.saveAnalysisImmu({ type: "format", data: nextFormat })
+      );
       yield put(
         analysisActions.saveAnalysis({ type: "failList", data: failList })
       );

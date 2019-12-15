@@ -3,6 +3,7 @@
   color: #ffffff;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .header {
@@ -21,10 +22,26 @@
   width: 85%;
   margin: auto;
 
-  .right-side {
+  .right-side,
+  .left-side {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .menu-box {
+    margin: 0 10px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+    .menu {
+      color: #ffffff;
+      font-size: 0.9em;
+    }
   }
 
   .run-sample {
@@ -78,5 +95,14 @@
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header-box {
+    .menu-box,
+    .right-side {
+      display: none;
+    }
   }
 }

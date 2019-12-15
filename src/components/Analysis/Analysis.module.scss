@@ -16,7 +16,7 @@
 
       .btn-guide {
         opacity: 0.9;
-        font-size: .8rem;
+        font-size: 0.8rem;
         color: rgb(187, 187, 187);
         margin-left: 8px;
       }
@@ -25,15 +25,31 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #007337;
         font-size: 1.3em;
         font-weight: bold;
         cursor: pointer;
         margin: 0 10px;
+
+        &.excel-btn {
+          color: #007337;
+        }
+
+        &.indel-btn {
+          color: #ff4e5d;
+        }
+
+        &.report-btn {
+          color: #ffd64e;
+        }
       }
     }
   }
 }
+
+.analysis-container {
+  margin-bottom: 50px;
+}
+
 .analysis-id {
   font-size: 1.4em;
   font-weight: bold;
@@ -230,4 +246,3 @@
     }
   }
 }
-

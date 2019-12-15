@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import Upload from "components/Upload";
 import Loading from "components/common/Loading";
 import { withRouter } from "react-router";
+import { getUniqId } from "lib/utility";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -45,7 +46,8 @@ class UploadContainer extends Component {
       title: "",
       gauge: 0,
       workerNum: 0,
-      postWorker: 0
+      postWorker: 0,
+      analysisId: null
     };
   }
 
@@ -63,12 +65,16 @@ class UploadContainer extends Component {
       failList
     } = nextProps;
     const { handleData } = this;
+    const { analysisId } = nextState;
+
+    const nextFormat = format.get(analysisId);
+    const prevFormat = this.props.format.get(analysisId);
     if (
-      format &&
-      !format.equals(this.props.format) &&
-      Object.keys(format.toJS()).length >= 1
+      nextFormat &&
+      !nextFormat.equals(prevFormat) &&
+      Object.keys(nextFormat.toJS()).length >= 1
     ) {
-      const data = format.toJS() || {};
+      const data = nextFormat.toJS() || {};
       const { fileList } = data;
       const fail = [];
       let workerNum = 0;
@@ -113,7 +119,7 @@ class UploadContainer extends Component {
       if (nextState.postWorker === this.state.workerNum) {
         this.setState({ loading: false });
         window.removeEventListener("beforeunload", this.handleBeforeUpload);
-        history.push("/analysis");
+        history.push(`/analysis/${analysisId}`);
       }
     }
 
@@ -146,24 +152,30 @@ class UploadContainer extends Component {
         });
         return;
       }
+      val.nuctype = 0;
       val.files = files;
-      UploadActions.formatData(val);
+      const analysisId = getUniqId();
+      this.setState({ analysisId });
+      UploadActions.formatData({ data: val, analysisId });
     });
   };
 
   handleData = data => {
     const { AnalysisActions, StateActions } = this.props;
-    let { postWorker } = this.state;
+    let { postWorker, analysisId } = this.state;
     if (data.msgType === 2) {
       this.setState({
         gauge: data.msg
       });
     } else {
       if (data.msgType === 0) {
-        AnalysisActions.saveAnalysis({ type: "summary", data: data.msg });
+        AnalysisActions.saveAnalysises({
+          types: ["summary", analysisId],
+          data: data.msg
+        });
       } else if (data.msgType === 4) {
         const fileId = data.msg.fileId;
-        AnalysisActions.analysised({ fileId, data: data.msg });
+        AnalysisActions.analysised({ analysisId, fileId, data: data.msg });
         this.setState({ postWorker: ++postWorker });
       } else {
         StateActions.showMsg({
@@ -200,7 +212,7 @@ export default withRouter(
     state => ({
       nucleaseTypeList: state.upload.get("nucleaseTypeList").toJS(),
       nucleaseList: state.upload.get("nucleaseList").toJS(),
-      format: state.upload.get("format"),
+      format: state.analysis.get("format"),
       fileList: state.upload.get("fileList"),
       failList: state.analysis.get("failList").toJS()
     }),

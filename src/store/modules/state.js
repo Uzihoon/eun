@@ -1,5 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { Map, fromJS } from "immutable";
+import Line from "img/line.png";
+import Dna from "img/dna.png";
 
 const SHOW_MSG = "state/SHOW_MSG";
 const HIDE_MSG = "state/HIDE_MSG";
@@ -49,7 +51,19 @@ const initialState = Map({
     nuctype: "0",
     rgenseq: "TCAGAAAGTGGTGGCTGGTG",
     targetSeq: "a"
-  })
+  }),
+  menuList: [
+    {
+      title: "Cas Analysis",
+      url: "/analysis",
+      icon: Dna
+    },
+    {
+      title: "INDEL Type Report",
+      url: "/indel",
+      icon: Line
+    }
+  ]
 });
 
 export default handleActions(

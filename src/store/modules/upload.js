@@ -69,8 +69,7 @@ const initialState = Map({
       title: "XCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'",
       value: "14"
     }
-  ]),
-  format: Map({})
+  ])
 });
 
 export default handleActions(
@@ -92,7 +91,7 @@ export default handleActions(
       return state.set(type, fromJS(data));
     },
     [RESET_UPLOAD]: (state, action) => {
-      return state.set("fileList", List([])).set("format", Map({}));
+      return state.set("fileList", List([]));
     }
   },
   initialState

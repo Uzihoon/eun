@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 const Main = props => {
-  const { menu, clickToLink } = props;
+  const { menuList, clickToLink } = props;
 
   return (
     <div className={cx("main-container")}>
@@ -17,7 +17,7 @@ const Main = props => {
           </div>
         </div>
         <div className={cx("menu-container")}>
-          {menu.map((m, i) => {
+          {menuList.map((m, i) => {
             return (
               <div
                 className={cx("menu-box")}

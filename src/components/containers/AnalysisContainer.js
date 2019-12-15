@@ -15,7 +15,7 @@ import * as stateActions from "store/modules/state";
 class AnalysisContainer extends Component {
   constructor(props) {
     super(props);
-    const { format } = props;
+    const { format, match } = props;
     this.state = {
       indelStatus: {
         loading: false,
@@ -111,22 +111,30 @@ class AnalysisContainer extends Component {
       ],
       sequenceCharList: ["A", "C", "G", "T"],
       download: false,
-      excelData: null
+      excelData: null,
+      analysisId: match.params.analysisId
     };
   }
 
-  componentDidMount() {
-    const { summary, history, StateActions } = this.props;
-    StateActions.setState({ key: "sampleLoading", value: false });
-    if (summary.length <= 0) {
-      history.push("/upload");
-    } else {
-      this.analysisWorker = new Webworker(analysisWorker);
-      this.analysisWorker.onmessage = this.getDownload;
+  componentWillMount() {
+    const { summary, history, match } = this.props;
+    const { analysisId } = this.state;
+    const targetSUM = summary[analysisId];
 
-      this.indelWorker = new Webworker(indelWorker);
-      this.indelWorker.onmessage = this.getIndelWorker;
+    if (!analysisId || !targetSUM || targetSUM.length <= 0) {
+      history.push("/analysis");
     }
+  }
+
+  componentDidMount() {
+    const { StateActions } = this.props;
+    StateActions.setState({ key: "sampleLoading", value: false });
+
+    this.analysisWorker = new Webworker(analysisWorker);
+    this.analysisWorker.onmessage = this.getDownload;
+
+    this.indelWorker = new Webworker(indelWorker);
+    this.indelWorker.onmessage = this.getIndelWorker;
   }
 
   getIndelWorker = e => {
@@ -144,17 +152,16 @@ class AnalysisContainer extends Component {
   };
 
   componentWillUnmount() {
-    const { UploadActions, AnalysisActions } = this.props;
+    const { UploadActions } = this.props;
     UploadActions.resetUpload();
-    AnalysisActions.resetAnalysis();
   }
 
   handleExcel = _ => {
-    const { resultList, sequenceCharList } = this.state;
+    const { resultList, sequenceCharList, analysisId } = this.state;
     const { analysisList, format } = this.props;
     this.setState({ download: false, excelData: null });
     this.analysisWorker.postMessage({
-      analysisList,
+      analysisList: analysisList[analysisId],
       resultList,
       sequenceCharList,
       format
@@ -162,8 +169,9 @@ class AnalysisContainer extends Component {
   };
 
   handleIndel = _ => {
+    const { analysisId } = this.state;
     const { analysisList } = this.props;
-    this.indelWorker.postMessage(analysisList);
+    this.indelWorker.postMessage(analysisList[analysisId]);
   };
 
   render() {
@@ -181,8 +189,8 @@ export default withRouter(
   connect(
     state => ({
       summary: state.analysis.get("summary").toJS(),
-      analysisList: state.analysis.get("analysis").toJS(),
-      format: state.upload.get("format").toJS(),
+      analysisList: state.analysis.get("analysisList").toJS(),
+      format: state.analysis.get("format").toJS(),
       failList: state.analysis.get("failList").toJS()
     }),
     dispatch => ({

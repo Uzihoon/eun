@@ -9,16 +9,17 @@ const cx = classNames.bind(styles);
 const Analysis = props => {
   const {
     summary,
-    analysisList,
     format,
     resultList,
     sequenceCharList,
     sequenceList,
     handleExcel,
-    failList,
     handleIndel,
+    analysisId,
     download
   } = props;
+  const analysisList = props.analysisList[analysisId];
+  if (!analysisList) return "";
   const summaryList = Object.keys(analysisList).sort((a, b) => {
     const findNumber = new RegExp(/[0-9]+/);
     const firstNumber = a.match(findNumber);
@@ -34,19 +35,20 @@ const Analysis = props => {
         <div className={cx("title-box")}>
           <div className={cx("title")}>Summary</div>
           <div className={cx("download-box")}>
-            <div className={cx("btn-box")} onClick={handleIndel}>
+            <div className={cx("btn-box", "indel-btn")} onClick={handleIndel}>
               <Icon type="line-chart" />
               <span className={cx("btn-guide")}>INDEL Type Report</span>
             </div>
-            <div className={cx("btn-box")} onClick={handleExcel}>
+            <div className={cx("btn-box", "report-btn")} onClick={handleIndel}>
+              <Icon type="file-text" />
+              <span className={cx("btn-guide")}>Download for INDEL Report</span>
+            </div>
+            <div className={cx("btn-box", "excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />
               <span className={cx("btn-guide")}>Download for Excel</span>
             </div>
-            {download && (
-              <Excel {...props} />
-            )}
+            {download && <Excel {...props} />}
           </div>
-          
         </div>
         <div className={cx("summary-item")}>
           <div className={cx("sum-title")}>
@@ -69,7 +71,7 @@ const Analysis = props => {
             </div>
           </div>
           <div className={cx("sum-val")}>
-            {summary.map((e, i) => (
+            {summary[analysisId].map((e, i) => (
               <div className={cx(`sum-${e.type}`)} key={i}>
                 {e.data}
               </div>
@@ -85,7 +87,6 @@ const Analysis = props => {
         {summaryList.map((e, i) => {
           const analysis = analysisList[e];
           const charIndex = analysis.chartIndex || [];
-
           return (
             <div className={cx("analysis-container")} key={i}>
               <div className={cx("analysis-id")}>{analysis.fileId}</div>
@@ -158,9 +159,13 @@ const Analysis = props => {
                 </div>
                 <div className={cx("sum-val")}>
                   <div className={cx("change-seq")}>
-                    <div className={cx("seq")}>{format.targetSeq}</div>
+                    <div className={cx("seq")}>
+                      {format[analysisId].targetSeq}
+                    </div>
                     <Icon type="arrow-right" />
-                    <div className={cx("seq")}>{format.changeSeq}</div>
+                    <div className={cx("seq")}>
+                      {format[analysisId].changeSeq}
+                    </div>
                   </div>
                   <Tooltip title={`${analysis.changed}/${analysis.tot_count}`}>
                     <div className={cx("change-result")}>

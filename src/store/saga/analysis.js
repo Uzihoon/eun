@@ -17,7 +17,6 @@ export function* runSample() {
   const sample = stateStore.get("sample").toJS();
 
   sample.files = yield call(getFileList);
-  console.log(sample);
   yield put(uploadActions.formatData(sample));
 }
 
