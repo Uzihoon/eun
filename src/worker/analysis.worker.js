@@ -1,4 +1,3 @@
-
 export default () => {
   onmessage = e => {
     if (!e) return;
@@ -44,14 +43,14 @@ export default () => {
         }
       }
     ];
-    const analysis = Object.keys(analysisList).sort((a, b) =>{
+    const analysis = Object.keys(analysisList).sort((a, b) => {
       const findNumber = new RegExp(/[0-9]+/);
       const firstNumber = a.match(findNumber);
       const lastNumber = b.match(findNumber);
       const prev = firstNumber && firstNumber.length > 0 ? +firstNumber[0] : a;
       const next = lastNumber && lastNumber.length > 0 ? +lastNumber[0] : b;
-  
-      return prev - next
+
+      return prev - next;
     });
     const dataset = analysis.map(id => {
       const item = analysisList[id];

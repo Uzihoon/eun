@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Upload.module.scss";
 import { Form, Input, Select, Button, Upload, Icon } from "antd";
+import Tiger from "img/tiger.png";
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -59,7 +60,7 @@ export default Form.create({ name: "upload" })(
             })(
               <Dragger {...uploadInfo}>
                 <p className={cx("upload-icon")}>
-                  <Icon type="inbox" />
+                  <img src={Tiger} />
                 </p>
                 <p>Click or drag file to this area to upload</p>
               </Dragger>

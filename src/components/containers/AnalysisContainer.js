@@ -7,10 +7,12 @@ import Webworker from "worker/Webworker";
 import analysisWorker from "worker/analysis.worker.js";
 import indelWorker from "worker/indel.worker.js";
 import Loading from "components/common/Loading";
+import { getUniqId } from "lib/utility";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
 import * as stateActions from "store/modules/state";
+import * as indelActions from "store/modules/indel";
 
 class AnalysisContainer extends Component {
   constructor(props) {
@@ -117,7 +119,7 @@ class AnalysisContainer extends Component {
   }
 
   componentWillMount() {
-    const { summary, history, match } = this.props;
+    const { summary, history } = this.props;
     const { analysisId } = this.state;
     const targetSUM = summary[analysisId];
 
@@ -138,9 +140,10 @@ class AnalysisContainer extends Component {
   }
 
   getIndelWorker = e => {
-    const { history, AnalysisActions } = this.props;
-    AnalysisActions.saveAnalysis({ type: "indel", data: e.data });
-    history.push("/indel");
+    const { history, IndelActions } = this.props;
+    const id = getUniqId();
+    IndelActions.saveIndel({ id, data: e.data });
+    history.push(`/indel/${id}`);
   };
 
   getDownload = e => {
@@ -168,10 +171,29 @@ class AnalysisContainer extends Component {
     });
   };
 
+  getAnalysisData = _ => {
+    const { analysisId } = this.state;
+    const { analysisList } = this.props;
+    return analysisList[analysisId] || {};
+  };
+
   handleIndel = _ => {
     const { analysisId } = this.state;
     const { analysisList } = this.props;
     this.indelWorker.postMessage(analysisList[analysisId]);
+  };
+
+  handleIndelFile = _ => {
+    const analysisData = JSON.stringify(this.getAnalysisData());
+    const fileName = "file";
+    const blob = new Blob([analysisData], { type: "application/json" });
+    const href = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = `${fileName}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   render() {
@@ -196,7 +218,8 @@ export default withRouter(
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),
       AnalysisActions: bindActionCreators(analysisActions, dispatch),
-      StateActions: bindActionCreators(stateActions, dispatch)
+      StateActions: bindActionCreators(stateActions, dispatch),
+      IndelActions: bindActionCreators(indelActions, dispatch)
     })
   )(AnalysisContainer)
 );

@@ -56,7 +56,7 @@ class LoginContainer extends Component {
 
   render() {
     const { authed } = this.props;
-    if (authed) return <Redirect to="/upload" />;
+    if (authed) return <Redirect to="/analysis" />;
     return <Login {...this} {...this.state} />;
   }
 }

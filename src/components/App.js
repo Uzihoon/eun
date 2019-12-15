@@ -8,7 +8,7 @@ import {
   AnalysisPage,
   SignupPage,
   ListPage,
-  HiddenPage,
+  IndelReportPage,
   MainPage,
   IndelPage
 } from "pages";
@@ -79,6 +79,12 @@ class App extends Component {
             /> */}
             <PrivateRouter
               path="/indel"
+              component={IndelReportPage}
+              authed={authed}
+              exact
+            />
+            <PrivateRouter
+              path="/indel/:indelId"
               component={IndelPage}
               authed={authed}
             />

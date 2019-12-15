@@ -16,6 +16,7 @@ const Analysis = props => {
     handleExcel,
     handleIndel,
     analysisId,
+    handleIndelFile,
     download
   } = props;
   const analysisList = props.analysisList[analysisId];
@@ -39,7 +40,10 @@ const Analysis = props => {
               <Icon type="line-chart" />
               <span className={cx("btn-guide")}>INDEL Type Report</span>
             </div>
-            <div className={cx("btn-box", "report-btn")} onClick={handleIndel}>
+            <div
+              className={cx("btn-box", "report-btn")}
+              onClick={handleIndelFile}
+            >
               <Icon type="file-text" />
               <span className={cx("btn-guide")}>Download for INDEL Report</span>
             </div>

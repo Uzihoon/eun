@@ -70,7 +70,7 @@ class SignupContainer extends Component {
         } else {
           await Auth.signIn(username, password);
           StateActions.loginSuccess(newUser);
-          history.push("/upload");
+          history.push("/analysis");
         }
       } catch (error) {
         this.handleError(error);

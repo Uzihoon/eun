@@ -2,7 +2,7 @@ import React from "react";
 import PageTemplate from "components/common/PageTemplate";
 import IndelContainer from "components/containers/IndelContainer";
 
-const UploadPage = () => {
+const IndelPage = () => {
   return (
     <PageTemplate>
       <IndelContainer />
@@ -10,4 +10,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default IndelPage;

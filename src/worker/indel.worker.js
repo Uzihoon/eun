@@ -37,7 +37,6 @@ export default () => {
         }
       }
     }
-
     postMessage({ indel: finalIndel, seq });
   };
 };
