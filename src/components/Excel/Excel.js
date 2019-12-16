@@ -5,8 +5,8 @@ import moment from "moment";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-const Excel = ({ summary, format, download, excelData }) => {
-  const summaryText = summary.map(e => e.data).join("");
+const Excel = ({ summary, format, download, excelData, analysisId }) => {
+  const summaryText = summary[analysisId].map(e => e.data).join("");
 
   const summaryDataset = [
     {
@@ -19,7 +19,7 @@ const Excel = ({ summary, format, download, excelData }) => {
     },
     {
       columns: ["crRNA sequence"],
-      data: [[format.seq_RGEN]]
+      data: [[format[analysisId].seq_RGEN]]
     }
   ];
   const filename = `EUN-${moment().format("YYYY-MM-DD")}`;

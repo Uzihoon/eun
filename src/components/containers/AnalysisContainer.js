@@ -167,7 +167,7 @@ class AnalysisContainer extends Component {
       analysisList: analysisList[analysisId],
       resultList,
       sequenceCharList,
-      format
+      format: format[analysisId]
     });
   };
 
