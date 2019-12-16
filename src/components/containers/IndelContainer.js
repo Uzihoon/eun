@@ -13,7 +13,6 @@ class IndelContainer extends Component {
         labels: [],
         datasets: [
           {
-            label: "My First dataset",
             backgroundColor: "transparent",
             borderColor: "rgb(255, 99, 132)",
             data: []
@@ -32,28 +31,34 @@ class IndelContainer extends Component {
     }
   }
 
+  componentDidMount() {
+    const { indelId } = this.state;
+    const { indel } = this.props;
+    if (indel[indelId]) {
+      this.handleDataset(indel[indelId]);
+    }
+  }
+
+  handleDataset = indelData => {
+    const len = indelData.seq.split("");
+    const labels = len;
+
+    const datasets = indelData.result.map(data => ({
+      ...this.state.data.datasets[0],
+      data: data.indel,
+      label: data.label
+    }));
+    console.log(datasets);
+    this.setState({ data: { labels, datasets } });
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     const { indelId } = nextState;
     const { indel } = nextProps;
     const nextIndel = indel[indelId];
     const prevIndel = this.props.indel[indelId];
-    if (nextIndel !== prevIndel) {
-      const len = nextIndel.seq.split("");
-      const labels = [];
-      for (let i = 1; i <= len.length; i++) {
-        labels.push(i);
-      }
-      this.setState({
-        data: {
-          labels,
-          datasets: [
-            {
-              ...this.state.data.datasets[0],
-              data: nextIndel.indel
-            }
-          ]
-        }
-      });
+    if (nextIndel !== prevIndel && nextIndel) {
+      this.handleDataset(nextIndel);
     }
 
     return true;

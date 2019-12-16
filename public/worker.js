@@ -502,7 +502,6 @@ self.onmessage = e => {
   let end_pos = bp + end_range;
   if (start_pos < 0) start_pos = 0;
   if (end_pos > seq_wt.length) end_pos = seq_wt.length;
-
   const s_seq = seq_wt.slice(bp - filt_r, bp + filt_r);
   const seq_range = seq_wt.slice(start_pos, end_pos);
   const pri_for = seq_range.slice(0, pri_len);

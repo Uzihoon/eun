@@ -8,6 +8,7 @@ import analysisWorker from "worker/analysis.worker.js";
 import indelWorker from "worker/indel.worker.js";
 import Loading from "components/common/Loading";
 import { getUniqId } from "lib/utility";
+import moment from "moment";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -180,7 +181,10 @@ class AnalysisContainer extends Component {
   handleIndel = _ => {
     const { analysisId } = this.state;
     const { analysisList } = this.props;
-    this.indelWorker.postMessage(analysisList[analysisId]);
+    const indel = [
+      { key: [moment().format("YYYYMMDD")], value: analysisList[analysisId] }
+    ];
+    this.indelWorker.postMessage(indel);
   };
 
   handleIndelFile = _ => {

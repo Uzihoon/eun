@@ -9,7 +9,7 @@ const Indel = ({ data }) => {
   console.log(data);
   return (
     <div>
-      <Line data={data} />
+      <Line data={data} options={{}} />
     </div>
   );
 };

@@ -4,6 +4,10 @@ import { bindActionCreators } from "redux";
 import IndelReport from "components/IndelReport";
 import Webworker from "worker/Webworker";
 import indelWorker from "worker/indel.worker.js";
+import { withRouter } from "react-router";
+import { getUniqId } from "lib/utility";
+
+import * as indelActions from "store/modules/indel";
 
 const IndelReportContainer = props => {
   const fileList = [];
@@ -12,7 +16,6 @@ const IndelReportContainer = props => {
       name: "json",
       accept: "application/json, .json",
       beforeUpload: file => {
-        console.log(file);
         const hasFile = getFileIndex(file);
         if (hasFile < 0) {
           readFile(file);
@@ -22,7 +25,6 @@ const IndelReportContainer = props => {
       multiple: true,
       onRemove: file => {
         const index = getFileIndex(file);
-        console.log(index);
         if (index >= 0) {
           const fileList = [...state.fileList];
           fileList.splice(index, 1);
@@ -55,17 +57,25 @@ const IndelReportContainer = props => {
   };
 
   const handleMessage = message => {
-    console.log(message);
+    const { history, IndelActions } = props;
+    const id = getUniqId();
+    IndelActions.saveIndel({ id, data: message.data });
+    history.push(`/indel/${id}`);
   };
 
-  const handleReport = async _ => {
-    console.log(fileList);
+  const handleReport = _ => {
+    const reportList = fileList.map((file, i) => ({ key: i, value: file }));
+    worker.postMessage(reportList);
   };
 
   return <IndelReport {...state} {...props} handleReport={handleReport} />;
 };
 
-export default connect(
-  state => ({}),
-  dispatch => ({})
-)(IndelReportContainer);
+export default withRouter(
+  connect(
+    state => ({}),
+    dispatch => ({
+      IndelActions: bindActionCreators(indelActions, dispatch)
+    })
+  )(IndelReportContainer)
+);

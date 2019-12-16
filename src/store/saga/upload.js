@@ -19,7 +19,8 @@ export function* formatData(action) {
       targetSeq,
       changeSeq,
       namePattern,
-      indexPattern
+      indexPattern,
+      end_range
     } = data;
     const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
     const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
@@ -29,7 +30,6 @@ export function* formatData(action) {
     //OPTIONAL
     const filt_n = 1;
     const filt_r = 5;
-    const end_range = 70;
 
     let rgen_type = 0;
     let seq_RGEN2 = "";
