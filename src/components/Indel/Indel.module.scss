@@ -45,6 +45,27 @@
       font-weight: bold;
     }
   }
+
+  .download-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .desc {
+      opacity: 0.5;
+      font-size: 0.9em;
+    }
+
+    .icon {
+      width: 30px;
+      margin-left: 3px;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
 }
 
 :global {

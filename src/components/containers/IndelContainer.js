@@ -105,6 +105,21 @@ class IndelContainer extends Component {
     }
   }
 
+  handleImgDownload = _ => {
+    const canvas = this.chart.chartInstance.canvas;
+    const src = canvas.toDataURL("image/png");
+    this.download(src, "[EUN]INDEL_Chart.png");
+  }
+
+  download = (href, fileName) => {
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   handleDataset = indelData => {
     const { chartType, options } = this.state;
 
@@ -133,6 +148,10 @@ class IndelContainer extends Component {
     }
 
     return true;
+  }
+
+  setRef = ref => {
+    this.chart = ref;
   }
 
   render() {

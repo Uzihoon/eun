@@ -8,12 +8,13 @@ import "chartjs-plugin-colorschemes";
 import "chartjs-plugin-crosshair";
 import _ from "lodash";
 import { ReactComponent as LineIcon } from "img/line-chart.svg";
-import { ReactComponent as WarningIcon } from "img/warning.svg";
+import pdfIcon from "img/pdf.png";
+import imgIcon from "img/img.png";
 
 const cx = classNames.bind(styles);
 
 const Indel = props => {
-  const { data, chartType } = props;
+  const { data, chartType, setRef } = props;
   const options = _.cloneDeep(props.options[chartType]);
   return (
     <div className={cx("indel-wrapper")}>
@@ -35,8 +36,15 @@ const Indel = props => {
           </div>
         </div>
       )}
+      <div className={cx("download-box")}>
+        <div className={cx("desc")}>Download for</div>
+        <div className={cx("icon")} onClick={props.handleImgDownload}><img src={imgIcon}/></div>
+        {/* <div className={cx("icon")}><img src={pdfIcon}/></div> */}
+      </div>
       <div className={cx("chart-wrapper")}>
-        <Line data={data} options={options} />
+        <Line data={data} options={options} 
+          ref={ref => setRef(ref)} 
+        />
       </div>
     </div>
   );
