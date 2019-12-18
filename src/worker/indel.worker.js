@@ -3,7 +3,7 @@ export default () => {
     const data = e.data;
     console.log(data);
     const regex = /[^|]/g;
-    let seq;
+    let seq = "";
 
     const result = [];
 
@@ -18,8 +18,8 @@ export default () => {
         ++dataLen;
         const target = value[i];
         const total = target.tot_count;
-        seq = target.standard_seq;
-
+        const target_seq = target.standard_seq;
+        seq = seq.length < target_seq.length ? target_seq : seq;
         target.table
           .filter(table => table.type === 1 || table.type === 2)
           .map(t => {
@@ -31,16 +31,21 @@ export default () => {
             store[g] = prevValue + avg;
           });
       }
-
       for (let i in store) {
         const graphic = i;
         for (let g in graphic) {
           const target = graphic[g];
-          const prev = finalIndel[g] || 0;
+          const dataset = finalIndel[g] || {};
+          const prev = dataset.y || 0;
+          const x = +g + 1;
+
+          // seq 보다 많을 경우 멈춘다
+          if (finalIndel.length >= seq.length) continue;
+
           if (target !== "|") {
-            finalIndel[g] = prev + store[i] / dataLen;
+            finalIndel[g] = { x, y: prev + store[i] / dataLen };
           } else {
-            finalIndel[g] = prev;
+            finalIndel[g] = { x, y: prev };
           }
         }
       }

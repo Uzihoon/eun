@@ -38,12 +38,13 @@ const IndelReportContainer = props => {
   const readFile = file => {
     const reader = new FileReader();
     reader.readAsText(file);
-    reader.onload = setFileList;
+    reader.onload = event => setFileList(event, file);
   };
 
-  const setFileList = event => {
-    const data = event.target.result;
-    fileList.push(JSON.parse(data));
+  const setFileList = (event, file) => {
+    const value = JSON.parse(event.target.result);
+    const key = file.name.replace(".json", "").replace("_", " ");
+    fileList.push({ key, value });
   };
 
   // componentDidMount
@@ -53,7 +54,11 @@ const IndelReportContainer = props => {
   }, []);
 
   const getFileIndex = file => {
-    return fileList.findIndex(e => e.name === file.name);
+    return fileList.findIndex(e => {
+      const key = e.key || "";
+      const name = key.replace(" ", "_") + ".json";
+      return name === file.name;
+    });
   };
 
   const handleMessage = message => {
@@ -64,8 +69,8 @@ const IndelReportContainer = props => {
   };
 
   const handleReport = _ => {
-    const reportList = fileList.map((file, i) => ({ key: i, value: file }));
-    worker.postMessage(reportList);
+    console.log(fileList);
+    worker.postMessage(fileList);
   };
 
   return <IndelReport {...state} {...props} handleReport={handleReport} />;

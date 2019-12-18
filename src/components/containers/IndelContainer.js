@@ -3,23 +3,89 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Indel from "components/Indel";
 import { withRouter } from "react-router";
+import _ from "lodash";
 
 class IndelContainer extends Component {
   constructor(props) {
     super(props);
     const { match } = props;
     this.state = {
+      chartType: "line",
       data: {
-        labels: [],
-        datasets: [
-          {
-            backgroundColor: "transparent",
-            borderColor: "rgb(255, 99, 132)",
-            data: []
-          }
-        ]
+        datasets: []
       },
-      indelId: match.params.indelId
+      indelId: match.params.indelId,
+      options: {
+        line: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                ticks: {
+                  authSkip: true,
+                  stepSize: 1,
+                  min: 1
+                }
+              }
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true
+                }
+              }
+            ]
+          },
+          hover: {
+            mode: "nearest",
+            intersect: true
+          },
+          animation: { duration: 0 },
+          elements: {
+            line: {
+              tension: 0.2
+            }
+          },
+          tooltips: {
+            mode: "index",
+            intersect: false
+          },
+          plugins: {
+            colorschemes: {
+              scheme: "brewer.PastelOne3"
+            },
+            crosshair: {
+              line: {
+                color: "#F66", // crosshair line color
+                width: 1 // crosshair line width
+              },
+              sync: {
+                enabled: true, // enable trace line syncing with other charts
+                group: 1, // chart group
+                suppressTooltips: false // suppress tooltips when showing a synced tracer
+              },
+              zoom: {
+                enabled: true, // enable zooming
+                zoomboxBackgroundColor: "rgba(66,133,244,0.2)", // background color of zoom box
+                zoomboxBorderColor: "#48F", // border color of zoom box
+                zoomButtonText: "Reset Zoom", // reset zoom button text
+                zoomButtonClass: "reset-zoom" // reset zoom button class
+              },
+              callbacks: {
+                beforeZoom: function(start, end) {
+                  // called before zoom, return false to prevent zoom
+                  return true;
+                },
+                afterZoom: function(start, end) {
+                  // called after zoom
+                }
+              }
+            }
+          }
+        }
+      }
     };
   }
 
@@ -40,16 +106,21 @@ class IndelContainer extends Component {
   }
 
   handleDataset = indelData => {
-    const len = indelData.seq.split("");
-    const labels = len;
+    const { chartType, options } = this.state;
 
-    const datasets = indelData.result.map(data => ({
-      ...this.state.data.datasets[0],
+    const datasets = indelData.result.map((data, index) => ({
+      // ...this.state.data.datasets[0],
+      backgroundColor: "transparent",
       data: data.indel,
-      label: data.label
+      label: data.label,
+      type: chartType
     }));
-    console.log(datasets);
-    this.setState({ data: { labels, datasets } });
+
+    const chartOptions = _.cloneDeep(options);
+
+    chartOptions[chartType].scales.xAxes[0].ticks.max = indelData.seq.length;
+
+    this.setState({ data: { datasets }, options: chartOptions });
   };
 
   shouldComponentUpdate(nextProps, nextState) {
