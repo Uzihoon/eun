@@ -84,3 +84,10 @@
     }
   }
 }
+
+
+@media screen and (max-width: "1000px") {
+  .chart-wrapper {
+    height: 200px !important;
+  }
+}

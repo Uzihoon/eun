@@ -74,3 +74,24 @@
     }
   }
 }
+
+
+@media screen and (max-width: "1000px") {
+  .info-text {
+    font-size: 1.5em !important;
+    text-align: center;
+  }
+
+  .menu-container {
+    flex-direction: column;
+    .menu-box {
+      margin-bottom: 15px !important;
+    }
+  }
+
+  .main-content {
+    width: 100% !important;
+    overflow: auto;
+    height: 100%;
+  }
+}
