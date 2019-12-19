@@ -417,7 +417,6 @@ const helper = {
 self.onmessage = e => {
   if (!e) return;
   const data = e.data;
-  console.log(e.data)
   const store = {
     joins_length: 0,
     seq_count: {},

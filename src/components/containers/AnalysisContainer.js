@@ -8,7 +8,6 @@ import analysisWorker from "worker/analysis.worker.js";
 import indelWorker from "worker/indel.worker.js";
 import Loading from "components/common/Loading";
 import { getUniqId } from "lib/utility";
-import moment from "moment";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -180,10 +179,10 @@ class AnalysisContainer extends Component {
 
   handleIndel = _ => {
     const { analysisId } = this.state;
-    const { analysisList } = this.props;
-    const indel = [
-      { key: [moment().format("YYYYMMDD")], value: analysisList[analysisId] }
-    ];
+    const { analysisList, format } = this.props;
+    const target = format[analysisId] || {};
+    const key = `${target.targetSeq}${target.changeSeq}`;
+    const indel = [{ key, value: analysisList[analysisId] }];
     this.indelWorker.postMessage(indel);
   };
 
