@@ -62,10 +62,16 @@ class UploadContainer extends Component {
       StateActions,
       AnalysisActions,
       history,
+      sampleLoading,
       failList
     } = nextProps;
     const { handleData } = this;
-    const { analysisId } = nextState;
+    let analysisId = nextState.analysisId;
+
+    if (sampleLoading && format.get("sample") && !analysisId) {
+      analysisId = "sample";
+      this.setState({ analysisId: "sample" });
+    }
 
     const nextFormat = format.get(analysisId);
     const prevFormat = this.props.format.get(analysisId);
@@ -214,7 +220,8 @@ export default withRouter(
       nucleaseList: state.upload.get("nucleaseList").toJS(),
       format: state.analysis.get("format"),
       fileList: state.upload.get("fileList"),
-      failList: state.analysis.get("failList").toJS()
+      failList: state.analysis.get("failList").toJS(),
+      sampleLoading: state.state.get("sampleLoading")
     }),
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),

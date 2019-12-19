@@ -50,7 +50,8 @@ const initialState = Map({
     nucleases: "1",
     nuctype: "0",
     rgenseq: "TCAGAAAGTGGTGGCTGGTG",
-    targetSeq: "a"
+    targetSeq: "a",
+    end_range: 70
   }),
   menuList: [
     {

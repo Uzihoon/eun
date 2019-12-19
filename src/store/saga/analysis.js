@@ -17,7 +17,7 @@ export function* runSample() {
   const sample = stateStore.get("sample").toJS();
 
   sample.files = yield call(getFileList);
-  yield put(uploadActions.formatData(sample));
+  yield put(uploadActions.formatData({ data: sample, analysisId: 'sample' }));
 }
 
 async function getFileList() {

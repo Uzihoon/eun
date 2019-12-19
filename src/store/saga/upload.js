@@ -22,6 +22,7 @@ export function* formatData(action) {
       indexPattern,
       end_range
     } = data;
+    console.log(data, analysisId)
     const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
     const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
     const msgType = 0;
@@ -85,7 +86,7 @@ export function* formatData(action) {
         targetSeq: targetSeq.toUpperCase(),
         changeSeq: changeSeq.toUpperCase()
       };
-
+      console.log(format)
       const analysisData = yield select(getAnalysisDataFromStore);
       const prevFormat = analysisData.get("format");
       const nextFormat = prevFormat.set(analysisId, fromJS(format));

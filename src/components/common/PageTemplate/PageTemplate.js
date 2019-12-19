@@ -31,7 +31,7 @@ class PageTemplate extends Component {
     // run sample
     const { sampleLoading, history, AnalysisActions } = this.props;
     const path = history.location.pathname;
-    if (sampleLoading || path === "/analysis") return false;
+    if (sampleLoading) return false;
     AnalysisActions.runSample();
   };
 
