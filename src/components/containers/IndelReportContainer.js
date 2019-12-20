@@ -69,7 +69,6 @@ const IndelReportContainer = props => {
   };
 
   const handleReport = _ => {
-    console.log(fileList);
     worker.postMessage(fileList);
   };
 

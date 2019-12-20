@@ -187,8 +187,12 @@ class AnalysisContainer extends Component {
   };
 
   handleIndelFile = _ => {
+    const { analysisId } = this.state;
+    const { format } = this.props;
+
+    const target = format[analysisId] || {};
     const analysisData = JSON.stringify(this.getAnalysisData());
-    const fileName = "file";
+    const fileName = `${target.targetSeq}${target.changeSeq}`;
     const blob = new Blob([analysisData], { type: "application/json" });
     const href = URL.createObjectURL(blob);
     const link = document.createElement("a");

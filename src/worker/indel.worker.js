@@ -1,7 +1,6 @@
 export default () => {
   onmessage = e => {
     const data = e.data;
-    console.log(data);
     const regex = /[^|]/g;
     let seq = "";
 
@@ -13,13 +12,19 @@ export default () => {
       const value = data[i].value;
       const finalIndel = [];
       const store = {};
+      let seq_target = "";
+      let standard_seq = "";
 
+      console.log(value);
       for (let i in value) {
         ++dataLen;
         const target = value[i];
         const total = target.tot_count;
         const target_seq = target.standard_seq;
         seq = seq.length < target_seq.length ? target_seq : seq;
+        standard_seq = target_seq;
+        seq_target = target.seq_target;
+
         target.table
           .filter(table => table.type === 1 || table.type === 2)
           .map(t => {
@@ -49,7 +54,7 @@ export default () => {
           }
         }
       }
-      result.push({ indel: finalIndel, label });
+      result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 
     postMessage({ result, seq });

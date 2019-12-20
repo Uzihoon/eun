@@ -1275,6 +1275,7 @@ self.onmessage = e => {
     data.standardLen = store.standardLen;
     data.change_target = store.change_target;
     data.standard_seq = seq_range;
+    data.seq_target = seq_RGEN;
     pgcallback(100);
     return data;
   };

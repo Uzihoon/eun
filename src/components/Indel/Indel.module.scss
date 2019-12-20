@@ -7,15 +7,20 @@
     margin-bottom: 15px;
     display: flex;
     align-items: center;
-    .title {
-      font-size: 1.4em;
-      font-weight: bold;
-      color: #9b8ccc;
-    }
-    .icon {
-      font-size: 1.3em;
-      width: 30px;
-      margin-right: 5px;
+    justify-content: space-between;
+    .title-box {
+      display: flex;
+      align-items: center;
+      .title {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #9b8ccc;
+      }
+      .icon {
+        font-size: 1.3em;
+        width: 30px;
+        margin-right: 5px;
+      }
     }
   }
 
@@ -47,7 +52,6 @@
   }
 
   .download-box {
-    width: 100%;
     display: flex;
     align-items: center;
 
@@ -57,7 +61,7 @@
     }
 
     .icon {
-      width: 30px;
+      width: 25px;
       margin-left: 3px;
       cursor: pointer;
 
@@ -85,6 +89,34 @@
   }
 }
 
+.seq-list-container {
+  .seq-list-wrapper {
+    margin-bottom: 10px;
+    .title {
+      opacity: 0.5;
+      font-size: 0.9em;
+    }
+
+    .label-wrapper {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .seq {
+        font-size: 0.8em;
+        margin: 0 5px;
+
+        &.target-seq {
+          color: #ff6f6f;
+        }
+
+        &.hover-seq {
+          font-size: 4em;
+        }
+      }
+    }
+  }
+}
 
 @media screen and (max-width: "1000px") {
   .chart-wrapper {

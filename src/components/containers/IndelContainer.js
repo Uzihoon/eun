@@ -27,6 +27,11 @@ class IndelContainer extends Component {
                   authSkip: true,
                   stepSize: 1,
                   min: 1
+                },
+                labels: {
+                  events: {
+                    mouseover: this.handleHover
+                  }
                 }
               }
             ],
@@ -38,6 +43,7 @@ class IndelContainer extends Component {
               }
             ]
           },
+          // onHover: this.handleHover,
           hover: {
             mode: "nearest",
             intersect: true
@@ -85,9 +91,26 @@ class IndelContainer extends Component {
             }
           }
         }
-      }
+      },
+      hoverIndex: null
     };
   }
+
+  handleHover = (event, element) => {
+    const { hoverIndex } = this.state;
+    if (element.length <= 0) {
+      console.log(event.target.chartInstance);
+      if (hoverIndex) {
+        this.setState({ hoverIndex: null });
+      }
+      return;
+    }
+    const index = element[0]._index;
+    if (hoverIndex !== index) {
+      console.log(index);
+      this.setState({ hoverIndex: index });
+    }
+  };
 
   componentWillMount() {
     const { indel, history } = this.props;
@@ -109,7 +132,7 @@ class IndelContainer extends Component {
     const canvas = this.chart.chartInstance.canvas;
     const src = canvas.toDataURL("image/png");
     this.download(src, "[EUN]INDEL_Chart.png");
-  }
+  };
 
   download = (href, fileName) => {
     const link = document.createElement("a");
@@ -118,7 +141,7 @@ class IndelContainer extends Component {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+  };
 
   handleDataset = indelData => {
     const { chartType, options } = this.state;
@@ -152,7 +175,7 @@ class IndelContainer extends Component {
 
   setRef = ref => {
     this.chart = ref;
-  }
+  };
 
   render() {
     return <Indel {...this.props} {...this} {...this.state} />;
