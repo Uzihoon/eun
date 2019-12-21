@@ -52,7 +52,7 @@ const TopBar = props => {
       <div className={cx("header-box")}>
         <div className={cx("left-side")}>
           <div className={cx("logo")} onClick={_ => pushPage("/")}>
-            EUN
+            <div className={cx("logo-text")}>EUN</div>
           </div>
           {!nolayout &&
             props.menuList.map((menu, i) => (

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./IndelReport.module.scss";
 import classNames from "classnames/bind";
 import { Upload, Button } from "antd";
-import Tiger from "img/tiger.png";
+import UploadIcon from "img/gene.png";
 
 const cx = classNames.bind(styles);
 const Dragger = Upload.Dragger;
@@ -17,9 +17,11 @@ const IndelReport = props => {
       <div className={cx("upload-box")}>
         <Dragger {...props.uploadInfo}>
           <p className={cx("upload-icon")}>
-            <img src={Tiger} />
+            <img src={UploadIcon} />
           </p>
-          <p>Click or drag file to this area to upload</p>
+          <p className={cx("upload-text")}>
+            Click or drag file to this area to upload
+          </p>
         </Dragger>
       </div>
       <div className={cx("button-box")}>

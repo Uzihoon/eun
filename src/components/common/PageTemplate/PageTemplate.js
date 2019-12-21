@@ -49,8 +49,10 @@ class PageTemplate extends Component {
                 style={{
                   background: "#fff",
                   padding: 24,
-                  margin: 0,
-                  minHeight: 280
+                  margin: "auto",
+                  width: "100%",
+                  minHeight: 280,
+                  maxWidth: 1300
                 }}
               >
                 {children}

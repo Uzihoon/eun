@@ -1,9 +1,22 @@
 .logo {
-  font-size: 1.4em;
-  color: #ffffff;
-  font-weight: bold;
+  display: flex;
   cursor: pointer;
-  margin-right: 10px;
+  align-items: center;
+
+  .logo-text {
+    font-size: 1.4em;
+    color: #ffffff;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .img-box {
+    width: 40px;
+    margin-right: 5px;
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .header {
@@ -20,6 +33,7 @@
   align-items: center;
   justify-content: space-between;
   width: 85%;
+  max-width: 1300px;
   margin: auto;
 
   .right-side,

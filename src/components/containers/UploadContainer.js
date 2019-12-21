@@ -202,6 +202,16 @@ class UploadContainer extends Component {
     return callback(msg);
   };
 
+  checkNumber = (rule, value, callback) => {
+    let msg = undefined;
+
+    if (!+value) {
+      msg = "Please input number";
+    }
+
+    return callback(msg);
+  };
+
   render() {
     const { loading, title, gauge } = this.state;
     return (

@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Upload.module.scss";
 import { Form, Input, Select, Button, Upload, Icon } from "antd";
-import Tiger from "img/tiger.png";
+import UploadIcon from "img/gene.png";
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -19,7 +19,8 @@ export default Form.create({ name: "upload" })(
         nucleaseList,
         handleSubmit,
         uploadInfo,
-        validationCheck
+        validationCheck,
+        checkNumber
       } = this.props;
       const { getFieldDecorator } = this.props.form;
 
@@ -60,9 +61,11 @@ export default Form.create({ name: "upload" })(
             })(
               <Dragger {...uploadInfo}>
                 <p className={cx("upload-icon")}>
-                  <img src={Tiger} />
+                  <img src={UploadIcon} />
                 </p>
-                <p>Click or drag file to this area to upload</p>
+                <p className={cx("upload-text")}>
+                  Click or drag file to this area to upload
+                </p>
               </Dragger>
             )}
           </Item>
@@ -70,7 +73,7 @@ export default Form.create({ name: "upload" })(
             <div className={cx("item-title")}>Reference Amplicon Sequence</div>
             {getFieldDecorator("fullseq", {
               // initialValue:
-                // "GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
+              // "GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
               rules: [{ required: true, message: "Please input Full Sequence" }]
             })(<TextArea />)}
           </Item>
@@ -117,7 +120,10 @@ export default Form.create({ name: "upload" })(
             <div className={cx("item-title")}>Standard Range</div>
             {getFieldDecorator("end_range", {
               initialValue: "70",
-              rules: [{ required: true, message: "Please input range" }]
+              rules: [
+                { required: true, message: "Please input range" },
+                { validator: checkNumber }
+              ]
             })(<Input />)}
           </Item>
           <Item>
