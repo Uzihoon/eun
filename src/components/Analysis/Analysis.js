@@ -86,7 +86,7 @@ const Analysis = props => {
           <div className={cx("sum-title")}>
             <div className={cx("sum-title-text")}>crRNA sequence</div>
           </div>
-          <div className={cx("sum-val")}>{format.seq_RGEN}</div>
+          <div className={cx("sum-val")}>{format[analysisId].seq_RGEN}</div>
         </div>
         {summaryList.map((e, i) => {
           const analysis = analysisList[e];

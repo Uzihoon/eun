@@ -8,6 +8,7 @@ import { withRouter } from "react-router";
 import { getUniqId } from "lib/utility";
 
 import * as indelActions from "store/modules/indel";
+import * as stateActions from "store/modules/state";
 
 const IndelReportContainer = props => {
   const fileList = [];
@@ -26,14 +27,21 @@ const IndelReportContainer = props => {
       onRemove: file => {
         const index = getFileIndex(file);
         if (index >= 0) {
-          const fileList = [...state.fileList];
           fileList.splice(index, 1);
         }
-        return false;
+        return true;
       }
     }
   });
   let worker;
+
+  const warning = _ => {
+    const { StateActions } = props;
+    StateActions.showMsg({
+      status: "warning",
+      content: "Please input correct file!"
+    });
+  };
 
   const readFile = file => {
     const reader = new FileReader();
@@ -62,13 +70,21 @@ const IndelReportContainer = props => {
   };
 
   const handleMessage = message => {
-    const { history, IndelActions } = props;
+    const { history, IndelActions, StateActions } = props;
+    if (message.data.error) {
+      warning();
+      return;
+    }
     const id = getUniqId();
     IndelActions.saveIndel({ id, data: message.data });
     history.push(`/indel/${id}`);
   };
 
   const handleReport = _ => {
+    if (!fileList || fileList.length <= 0) {
+      warning();
+      return;
+    }
     worker.postMessage(fileList);
   };
 
@@ -79,7 +95,8 @@ export default withRouter(
   connect(
     state => ({}),
     dispatch => ({
-      IndelActions: bindActionCreators(indelActions, dispatch)
+      IndelActions: bindActionCreators(indelActions, dispatch),
+      StateActions: bindActionCreators(stateActions, dispatch)
     })
   )(IndelReportContainer)
 );

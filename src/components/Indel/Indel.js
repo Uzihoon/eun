@@ -8,7 +8,6 @@ import "chartjs-plugin-colorschemes";
 import "chartjs-plugin-crosshair";
 import _ from "lodash";
 import { ReactComponent as LineIcon } from "img/line-chart.svg";
-import pdfIcon from "img/pdf.png";
 import imgIcon from "img/img.png";
 
 const cx = classNames.bind(styles);
@@ -20,7 +19,6 @@ const Indel = props => {
 
   useEffect(() => {
     const target = indel[indelId] || { result: [] };
-    console.log(target);
     const seqList = target.result.map(seq => {
       const regex = new RegExp(seq.seq_target);
       const match = seq.standard_seq.match(regex) || {};
@@ -35,7 +33,6 @@ const Indel = props => {
       };
     });
     setSeqList(seqList);
-    console.log(seqList);
   }, [indel]);
 
   return (
@@ -75,7 +72,7 @@ const Indel = props => {
               {seq.list.map((l, j) => {
                 const target = j >= seq.start && j < seq.end;
                 const targetClass = target && "target-seq";
-                const hover = j === props.hoverIndex && "hover-seq";
+                const hover = j === props.hoverIndex - 1 && "hover-seq";
                 return (
                   <div className={cx("seq", targetClass, hover)} key={j}>
                     {l}

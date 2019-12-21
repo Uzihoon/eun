@@ -27,11 +27,6 @@ class IndelContainer extends Component {
                   authSkip: true,
                   stepSize: 1,
                   min: 1
-                },
-                labels: {
-                  events: {
-                    mouseover: this.handleHover
-                  }
                 }
               }
             ],
@@ -43,10 +38,10 @@ class IndelContainer extends Component {
               }
             ]
           },
-          // onHover: this.handleHover,
           hover: {
             mode: "nearest",
             intersect: true
+            // onHover: this.handleMouseOut
           },
           animation: { duration: 0 },
           elements: {
@@ -56,7 +51,10 @@ class IndelContainer extends Component {
           },
           tooltips: {
             mode: "index",
-            intersect: false
+            intersect: false,
+            callbacks: {
+              label: this.handleHover
+            }
           },
           plugins: {
             colorschemes: {
@@ -96,20 +94,23 @@ class IndelContainer extends Component {
     };
   }
 
-  handleHover = (event, element) => {
+  handleMouseOut = e => {
+    const type = e.type || "";
+    if (type === "mouseout") {
+      this.setState({ hoverIndex: null });
+    }
+  };
+
+  handleHover = (tooltipItem, data) => {
     const { hoverIndex } = this.state;
-    if (element.length <= 0) {
-      console.log(event.target.chartInstance);
-      if (hoverIndex) {
-        this.setState({ hoverIndex: null });
-      }
-      return;
+    const label = data.datasets[tooltipItem.datasetIndex].label || "";
+    const xAxis = tooltipItem.xLabel;
+    const value = +tooltipItem.value || 0.0;
+
+    if (hoverIndex !== xAxis) {
+      this.setState({ hoverIndex: xAxis });
     }
-    const index = element[0]._index;
-    if (hoverIndex !== index) {
-      console.log(index);
-      this.setState({ hoverIndex: index });
-    }
+    return `${label}: ${+value.toFixed(2)}`;
   };
 
   componentWillMount() {

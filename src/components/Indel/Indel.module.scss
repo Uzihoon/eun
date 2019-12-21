@@ -1,4 +1,5 @@
 .indel-wrapper {
+  padding-bottom: 40px;
   svg {
     display: block;
   }
@@ -111,7 +112,8 @@
         }
 
         &.hover-seq {
-          font-size: 4em;
+          transform: translate(0, -3px);
+          font-size: 1.4em;
         }
       }
     }

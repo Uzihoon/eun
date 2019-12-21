@@ -15,12 +15,17 @@ export default () => {
       let seq_target = "";
       let standard_seq = "";
 
-      console.log(value);
       for (let i in value) {
         ++dataLen;
         const target = value[i];
         const total = target.tot_count;
         const target_seq = target.standard_seq;
+
+        if (!target_seq) {
+          postMessage({ error: true });
+          return;
+        }
+
         seq = seq.length < target_seq.length ? target_seq : seq;
         standard_seq = target_seq;
         seq_target = target.seq_target;
