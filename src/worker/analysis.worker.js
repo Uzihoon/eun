@@ -43,6 +43,36 @@ export default () => {
         }
       }
     ];
+
+    const mainColList = [
+      {
+        title: "ID",
+        key: "fileId"
+      },
+      {
+        title: "More than minimum frequency",
+        key: "tot_count"
+      },
+      {
+        title: "Insertions",
+        key: "cnt_ins"
+      },
+      {
+        title: "Deletions",
+        key: "cnt_del"
+      },
+      {
+        title: "Substitution frequency",
+        key: "",
+        render: item => {
+          const changed = item.changed || 0;
+          const total = item.tot_count;
+
+          return ((changed / total) * 100).toFixed(2);
+        }
+      }
+    ];
+
     const analysis = Object.keys(analysisList).sort((a, b) => {
       const findNumber = new RegExp(/[0-9]+/);
       const firstNumber = a.match(findNumber);
@@ -52,9 +82,20 @@ export default () => {
 
       return prev - next;
     });
+
+    const mainData = [];
+    const sequenceExcelData = [];
+
     const dataset = analysis.map(id => {
       const item = analysisList[id];
       const total = item.tot_count;
+
+      mainData.push(
+        mainColList.map(main => {
+          return main.render ? main.render(item) : item[main.key];
+        })
+      );
+
       const resultData = resultList.map(e => item[e.value]);
       const sequenceCount = sequenceCharList.map(e => {
         const data = item.chartIndex.map(k => {
@@ -63,6 +104,7 @@ export default () => {
         data.unshift(e);
         return data;
       });
+
       const sequenceData = item.table.map(k => {
         const data = excelList.map(j => {
           return j.render ? j.render(k[j.key]) : k[j.key];
@@ -73,6 +115,10 @@ export default () => {
       for (let i = 0; i <= item.chartIndex; i++) {
         changeCol.push(String(i));
       }
+
+      sequenceExcelData.push({ ySteps: 2, columns: [item.fileId], data: [] });
+      sequenceExcelData.push({ columns: changeCol, data: sequenceCount });
+
       const changeValue =
         item.changed > 0
           ? ((item.changed / item.tot_count) * 100).toFixed(2) + "%"
@@ -101,6 +147,13 @@ export default () => {
       return { id, data: itemData };
     });
 
-    postMessage(dataset);
+    const main = {
+      columns: mainColList.map(e => e.title),
+      data: mainData,
+      ySteps: 2,
+      xSteps: 1
+    };
+
+    postMessage({ dataset, main, sequence: sequenceExcelData });
   };
 };

@@ -7,7 +7,6 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
 const Excel = ({ summary, format, download, excelData, analysisId }) => {
   const summaryText = summary[analysisId].map(e => e.data).join("");
-
   const summaryDataset = [
     {
       columns: ["Analysed Date"],
@@ -21,12 +20,13 @@ const Excel = ({ summary, format, download, excelData, analysisId }) => {
       columns: ["crRNA sequence"],
       data: [[format[analysisId].seq_RGEN]]
     }
-  ];
+  ].concat(excelData.main);
   const filename = `EUN-${moment().format("YYYY-MM-DD")}`;
   return (
     <ExcelFile hideElement={download} filename={filename}>
       <ExcelSheet name="Summary" dataSet={summaryDataset} />
-      {excelData.map((e, i) => (
+      <ExcelSheet name="Sequence" dataSet={excelData.sequence} />
+      {excelData.dataset.map((e, i) => (
         <ExcelSheet key={i} name={e.id} dataSet={e.data} />
       ))}
     </ExcelFile>
