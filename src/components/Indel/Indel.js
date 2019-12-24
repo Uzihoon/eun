@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Indel.module.scss";
 import classNames from "classnames/bind";
-import chartjs from "chart.js";
 import { Icon } from "antd";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-colorschemes";
@@ -13,7 +12,7 @@ import imgIcon from "img/img.png";
 const cx = classNames.bind(styles);
 
 const Indel = props => {
-  const { data, chartType, setRef, indel, indelId } = props;
+  const { data, chartType, setRef, indel, indelId, open } = props;
   const [seqList, setSeqList] = useState([]);
   const options = _.cloneDeep(props.options[chartType]);
 
@@ -64,7 +63,18 @@ const Indel = props => {
           </div>
         </div>
       )}
-      <div className={cx("seq-list-container")}>
+      <div
+        className={cx("seq-list-container")}
+        style={{
+          height: open ? "auto" : "42px"
+        }}
+      >
+        <div className={cx("seq-list-header")} onClick={props.handleOpen}>
+          <div className={cx("seq-title")}>Seqeunce List</div>
+          <div className={cx("icon-box")}>
+            <Icon type={open ? "up" : "down"} />
+          </div>
+        </div>
         {seqList.map((seq, i) => (
           <div className={cx("seq-list-wrapper")} key={i}>
             <div className={cx("title")}>{seq.title}</div>

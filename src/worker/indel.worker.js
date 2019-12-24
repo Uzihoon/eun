@@ -14,6 +14,7 @@ export default () => {
       const store = {};
       let seq_target = "";
       let standard_seq = "";
+      console.log(value);
 
       for (let i in value) {
         ++dataLen;
@@ -41,6 +42,7 @@ export default () => {
             store[g] = prevValue + avg;
           });
       }
+
       for (let i in store) {
         const graphic = i;
         for (let g in graphic) {
@@ -59,6 +61,7 @@ export default () => {
           }
         }
       }
+      console.log(finalIndel);
       result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 

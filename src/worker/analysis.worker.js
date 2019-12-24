@@ -68,7 +68,7 @@ export default () => {
           const changed = item.changed || 0;
           const total = item.tot_count;
 
-          return ((changed / total) * 100).toFixed(2);
+          return +((changed / total) * 100).toFixed(2);
         }
       }
     ];

@@ -5,8 +5,8 @@ import { Layout } from "antd";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Auth } from "aws-amplify";
 import TopBar from "components/common/TopBar";
+import { VERSION } from "environment";
 
 import * as stateActions from "store/modules/state";
 import * as uploadActions from "store/modules/upload";
@@ -58,7 +58,7 @@ class PageTemplate extends Component {
                 {children}
               </Content>
               <a className={cx("footer")} href="https://github.com/Uzihoon">
-                Uzihoon @2019 VERSION - 2.7
+                {`Uzihoon @2019 VERSION - ${VERSION}`}
               </a>
             </Layout>
           )}

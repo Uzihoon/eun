@@ -58,7 +58,7 @@ class IndelContainer extends Component {
           },
           plugins: {
             colorschemes: {
-              scheme: "brewer.PastelOne3"
+              scheme: "brewer.Paired12"
             },
             crosshair: {
               line: {
@@ -90,6 +90,7 @@ class IndelContainer extends Component {
           }
         }
       },
+      open: false,
       hoverIndex: null
     };
   }
@@ -99,6 +100,12 @@ class IndelContainer extends Component {
     if (type === "mouseout") {
       this.setState({ hoverIndex: null });
     }
+  };
+
+  handleOpen = _ => {
+    const { open } = this.state;
+
+    this.setState({ open: !open });
   };
 
   handleHover = (tooltipItem, data) => {
