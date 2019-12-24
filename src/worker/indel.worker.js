@@ -12,9 +12,9 @@ export default () => {
       const value = data[i].value;
       const finalIndel = [];
       const store = {};
+      let targetSeqLen = 0;
       let seq_target = "";
       let standard_seq = "";
-      console.log(value);
 
       for (let i in value) {
         ++dataLen;
@@ -27,10 +27,10 @@ export default () => {
           return;
         }
 
+        targetSeqLen = target_seq.length;
         seq = seq.length < target_seq.length ? target_seq : seq;
         standard_seq = target_seq;
         seq_target = target.seq_target;
-
         target.table
           .filter(table => table.type === 1 || table.type === 2)
           .map(t => {
@@ -42,7 +42,6 @@ export default () => {
             store[g] = prevValue + avg;
           });
       }
-
       for (let i in store) {
         const graphic = i;
         for (let g in graphic) {
@@ -52,7 +51,7 @@ export default () => {
           const x = +g + 1;
 
           // seq 보다 많을 경우 멈춘다
-          if (finalIndel.length >= seq.length) continue;
+          if (finalIndel.length >= targetSeqLen) continue;
 
           if (target !== "|") {
             finalIndel[g] = { x, y: prev + store[i] / dataLen };
@@ -61,7 +60,6 @@ export default () => {
           }
         }
       }
-      console.log(finalIndel);
       result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 
