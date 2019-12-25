@@ -6,7 +6,6 @@ import { Line } from "react-chartjs-2";
 import "chartjs-plugin-colorschemes";
 import "chartjs-plugin-crosshair";
 import _ from "lodash";
-import { ReactComponent as LineIcon } from "img/line-chart.svg";
 import imgIcon from "img/img.png";
 
 const cx = classNames.bind(styles);
@@ -38,9 +37,6 @@ const Indel = props => {
     <div className={cx("indel-wrapper")}>
       <div className={cx("header")}>
         <div className={cx("title-box")}>
-          <div className={cx("icon")}>
-            <LineIcon />
-          </div>
           <div className={cx("title")}>INDEL Chart</div>
         </div>
         <div className={cx("download-box")}>

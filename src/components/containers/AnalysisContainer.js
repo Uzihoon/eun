@@ -54,14 +54,15 @@ class AnalysisContainer extends Component {
           title: "Sequence",
           dataIndex: "origin",
           render: (text, val) => {
+            const { analysisId } = this.state;
             const seq = val.origin.split("");
             return (
               <div className={"value-wrapper"}>
                 {seq.map((e, i) => {
                   const diff = val.graphic[i] !== "|" ? "diff" : "";
                   const targetDiff =
-                    val.origin[i] === format.targetSeq &&
-                    val.change[i] === format.changeSeq
+                    val.origin[i] === format[analysisId].targetSeq &&
+                    val.change[i] === format[analysisId].changeSeq
                       ? "target-diff"
                       : null;
                   const diffClass = targetDiff || diff;

@@ -10,10 +10,12 @@ import {
   ListPage,
   IndelReportPage,
   MainPage,
-  IndelPage
+  IndelPage,
+  ConvertPage
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
+import Intro from "components/common/Intro";
 import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
@@ -43,6 +45,7 @@ class App extends Component {
   componentDidMount() {
     const { StateActions, history, authed, location } = this.props;
     if (!authed) {
+      console.log("?");
       StateActions.checkAuth({ location, history });
     }
   }
@@ -88,11 +91,17 @@ class App extends Component {
               component={IndelPage}
               authed={authed}
             />
+            <PrivateRouter
+              path="/convert"
+              component={ConvertPage}
+              authed={authed}
+            />
             <PrivateRouter path="/list" component={ListPage} authed={authed} />
             <Redirect to="/" />
           </Switch>
         </HashRouter>
         <InfoMessage />
+        {/* <Intro /> */}
       </>
     );
   }

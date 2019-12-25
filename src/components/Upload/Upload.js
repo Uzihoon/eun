@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Upload.module.scss";
-import { Form, Input, Select, Button, Upload, Icon } from "antd";
+import { Form, Input, Select, Button, Upload } from "antd";
 import UploadIcon from "img/gene.png";
 
 const Item = Form.Item;
@@ -26,6 +26,9 @@ export default Form.create({ name: "upload" })(
 
       return (
         <Form>
+          <div className={cx("header")}>
+            <div className={cx("title")}>Cas Analysis</div>
+          </div>
           <div className={cx("full-item")}>
             <Item className={cx("half-item")}>
               <div className={cx("item-title")}>File Name Pattern</div>

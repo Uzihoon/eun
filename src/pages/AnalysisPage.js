@@ -2,7 +2,7 @@ import React from "react";
 import PageTemplate from "components/common/PageTemplate";
 import AnalysisContainer from "components/containers/AnalysisContainer";
 
-const UploadPage = () => {
+const AnalysisPage = () => {
   return (
     <PageTemplate>
       <AnalysisContainer />
@@ -10,4 +10,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default AnalysisPage;

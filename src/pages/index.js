@@ -7,3 +7,4 @@ export { default as HiddenPage } from "./HiddenPage";
 export { default as IndelPage } from "./IndelPage";
 export { default as MainPage } from "./MainPage";
 export { default as IndelReportPage } from "./IndelReportPage";
+export { default as ConvertPage } from "./ConvertPage";

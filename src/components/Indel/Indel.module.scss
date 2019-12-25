@@ -1,3 +1,5 @@
+@import "styles/common.scss";
+
 .indel-wrapper {
   padding-bottom: 40px;
   svg {
@@ -13,14 +15,19 @@
       display: flex;
       align-items: center;
       .title {
-        font-size: 1.4em;
-        font-weight: bold;
-        color: #9b8ccc;
+        font-size: $fontSize;
+        font-weight: $fontWeight;
+        margin-bottom: $marginBottom;
+        color: $fontColor;
       }
       .icon {
-        font-size: 1.3em;
+        font-size: 10em;
         width: 30px;
         margin-right: 5px;
+
+        & * {
+          font-size: 1em;
+        }
       }
     }
   }

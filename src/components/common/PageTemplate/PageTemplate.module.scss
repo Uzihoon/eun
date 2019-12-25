@@ -2,10 +2,32 @@
   width: 100%;
   min-height: 100vh !important;
   height: 100%;
+  background: #ffffff !important;
+
+  .content-layout {
+    background: #ffffff;
+
+    .main-layout {
+      padding-top: 24px;
+      width: 85%;
+      margin: auto;
+      background: #ffffff;
+    }
+  }
 }
 
 .footer {
-  padding: 5px;
-  text-align: center;
-  margin: 10px 0;
+  padding: 24px;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1300px;
+
+  .line {
+    width: 1.5px;
+    height: 10px;
+    background-color: rgb(204, 204, 204);
+    margin: 0 5px;
+  }
 }

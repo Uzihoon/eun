@@ -1,3 +1,5 @@
+@import "styles/common.scss";
+
 .summary {
   .title-box {
     width: 100%;
@@ -6,8 +8,10 @@
     margin-bottom: 15px;
 
     .title {
-      font-size: 1.4em;
-      font-weight: bold;
+      font-size: $fontSize;
+      font-weight: $fontWeight;
+      margin-bottom: $marginBottom;
+      color: $fontColor;
     }
 
     .download-box {

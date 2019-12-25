@@ -40,11 +40,11 @@ class PageTemplate extends Component {
     return (
       <Layout className={cx("full-layout")}>
         <TopBar {...this.props} {...this} />
-        <Layout>
+        <Layout className={cx("content-layout")}>
           {nolayout ? (
             children
           ) : (
-            <Layout style={{ padding: "24px 0", width: "85%", margin: "auto" }}>
+            <Layout className={cx("main-layout")}>
               <Content
                 style={{
                   background: "#fff",
@@ -57,9 +57,13 @@ class PageTemplate extends Component {
               >
                 {children}
               </Content>
-              <a className={cx("footer")} href="https://github.com/Uzihoon">
-                {`Uzihoon @2019 VERSION - ${VERSION}`}
-              </a>
+              <div className={cx("footer")}>
+                <a href="https://github.com/Uzihoon">
+                  © 2019 Uzihoon All rights reserved
+                </a>
+                <div className={cx("line")}></div>
+                <div>{VERSION} version</div>
+              </div>
             </Layout>
           )}
         </Layout>

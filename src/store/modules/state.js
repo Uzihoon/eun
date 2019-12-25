@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { Map, fromJS } from "immutable";
 import Line from "img/line.png";
 import Dna from "img/dna.png";
+import File from "img/file.png";
 
 const SHOW_MSG = "state/SHOW_MSG";
 const HIDE_MSG = "state/HIDE_MSG";
@@ -63,6 +64,11 @@ const initialState = Map({
       title: "INDEL Type Report",
       url: "/indel",
       icon: Line
+    },
+    {
+      title: "File Convert",
+      url: "/convert",
+      icon: File
     }
   ]
 });

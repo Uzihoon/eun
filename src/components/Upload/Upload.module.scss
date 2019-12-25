@@ -1,3 +1,14 @@
+@import "styles/common.scss";
+
+.header {
+  .title {
+    font-size: $fontSize;
+    font-weight: $fontWeight;
+    margin-bottom: $marginBottom;
+    color: $fontColor;
+  }
+}
+
 .full-item {
   display: flex;
   justify-content: space-between;
