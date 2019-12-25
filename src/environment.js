@@ -1,1 +1,3 @@
-export const VERSION = "2.7.1";
+import history from "lib/history.json";
+
+export const VERSION = history[history.length - 1].version;

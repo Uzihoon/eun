@@ -62,7 +62,7 @@ class PageTemplate extends Component {
                   © 2019 Uzihoon All rights reserved
                 </a>
                 <div className={cx("line")}></div>
-                <div>{VERSION} version</div>
+                <a href="/#/version">{VERSION} version</a>
               </div>
             </Layout>
           )}

@@ -11,7 +11,8 @@ import {
   IndelReportPage,
   MainPage,
   IndelPage,
-  ConvertPage
+  ConvertPage,
+  VersionPage
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
@@ -94,6 +95,11 @@ class App extends Component {
             <PrivateRouter
               path="/convert"
               component={ConvertPage}
+              authed={authed}
+            />
+            <PrivateRouter
+              path="/version"
+              component={VersionPage}
               authed={authed}
             />
             <PrivateRouter path="/list" component={ListPage} authed={authed} />

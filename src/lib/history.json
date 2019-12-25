@@ -1,0 +1,129 @@
+[
+  {
+    "version": "1.0.0",
+    "log": {
+      "release": ["Initial public release"],
+      "feature": [],
+      "bug": []
+    },
+    "date": "20190821"
+  },
+  {
+    "version": "1.1.0",
+    "log": {
+      "release": [],
+      "feature": ["Changed upload method"],
+      "bug": ["Fiexed analysis error"]
+    },
+    "date": "20190826"
+  },
+  {
+    "version": "1.2.0",
+    "log": {
+      "release": [],
+      "feature": [
+        "Added Excel Download",
+        "Arrange analysis report data by file name"
+      ],
+      "bug": ["Fixed analysis error"]
+    },
+    "date": "20190827"
+  },
+  {
+    "version": "1.3.0",
+    "log": {
+      "release": [],
+      "feature": [
+        "Added re-download analysis data",
+        "log-in when key down eneter"
+      ],
+      "bug": ["Fixed excel download"]
+    },
+    "date": "20190828"
+  },
+  {
+    "version": "1.5.0",
+    "log": {
+      "release": [],
+      "feature": ["Set mobile style"],
+      "bug": []
+    },
+    "date": "20190831"
+  },
+  {
+    "version": "1.6.0",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed mobile style"]
+    },
+    "date": "20191003"
+  },
+  {
+    "version": "1.7.0",
+    "log": {
+      "release": [],
+      "feature": [
+        "Added run sample button, which could run sample data to show the analysis report"
+      ],
+      "bug": []
+    },
+    "date": "20191113"
+  },
+  {
+    "version": "1.8.0",
+    "log": {
+      "release": [],
+      "feature": [
+        "Added new function! Indel chart report",
+        "Set main page and indel type",
+        "Style menu list"
+      ],
+      "bug": []
+    },
+    "date": "20191208"
+  },
+  {
+    "version": "1.9.0",
+    "log": {
+      "release": [],
+      "feature": [
+        "Changed url method. Added analysis id and indel id to show different data and can back to history",
+        "Added standard range input",
+        "Added download INDEL report chart to pnd file"
+      ],
+      "bug": ["Fixed excel download"]
+    },
+    "date": "20191213"
+  },
+  {
+    "version": "2.0.0",
+    "log": {
+      "release": ["Release EUN 2.0"],
+      "feature": [
+        "Added mobile style",
+        "Added seqeunce list to show in INDEL report chart"
+      ],
+      "bug": ["Fixed run sample function error"]
+    },
+    "date": "20191220"
+  },
+  {
+    "version": "2.1.0",
+    "log": {
+      "release": [],
+      "feature": ["Added more information when download the excel file"],
+      "bug": []
+    },
+    "date": "20191222"
+  },
+  {
+    "version": "2.2.0",
+    "log": {
+      "release": [],
+      "feature": ["Now, can hidden sequence list in INDEL report chart page"],
+      "bug": ["Fixed INDEL report chart bug"]
+    },
+    "date": "20191224"
+  }
+]
