@@ -50,8 +50,10 @@ export default handleActions(
       const convertFileList = state
         .get("convertFileList")
         .filter(e => e.name !== file.name);
-      console.log(convertFileList.toJS());
       return state.set("convertFileList", convertFileList);
+    },
+    [SET_GAUGE]: (state, action) => {
+      return state.set("gauge", action.payload);
     }
   },
   initialState

@@ -86,6 +86,7 @@ const ConvertContainer = props => {
   useEffect(() => {
     if (props.gauge === 100) {
       setLoading(false);
+      ConvertActions.setGauge(0);
     }
   }, [props.gauge]);
 

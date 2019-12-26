@@ -1,10 +1,11 @@
-import { call } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 import _ from "lodash";
+import * as ConvertActions from "store/modules/convert";
 
 export function* convertFile(action) {
   const { convertType, fileList } = action.payload;
   const originalFile = yield call(getFileData, fileList.toJS());
-
+  console.log(originalFile);
   const convert = {
     cp: data => _.cloneDeep(data),
     reverseString: str =>
@@ -54,9 +55,9 @@ export function* convertFile(action) {
           target.table = target.table.map(t => {
             return {
               ...t,
-              graphic: t.graphic.reverse(),
-              origin: t.origin.reverse(),
-              change: t.change.reverse()
+              graphic: this.reverseString(t.graphic),
+              origin: this.reverseString(t.origin),
+              change: this.reverseString(t.change)
             };
           });
           target.standard_seq = this.reverseString(target.standard_seq);
@@ -95,11 +96,10 @@ export function* convertFile(action) {
   };
 
   let convertedFile = originalFile;
-
+  yield put(ConvertActions.setGauge(50));
   convertType.map(c => (convertedFile = convert[c](convertedFile)));
-
+  yield put(ConvertActions.setGauge(100));
   console.log(convertedFile);
-  console.log(fileList.toJS());
   try {
   } catch (error) {
     console.error(error);
