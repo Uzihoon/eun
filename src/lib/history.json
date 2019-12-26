@@ -134,5 +134,13 @@
       "bug": []
     },
     "date": "20191226"
+  },
+  {
+    "version": "2.3.1",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed Zip download problem - seperate environment"]
+    }
   }
 ]
