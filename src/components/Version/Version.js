@@ -7,10 +7,24 @@ import confetti from "img/confetti.png";
 
 const cx = classNames.bind(styles);
 
-const content = ["release", "bug", "feature"];
+const content = [
+  {
+    key: "release",
+    title: "Release",
+    icon: confetti
+  },
+  {
+    key: "bug",
+    title: "Bug Fixes"
+  },
+  {
+    key: "feature",
+    title: "New Features"
+  }
+];
 
 const upperChar = title => title.charAt(0).toUpperCase() + title.slice(1);
-console.log(history);
+
 const Version = _ => {
   return (
     <div className={cx("version-wrapper")}>
@@ -28,15 +42,15 @@ const Version = _ => {
             </div>
             {content.map(
               (c, k) =>
-                v.log[c].length > 0 && (
+                v.log[c.key].length > 0 && (
                   <div className={cx("history-wrapper")} key={k}>
                     <div className={cx("history-title")}>
-                      {upperChar(c)}
-                      {c === "release" && <img src={confetti} />}
+                      {c.title}
+                      {c.icon && <img src={c.icon} />}
                     </div>
 
                     <div className={cx("history-content")}>
-                      {v.log[c].map((r, j) => (
+                      {v.log[c.key].map((r, j) => (
                         <div className={cx("history")} key={j}>
                           {r}
                         </div>

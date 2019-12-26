@@ -90,7 +90,7 @@
       "feature": [
         "Changed url method. Added analysis id and indel id to show different data and can back to history",
         "Added standard range input",
-        "Added download INDEL report chart to pnd file"
+        "Added download INDEL report chart to .png file"
       ],
       "bug": ["Fixed excel download"]
     },
@@ -99,7 +99,7 @@
   {
     "version": "2.0.0",
     "log": {
-      "release": ["Release EUN 2.0"],
+      "release": ["Release EUN 2.0.0"],
       "feature": [
         "Added mobile style",
         "Added seqeunce list to show in INDEL report chart"

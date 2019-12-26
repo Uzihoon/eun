@@ -12,6 +12,15 @@
       width: 85%;
       margin: auto;
       background: #ffffff;
+
+      .eun-content {
+        background: #ffffff;
+        padding: 24px;
+        margin: auto;
+        width: 100%;
+        min-height: 280px;
+        max-width: 1300px;
+      }
     }
   }
 }
@@ -29,5 +38,27 @@
     height: 10px;
     background-color: rgb(204, 204, 204);
     margin: 0 5px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .footer {
+    flex-direction: column;
+
+    .line {
+      display: none;
+    }
+  }
+
+  .full-layout {
+    .content-layout {
+      .main-layout {
+        width: 95%;
+
+        .eun-content {
+          padding: 10px;
+        }
+      }
+    }
   }
 }

@@ -45,18 +45,7 @@ class PageTemplate extends Component {
             children
           ) : (
             <Layout className={cx("main-layout")}>
-              <Content
-                style={{
-                  background: "#fff",
-                  padding: 24,
-                  margin: "auto",
-                  width: "100%",
-                  minHeight: 280,
-                  maxWidth: 1300
-                }}
-              >
-                {children}
-              </Content>
+              <Content className={cx("eun-content")}>{children}</Content>
               <div className={cx("footer")}>
                 <a href="https://github.com/Uzihoon">
                   © 2019 Uzihoon All rights reserved
