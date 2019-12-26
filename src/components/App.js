@@ -46,7 +46,6 @@ class App extends Component {
   componentDidMount() {
     const { StateActions, history, authed, location } = this.props;
     if (!authed) {
-      console.log("?");
       StateActions.checkAuth({ location, history });
     }
   }

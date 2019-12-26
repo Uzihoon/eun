@@ -1,7 +1,6 @@
 import { put, select } from "redux-saga/effects";
 import { fromJS } from "immutable";
 
-import * as uploadActions from "store/modules/upload";
 import * as stateActions from "store/modules/state";
 import * as analysisActions from "store/modules/analysis";
 
