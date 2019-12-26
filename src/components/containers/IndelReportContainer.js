@@ -6,12 +6,14 @@ import Webworker from "worker/Webworker";
 import indelWorker from "worker/indel.worker.js";
 import { withRouter } from "react-router";
 import { getUniqId } from "lib/utility";
+import Loading from "components/common/Loading";
 
 import * as indelActions from "store/modules/indel";
 import * as stateActions from "store/modules/state";
 
 const IndelReportContainer = props => {
   const fileList = [];
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
     uploadInfo: {
       name: "json",
@@ -71,6 +73,7 @@ const IndelReportContainer = props => {
 
   const handleMessage = message => {
     const { history, IndelActions, StateActions } = props;
+    setLoading(false);
     if (message.data.error) {
       warning();
       return;
@@ -85,10 +88,16 @@ const IndelReportContainer = props => {
       warning();
       return;
     }
+    setLoading(true);
     worker.postMessage(fileList);
   };
 
-  return <IndelReport {...state} {...props} handleReport={handleReport} />;
+  return (
+    <>
+      <IndelReport {...state} {...props} handleReport={handleReport} />
+      {loading && <Loading />}
+    </>
+  );
 };
 
 export default withRouter(

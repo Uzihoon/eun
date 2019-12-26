@@ -45,6 +45,13 @@ const ConvertContainer = props => {
   });
   const [selected, setSelected] = useState([]);
 
+  useEffect(() => {
+    return () => {
+      // componentWillUnmount
+      ConvertActions.resetFile();
+    };
+  }, []);
+
   const handleConvert = convertId => {
     const hasConvert = selected.findIndex(e => e === convertId);
     const select = selected.concat();

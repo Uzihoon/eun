@@ -9,12 +9,14 @@ const ADD_FILE = "convert/ADD_FILE";
 const DELETE_FILE = "convert/DELETE_FILE";
 const SET_GAUGE = "convert/SET_GAUGE";
 const SET_CONVERT = "convert/SET_CONVERT";
+const RESET_FILE = "convert/RESET_FILE";
 
 export const convertFile = createAction(CONVERT_FILE);
 export const addFile = createAction(ADD_FILE);
 export const setGauge = createAction(SET_GAUGE);
 export const setConvert = createAction(SET_CONVERT);
 export const deleteFile = createAction(DELETE_FILE);
+export const resetFile = createAction(RESET_FILE);
 
 const initialState = Map({
   convertList: List([
@@ -61,6 +63,9 @@ export default handleActions(
     [SET_CONVERT]: (state, action) => {
       const { k, v } = action.payload;
       return state.set(k, v);
+    },
+    [RESET_FILE]: (state, action) => {
+      return state.set("convertFileList", List([]));
     }
   },
   initialState

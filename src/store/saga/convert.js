@@ -1,13 +1,30 @@
 import { call, put } from "redux-saga/effects";
 import _ from "lodash";
 import * as ConvertActions from "store/modules/convert";
+import * as StateActions from "store/modules/state";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
 export function* convertFile(action) {
   const { convertType, fileList } = action.payload;
   const originalFile = yield call(getFileData, fileList.toJS());
-  console.log(originalFile);
+
+  for (let i; i < originalFile.length; i++) {
+    console.log("?");
+    const value = originalFile[i].value;
+    for (let i in value) {
+      if (!value[i].standard_seq) {
+        yield put(
+          StateActions.showMsg({
+            status: "error",
+            content: "Please input correct file!"
+          })
+        );
+        return;
+      }
+    }
+  }
+
   const convert = {
     cp: data => _.cloneDeep(data),
     reverseString: str =>
