@@ -9,21 +9,20 @@ export function* convertFile(action) {
   const { convertType, fileList } = action.payload;
   const originalFile = yield call(getFileData, fileList.toJS());
 
-  for (let i; i < originalFile.length; i++) {
-    console.log("?");
-    const value = originalFile[i].value;
-    for (let i in value) {
-      if (!value[i].standard_seq) {
-        yield put(
-          StateActions.showMsg({
-            status: "error",
-            content: "Please input correct file!"
-          })
-        );
-        return;
-      }
-    }
-  }
+  // for (let i; i < originalFile.length; i++) {
+  //   const value = originalFile[i].value;
+  //   for (let i in value) {
+  //     if (!value[i].standard_seq) {
+  //       yield put(
+  //         StateActions.showMsg({
+  //           status: "error",
+  //           content: "Please input correct file!"
+  //         })
+  //       );
+  //       return;
+  //     }
+  //   }
+  // }
 
   const convert = {
     cp: data => _.cloneDeep(data),
@@ -123,8 +122,9 @@ export function* convertFile(action) {
   convertedFile.map(file => {
     zip.file(`${file.key}.json`, JSON.stringify(file.value));
   });
-  const content = zip.generate({ type: "blob" });
-  saveAs(content, "EUN_Convert_File.zip");
+  zip.generateAsync({ type: "blob" }).then(content => {
+    saveAs(content, "EUN_Convert_File.zip");
+  });
   try {
   } catch (error) {
     console.error(error);
