@@ -125,5 +125,14 @@
       "bug": ["Fixed INDEL report chart bug"]
     },
     "date": "20191224"
+  },
+  {
+    "version": "2.3.0",
+    "log": {
+      "release": [],
+      "feature": ["Added File Convert menu, now you can covert file"],
+      "bug": []
+    },
+    "date": "20191226"
   }
 ]
