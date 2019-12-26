@@ -1,6 +1,8 @@
 import { call, put } from "redux-saga/effects";
 import _ from "lodash";
 import * as ConvertActions from "store/modules/convert";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export function* convertFile(action) {
   const { convertType, fileList } = action.payload;
@@ -99,7 +101,13 @@ export function* convertFile(action) {
   yield put(ConvertActions.setGauge(50));
   convertType.map(c => (convertedFile = convert[c](convertedFile)));
   yield put(ConvertActions.setGauge(100));
-  console.log(convertedFile);
+
+  const zip = new JSZip();
+  convertedFile.map(file => {
+    zip.file(`${file.key}.json`, JSON.stringify(file.value));
+  });
+  const content = zip.generate({ type: "blob" });
+  saveAs(content, "EUN_Convert_File.zip");
   try {
   } catch (error) {
     console.error(error);

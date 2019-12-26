@@ -8,10 +8,12 @@ const CONVERT_FILE = "convert/CONVERT_FILE";
 const ADD_FILE = "convert/ADD_FILE";
 const DELETE_FILE = "convert/DELETE_FILE";
 const SET_GAUGE = "convert/SET_GAUGE";
+const SET_CONVERT = "convert/SET_CONVERT";
 
 export const convertFile = createAction(CONVERT_FILE);
 export const addFile = createAction(ADD_FILE);
 export const setGauge = createAction(SET_GAUGE);
+export const setConvert = createAction(SET_CONVERT);
 export const deleteFile = createAction(DELETE_FILE);
 
 const initialState = Map({
@@ -33,7 +35,8 @@ const initialState = Map({
     }
   ]),
   convertFileList: List([]),
-  gauge: 0
+  gauge: 0,
+  download: null
 });
 
 export default handleActions(
@@ -54,6 +57,10 @@ export default handleActions(
     },
     [SET_GAUGE]: (state, action) => {
       return state.set("gauge", action.payload);
+    },
+    [SET_CONVERT]: (state, action) => {
+      const { k, v } = action.payload;
+      return state.set(k, v);
     }
   },
   initialState
