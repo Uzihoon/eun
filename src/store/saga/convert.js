@@ -122,9 +122,17 @@ export function* convertFile(action) {
   convertedFile.map(file => {
     zip.file(`${file.key}.json`, JSON.stringify(file.value));
   });
-  zip.generateAsync({ type: "blob" }).then(content => {
-    saveAs(content, "EUN_Convert_File.zip");
-  });
+
+  const zipName = "EUN_Convert_File.zip";
+  if (process.env.NODE_ENV === "development") {
+    const content = zip.generate({ type: "blob" });
+    saveAs(content, zipName);
+  } else {
+    zip.generateAsync({ type: "blob" }).then(content => {
+      saveAs(content, zipName);
+    });
+  }
+
   try {
   } catch (error) {
     console.error(error);
