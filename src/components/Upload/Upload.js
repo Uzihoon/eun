@@ -31,7 +31,9 @@ export default Form.create({ name: "upload" })(
           </div>
           <div className={cx("full-item")}>
             <Item className={cx("half-item")}>
-              <div className={cx("item-title")}>File Name Pattern</div>
+              <div className={cx("item-title")}>
+                File Name Pattern (Optional)
+              </div>
               {getFieldDecorator("namePattern", {
                 initialValue: "",
                 rules: [
@@ -43,7 +45,7 @@ export default Form.create({ name: "upload" })(
               })(<Input />)}
             </Item>
             <Item className={cx("half-item")}>
-              <div className={cx("item-title")}>File Index Pattern</div>
+              <div className={cx("item-title")}>File Index Pattern*</div>
               {getFieldDecorator("indexPattern", {
                 // initialValue: "_L001_",
                 rules: [
@@ -57,7 +59,7 @@ export default Form.create({ name: "upload" })(
           </div>
           <Item>
             <div className={cx("item-title")}>
-              Sequencing Data (Paired-end reads)
+              Sequencing Data* (Paired-end reads)
             </div>
             {getFieldDecorator("files", {
               rules: [{ required: true, message: "Please submit files" }]
@@ -73,7 +75,7 @@ export default Form.create({ name: "upload" })(
             )}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Reference Amplicon Sequence</div>
+            <div className={cx("item-title")}>Reference Amplicon Sequence*</div>
             {getFieldDecorator("fullseq", {
               // initialValue:
               // "GGACGTCTGCCCAATATGTAAAATAACGGAATGAATGGATTCCTTGGAAACAATGATAACAAGACCTGGCTGAGCTAACTGTGACAGCATGTGGTAATTTTCCAGCCCGCTGGCCCTGTAAAGGAAACTGGAACACAAAGCATAGACTGCGGGGCGGGCCAGCCTGAATAGCTGCAAACAAGTGCAGAATATCTGATGATGTCATACGCACAGTTTGACAGATG",
@@ -95,7 +97,7 @@ export default Form.create({ name: "upload" })(
             )}
           </Item> */}
           <Item>
-            <div className={cx("item-title")}>Used Cas otholog</div>
+            <div className={cx("item-title")}>Used Cas otholog*</div>
             {getFieldDecorator("nucleases", {
               initialValue: nucleaseList[0].value
             })(
@@ -110,7 +112,7 @@ export default Form.create({ name: "upload" })(
           </Item>
           <Item>
             <div className={cx("item-title")}>
-              Target DNA sequence (5 to 3, without PAM sequence)
+              Target DNA sequence* (5 to 3, without PAM sequence)
             </div>
             {getFieldDecorator("rgenseq", {
               // initialValue: "ACCTCAGTTCCCCTTCAAAG",
@@ -120,7 +122,7 @@ export default Form.create({ name: "upload" })(
             })(<Input />)}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Standard Range</div>
+            <div className={cx("item-title")}>Standard Range*</div>
             {getFieldDecorator("end_range", {
               initialValue: "70",
               rules: [
@@ -130,7 +132,7 @@ export default Form.create({ name: "upload" })(
             })(<Input />)}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Target Nucleotide</div>
+            <div className={cx("item-title")}>Target Nucleotide*</div>
             {getFieldDecorator("targetSeq", {
               // initialValue: "a",
               rules: [
@@ -141,7 +143,7 @@ export default Form.create({ name: "upload" })(
           </Item>
           <Item>
             <div className={cx("item-title")}>
-              Desired change of target nucleotide
+              Desired change of target nucleotide*
             </div>
             {getFieldDecorator("changeSeq", {
               // initialValue: "g",
