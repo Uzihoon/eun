@@ -24,7 +24,8 @@ const initialState = Map({
   failList: List([]),
   indel: Map({}),
   format: Map({}),
-  analysisList: Map({})
+  analysisList: Map({}),
+  analysised: false
 });
 
 export default handleActions(

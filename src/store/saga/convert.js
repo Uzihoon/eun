@@ -3,6 +3,7 @@ import _ from "lodash";
 import * as ConvertActions from "store/modules/convert";
 import * as StateActions from "store/modules/state";
 import JSZip from "jszip";
+import { getFileData } from "lib/utility";
 import { saveAs } from "file-saver";
 
 export function* convertFile(action) {
@@ -60,14 +61,20 @@ export function* convertFile(action) {
     },
     merge(d) {
       let data = {};
-      d.forEach(e => (data = { ...data, ...e.value }));
-      return [{ key: "merge_file", value: data }];
+      d.forEach(
+        e =>
+          (data = {
+            value: { ...data.value, ...e.value },
+            format: e.format,
+            summary: e.summary
+          })
+      );
+      return [{ key: "merge_file", ...data }];
     },
     reverseSeq(d) {
       const data = d.map(e => {
         const key = e.key;
         const value = this.cp(e.value);
-
         Object.keys(value).forEach(v => {
           const target = value[v];
           target.table = target.table.map(t => {
@@ -81,7 +88,7 @@ export function* convertFile(action) {
           target.standard_seq = this.reverseString(target.standard_seq);
           target.seq_target = this.reverseString(target.seq_target);
         });
-        return { key, value };
+        return { key, value, format: e.format, summary: e.summary };
       });
       return data;
     },
@@ -106,9 +113,8 @@ export function* convertFile(action) {
           target.seq_target = this.joinAfterChange(target.seq_target, c);
         });
 
-        return { key, value };
+        return { key, value, format: e.format, summary: e.summary };
       });
-
       return data;
     }
   };
@@ -120,40 +126,20 @@ export function* convertFile(action) {
 
   const zip = new JSZip();
   convertedFile.map(file => {
-    zip.file(`${file.key}.json`, JSON.stringify(file.value));
+    const data = {
+      value: file.value,
+      format: file.format,
+      summary: file.summary
+    };
+    zip.file(`${file.key}.json`, JSON.stringify(data));
   });
 
   const zipName = "EUN_Convert_File.zip";
-  if (process.env.NODE_ENV === "development") {
-    const content = zip.generate({ type: "blob" });
+  zip.generateAsync({ type: "blob" }).then(content => {
     saveAs(content, zipName);
-  } else {
-    zip.generateAsync({ type: "blob" }).then(content => {
-      saveAs(content, zipName);
-    });
-  }
-
+  });
   try {
   } catch (error) {
     console.error(error);
   }
-}
-
-function getDataList(fileList) {
-  return Promise.all(
-    fileList.map(async file => await new Response(file).text())
-  );
-}
-
-async function handleFileList(dataList, fileList) {
-  return dataList.map((data, i) => {
-    const value = JSON.parse(data);
-    const key = fileList[i].name.replace(".json", "");
-    return { key, value };
-  });
-}
-
-async function getFileData(fileList) {
-  const dataList = await getDataList(fileList);
-  return handleFileList(dataList, fileList);
 }

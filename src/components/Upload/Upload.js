@@ -4,6 +4,7 @@ import styles from "./Upload.module.scss";
 import { Form, Input, Select, Button, Upload } from "antd";
 import UploadIcon from "img/gene.png";
 import RunIcon from "img/sample.png";
+import FileIcon from "img/json.png";
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -23,6 +24,9 @@ export default Form.create({ name: "upload" })(
         validationCheck,
         checkNumber,
         runSample,
+        handleJson,
+        handleChange,
+        setRef,
         sampleLoading
       } = this.props;
       const { getFieldDecorator } = this.props.form;
@@ -32,6 +36,19 @@ export default Form.create({ name: "upload" })(
           <div className={cx("header")}>
             <div className={cx("title")}>Cas Analysis</div>
             <div className={cx("button-box")}>
+              <div className={cx("sample-btn")} onClick={handleJson}>
+                <input
+                  className={cx("hidden-input")}
+                  accept="application/json, .json"
+                  type="file"
+                  ref={setRef}
+                  onChange={handleChange}
+                />
+                <div className={cx("sample-text")}>Analysis by json file</div>
+                <div className={cx("icon")}>
+                  <img src={FileIcon} />
+                </div>
+              </div>
               <div className={cx("sample-btn")} onClick={runSample}>
                 <div className={cx("sample-text")}>
                   Try analysis sample file

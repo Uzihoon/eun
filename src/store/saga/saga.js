@@ -24,6 +24,7 @@ function* handleState() {
 
 function* handleUpload() {
   yield takeEvery(UploadActions.formatData, UploadSaga.formatData);
+  yield takeEvery(UploadActions.analysisJson, UploadSaga.analysisJson);
 }
 
 function* handleAnalysis() {

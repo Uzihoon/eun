@@ -52,9 +52,10 @@ const IndelReportContainer = props => {
   };
 
   const setFileList = (event, file) => {
-    const value = JSON.parse(event.target.result);
+    const data = JSON.parse(event.target.result);
     const key = file.name.replace(".json", "").replace("_", " ");
-    fileList.push({ key, value });
+
+    fileList.push({ key, ...data });
   };
 
   // componentDidMount

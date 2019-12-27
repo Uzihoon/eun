@@ -47,7 +47,8 @@ class UploadContainer extends Component {
       gauge: 0,
       workerNum: 0,
       postWorker: 0,
-      analysisId: null
+      analysisId: null,
+      runJSON: false
     };
   }
 
@@ -66,6 +67,7 @@ class UploadContainer extends Component {
       failList
     } = nextProps;
     const { handleData } = this;
+    const { runJSON } = nextState;
     let analysisId = nextState.analysisId;
 
     if (sampleLoading && format.get("sample") && !analysisId) {
@@ -75,7 +77,14 @@ class UploadContainer extends Component {
 
     const nextFormat = format.get(analysisId);
     const prevFormat = this.props.format.get(analysisId);
+
+    if (runJSON && nextProps.analysised) {
+      AnalysisActions.saveAnalysisImmu({ type: "analysised", data: false });
+      history.push(`/analysis/${analysisId}`);
+    }
+
     if (
+      !runJSON &&
       nextFormat &&
       !nextFormat.equals(prevFormat) &&
       Object.keys(nextFormat.toJS()).length >= 1
@@ -146,6 +155,24 @@ class UploadContainer extends Component {
 
   wrappedComponentRef = ref => {
     this.uploadForm = ref;
+  };
+
+  setRef = ref => {
+    this.jsonInput = ref;
+  };
+
+  handleChange = e => {
+    const { UploadActions } = this.props;
+
+    const json = e.target.files[0];
+    const analysisId = getUniqId();
+
+    UploadActions.analysisJson({ json, analysisId });
+    this.setState({ runJSON: true, analysisId });
+  };
+
+  handleJson = _ => {
+    this.jsonInput.click();
   };
 
   handleSubmit = _ => {
@@ -241,7 +268,8 @@ export default withRouter(
       format: state.analysis.get("format"),
       fileList: state.upload.get("fileList"),
       failList: state.analysis.get("failList").toJS(),
-      sampleLoading: state.state.get("sampleLoading")
+      sampleLoading: state.state.get("sampleLoading"),
+      analysised: state.analysis.get("analysised")
     }),
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),

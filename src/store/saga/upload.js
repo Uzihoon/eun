@@ -1,8 +1,11 @@
-import { put, select } from "redux-saga/effects";
+import { put, select, call, all } from "redux-saga/effects";
 import { fromJS } from "immutable";
+import _ from "lodash";
+import { getFileData } from "lib/utility";
 
 import * as stateActions from "store/modules/state";
 import * as analysisActions from "store/modules/analysis";
+import * as uploadActions from "store/modules/upload";
 
 const getAnalysisDataFromStore = state => state.analysis;
 
@@ -98,4 +101,47 @@ export function* formatData(action) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export function* analysisJson(action) {
+  const { json, analysisId } = action.payload;
+  const data = yield call(getFileData, [json]);
+  if (!data.length || !data[0] || !data[0].value) {
+    yield put(
+      stateActions.showMsg({
+        status: "warning",
+        content: "Please check file again!"
+      })
+    );
+    return;
+  }
+
+  const analysis = data[0];
+
+  yield all([
+    put(
+      analysisActions.saveAnalysises({
+        types: ["format", analysisId],
+        data: analysis.format
+      })
+    ),
+    put(
+      analysisActions.saveAnalysises({
+        types: ["summary", analysisId],
+        data: analysis.summary
+      })
+    ),
+    put(
+      analysisActions.saveAnalysises({
+        types: ["analysisList", analysisId],
+        data: analysis.value
+      })
+    ),
+    put(
+      analysisActions.saveAnalysisImmu({
+        type: "analysised",
+        data: true
+      })
+    )
+  ]);
 }
