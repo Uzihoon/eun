@@ -10,7 +10,6 @@ import { VERSION } from "environment";
 
 import * as stateActions from "store/modules/state";
 import * as uploadActions from "store/modules/upload";
-import * as analysisActions from "store/modules/analysis";
 
 const { Content } = Layout;
 
@@ -25,14 +24,6 @@ class PageTemplate extends Component {
   handleLogout = _ => {
     const { StateActions, history } = this.props;
     StateActions.logout(history);
-  };
-
-  runSample = _ => {
-    // run sample
-    const { sampleLoading, history, AnalysisActions } = this.props;
-    const path = history.location.pathname;
-    if (sampleLoading) return false;
-    AnalysisActions.runSample();
   };
 
   render() {
@@ -64,13 +55,11 @@ class PageTemplate extends Component {
 export default withRouter(
   connect(
     state => ({
-      sampleLoading: state.state.get("sampleLoading"),
       menuList: state.state.get("menuList")
     }),
     dispatch => ({
       StateActions: bindActionCreators(stateActions, dispatch),
-      UploadActions: bindActionCreators(uploadActions, dispatch),
-      AnalysisActions: bindActionCreators(analysisActions, dispatch)
+      UploadActions: bindActionCreators(uploadActions, dispatch)
     })
   )(PageTemplate)
 );

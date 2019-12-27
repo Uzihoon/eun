@@ -8,6 +8,7 @@ import analysisWorker from "worker/analysis.worker.js";
 import indelWorker from "worker/indel.worker.js";
 import Loading from "components/common/Loading";
 import { getUniqId } from "lib/utility";
+import _ from "lodash";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -172,10 +173,14 @@ class AnalysisContainer extends Component {
     });
   };
 
-  getAnalysisData = _ => {
+  getAnalysisData = e => {
     const { analysisId } = this.state;
-    const { analysisList } = this.props;
-    return analysisList[analysisId] || {};
+    const { analysisList, format, summary } = this.props;
+
+    const jsonData = _.cloneDeep(analysisList[analysisId]);
+    jsonData.format = format[analysisId];
+    jsonData.summary = summary[analysisId];
+    return jsonData;
   };
 
   handleIndel = _ => {

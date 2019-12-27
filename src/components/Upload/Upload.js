@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import styles from "./Upload.module.scss";
 import { Form, Input, Select, Button, Upload } from "antd";
 import UploadIcon from "img/gene.png";
+import RunIcon from "img/sample.png";
 
 const Item = Form.Item;
 const TextArea = Input.TextArea;
@@ -20,14 +21,38 @@ export default Form.create({ name: "upload" })(
         handleSubmit,
         uploadInfo,
         validationCheck,
-        checkNumber
+        checkNumber,
+        runSample,
+        sampleLoading
       } = this.props;
       const { getFieldDecorator } = this.props.form;
-
+      const aniClass = sampleLoading && "animation";
       return (
         <Form>
           <div className={cx("header")}>
             <div className={cx("title")}>Cas Analysis</div>
+            <div className={cx("button-box")}>
+              <div className={cx("sample-btn")} onClick={runSample}>
+                <div className={cx("sample-text")}>
+                  Try analysis sample file
+                </div>
+                <div className={cx("sample")}>
+                  <div className={cx("circle-wrapper", "wrapper-right")}>
+                    <div
+                      className={cx("circle-whole", "circle-right", aniClass)}
+                    ></div>
+                  </div>
+                  <div className={cx("circle-wrapper", "wrapper-left")}>
+                    <div
+                      className={cx("circle-whole", "circle-left", aniClass)}
+                    ></div>
+                  </div>
+                  <div className={cx("icon")}>
+                    <img src={RunIcon} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className={cx("full-item")}>
             <Item className={cx("half-item")}>

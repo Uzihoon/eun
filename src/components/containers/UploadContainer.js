@@ -137,6 +137,10 @@ class UploadContainer extends Component {
       return true;
     }
 
+    if (this.props.sampleLoading !== nextProps.sampleLoading) {
+      return true;
+    }
+
     return false;
   }
 
@@ -210,6 +214,12 @@ class UploadContainer extends Component {
     }
 
     return callback(msg);
+  };
+
+  runSample = _ => {
+    const { sampleLoading, AnalysisActions } = this.props;
+    if (sampleLoading) return false;
+    AnalysisActions.runSample();
   };
 
   render() {

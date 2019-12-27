@@ -7,9 +7,7 @@ const { Header } = Layout;
 const cx = classNames.bind(styles);
 
 const TopBar = props => {
-  const { handleLogout, sampleLoading, nolayout, pushPage } = props;
-  const [width, setWidth] = useState(110);
-  const [cursor, setCursor] = useState("pointer");
+  const { handleLogout, nolayout, pushPage } = props;
   const [style, setStyle] = useState({});
 
   // componentDidMount
@@ -37,16 +35,6 @@ const TopBar = props => {
     setStyle(style);
   }, []);
 
-  useEffect(() => {
-    if (sampleLoading) {
-      setWidth(110);
-      setCursor("not-allowed");
-    } else {
-      setWidth(110);
-      setCursor("pointer");
-    }
-  }, sampleLoading);
-
   return (
     <Header className={cx("header")} style={style}>
       <div className={cx("header-box")}>
@@ -67,26 +55,6 @@ const TopBar = props => {
         </div>
 
         <div className={cx("right-side")}>
-          {props.sampleBtn && (
-            <div
-              className={cx("run-sample")}
-              onClick={props.runSample}
-              style={{ cursor }}
-            >
-              <span>{sampleLoading ? "Loading..." : "Run Sample"}</span>
-              <svg style={{ width: `${width}px` }}>
-                <polyline
-                  className={cx("o1")}
-                  points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
-                />
-                <polyline
-                  className={cx("o2")}
-                  points={`0 0, ${width} 0, ${width} 35, 0 35, 0 0`}
-                />
-              </svg>
-            </div>
-          )}
-
           <div className={cx("logout")} onClick={handleLogout}>
             Logout
           </div>
