@@ -156,7 +156,7 @@
     "log": {
       "release": [],
       "feature": [],
-      "bug": ["Fixed INDEL report chart bug"]
+      "bug": ["Fixed INDEL report chart bug", "Fixed file convert change issue"]
     }
   }
 ]
