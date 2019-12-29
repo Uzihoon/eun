@@ -150,5 +150,13 @@
       "feature": ["Added analysis method by json file"],
       "bug": ["Fixed Zip download problem"]
     }
+  },
+  {
+    "version": "2.5.0",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed INDEL report chart bug"]
+    }
   }
 ]
