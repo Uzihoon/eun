@@ -6,18 +6,17 @@ export default () => {
 
     const result = [];
 
+    function handleINDLE(seq, index) {}
+
     for (let i = 0; i < data.length; i++) {
-      let dataLen = 0;
+      const dataLen = data.length;
       const label = data[i].key;
       const value = data[i].value;
       const finalIndel = [];
-      const store = {};
-      let targetSeqLen = 0;
       let seq_target = "";
       let standard_seq = "";
 
       for (let i in value) {
-        ++dataLen;
         const target = value[i];
         const total = target.tot_count;
         const target_seq = target.standard_seq;
@@ -27,39 +26,43 @@ export default () => {
           return;
         }
 
-        targetSeqLen = target_seq.length;
         seq = seq.length < target_seq.length ? target_seq : seq;
         standard_seq = target_seq;
         seq_target = target.seq_target;
         target.table
-          .filter(table => table.type === 1 || table.type === 2)
+          .filter(table => table.type !== 0)
           .map(t => {
-            const g = t.graphic;
-            const indelList = g.match(regex) || [];
-            const indelCount = indelList.length * t.count;
-            const avg = (indelCount / total) * 100;
-            const prevValue = store[g] || 0;
-            store[g] = prevValue + avg;
+            const origin = t.origin.split("");
+            const change = t.change.split("");
+            const count = t.count;
+
+            const inputIndel = (isINDEL, index) => {
+              const x = index + 1;
+              const dataset = finalIndel[index] || {};
+              const prev = dataset.y || 0;
+              const data = (count / total) * 100;
+              const y = isINDEL ? data + prev : prev;
+
+              finalIndel[index] = { x, y };
+            };
+
+            if (origin.length === change.length) {
+              for (let j = 0; j < origin.length; j++) {
+                const isINDEL = origin[j] === "-" || change[j] === "-";
+                inputIndel(isINDEL, j);
+              }
+            } else {
+              const list = [origin, change];
+              list.map(l =>
+                l.map((s, k) => {
+                  const isINDEL = s === "-";
+                  inputIndel(isINDEL, k);
+                })
+              );
+            }
           });
       }
-      for (let i in store) {
-        const graphic = i;
-        for (let g in graphic) {
-          const target = graphic[g];
-          const dataset = finalIndel[g] || {};
-          const prev = dataset.y || 0;
-          const x = +g + 1;
 
-          // seq 보다 많을 경우 멈춘다
-          if (finalIndel.length >= targetSeqLen) continue;
-
-          if (target !== "|") {
-            finalIndel[g] = { x, y: prev + store[i] / dataLen };
-          } else {
-            finalIndel[g] = { x, y: prev };
-          }
-        }
-      }
       result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 

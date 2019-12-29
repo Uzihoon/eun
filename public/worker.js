@@ -501,7 +501,10 @@ self.onmessage = e => {
   let end_pos = bp + end_range;
   if (start_pos < 0) start_pos = 0;
   if (end_pos > seq_wt.length) end_pos = seq_wt.length;
+
+  // s_seq: WT marker sequence
   const s_seq = seq_wt.slice(bp - filt_r, bp + filt_r);
+  // seq_range: indicator sequences + crRNA + WT marker Total
   const seq_range = seq_wt.slice(start_pos, end_pos);
   const pri_for = seq_range.slice(0, pri_len);
   const pri_back = seq_range.slice(-pri_len);

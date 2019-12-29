@@ -74,11 +74,11 @@ const Analysis = props => {
               </div>
             </div>
           </div>
-          <div className={cx("sum-val")}>
+          <div className={cx("sum-val", "wt-wrapper")}>
             {summary[analysisId].map((e, i) => (
-              <div className={cx(`sum-${e.type}`)} key={i}>
+              <span className={cx(`sum-${e.type}`)} key={i}>
                 {e.data}
-              </div>
+              </span>
             ))}
           </div>
         </div>
