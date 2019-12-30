@@ -44,15 +44,13 @@ export default Form.create({ name: "upload" })(
                   ref={setRef}
                   onChange={handleChange}
                 />
-                <div className={cx("sample-text")}>Analysis by json file</div>
+                <div className={cx("sample-text")}>Analyze by json file</div>
                 <div className={cx("icon")}>
                   <img src={FileIcon} />
                 </div>
               </div>
               <div className={cx("sample-btn")} onClick={runSample}>
-                <div className={cx("sample-text")}>
-                  Try analysis sample file
-                </div>
+                <div className={cx("sample-text")}>Run analyze sample file</div>
                 <div className={cx("sample")}>
                   <div className={cx("circle-wrapper", "wrapper-right")}>
                     <div
