@@ -1,17 +1,20 @@
 export default () => {
   onmessage = e => {
     const data = e.data;
-    const regex = /[^|]/g;
     let seq = "";
 
     const result = [];
+    const dataLen = data.length;
 
-    function handleINDLE(seq, index) {}
-
-    for (let i = 0; i < data.length; i++) {
-      const dataLen = data.length;
+    for (let i = 0; i < dataLen; i++) {
       const label = data[i].key;
       const value = data[i].value;
+      if (!value) {
+        postMessage({ error: true });
+        return;
+      }
+
+      const valList = Object.keys(value);
       const finalIndel = [];
       let seq_target = "";
       let standard_seq = "";
@@ -41,8 +44,7 @@ export default () => {
               const dataset = finalIndel[index] || {};
               const prev = dataset.y || 0;
               const data = (count / total) * 100;
-              const y = isINDEL ? data + prev : prev;
-
+              const y = isINDEL ? data / valList.length + prev : prev;
               finalIndel[index] = { x, y };
             };
 
