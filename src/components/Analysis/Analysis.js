@@ -69,7 +69,9 @@ const Analysis = props => {
         >
           <div className={cx("fix-wrapper")}>
             <div className={cx("sum-title")}>
-              <div className={cx("sum-title-text")}>WT Sequence</div>
+              <div className={cx("sum-title-text")}>
+                Reference Amplicon Sequence
+              </div>
               <div className={cx("sum-info")}>
                 <div className={cx("info")}>
                   <div className={cx("blue", "info-icon")} />
@@ -95,7 +97,9 @@ const Analysis = props => {
           ref={ref => setRef(ref, "sequence")}
         >
           <div className={cx("sum-title")}>
-            <div className={cx("sum-title-text")}>WT Sequence</div>
+            <div className={cx("sum-title-text")}>
+              Reference Amplicon Sequence
+            </div>
             <div className={cx("sum-info")}>
               <div className={cx("info")}>
                 <div className={cx("blue", "info-icon")} />

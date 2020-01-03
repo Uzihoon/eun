@@ -8,6 +8,7 @@ import analysisWorker from "worker/analysis.worker.js";
 import indelWorker from "worker/indel.worker.js";
 import Loading from "components/common/Loading";
 import { getUniqId } from "lib/utility";
+import classNames from "classnames";
 
 import * as uploadActions from "store/modules/upload";
 import * as analysisActions from "store/modules/analysis";
@@ -59,17 +60,32 @@ class AnalysisContainer extends Component {
             return (
               <div className={"value-wrapper"}>
                 {seq.map((e, i) => {
-                  const diff = val.graphic[i] !== "|" ? "diff" : "";
+                  const origin = val.origin[i];
+                  const change = val.change[i];
+
+                  const changed = origin !== change;
+
+                  const targetSeq = format[analysisId].targetSeq;
+                  const changeSeq = format[analysisId].changeSeq;
+
                   const targetDiff =
-                    val.origin[i] === format[analysisId].targetSeq &&
-                    val.change[i] === format[analysisId].changeSeq
-                      ? "target-diff"
-                      : null;
-                  const diffClass = targetDiff || diff;
+                    changed && origin === targetSeq && change === changeSeq;
+                  const insertion = changed && origin === "-" && change !== "-";
+                  const deletion = changed && origin !== "-" && change === "-";
+                  const sub =
+                    changed && !targetDiff && origin !== "-" && change !== "-";
+
+                  const valueClass = classNames({
+                    value: true,
+                    "target-val": targetDiff,
+                    "insertion-val": insertion,
+                    "deletion-val": deletion,
+                    "sub-val": sub
+                  });
+
                   return (
                     <div className="value-box" key={i}>
-                      {/* <div className={diffClass}>{val.origin[i]}</div> */}
-                      <div className={diffClass}>{val.change[i]}</div>
+                      <div className={valueClass}>{val.change[i]}</div>
                     </div>
                   );
                 })}
