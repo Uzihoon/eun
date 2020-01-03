@@ -68,7 +68,7 @@ class AnalysisContainer extends Component {
                   const diffClass = targetDiff || diff;
                   return (
                     <div className="value-box" key={i}>
-                      <div className={diffClass}>{val.origin[i]}</div>
+                      {/* <div className={diffClass}>{val.origin[i]}</div> */}
                       <div className={diffClass}>{val.change[i]}</div>
                     </div>
                   );
@@ -115,7 +115,9 @@ class AnalysisContainer extends Component {
       sequenceCharList: ["A", "C", "G", "T"],
       download: false,
       excelData: null,
-      analysisId: match.params.analysisId
+      analysisId: match.params.analysisId,
+      sequenceY: null,
+      sequenceFix: false
     };
   }
 
@@ -127,6 +129,11 @@ class AnalysisContainer extends Component {
     if (!analysisId || !targetSUM || targetSUM.length <= 0) {
       history.push("/analysis");
     }
+
+    document.removeEventListener("scroll", e => {
+      console.log("remove");
+      this.handleScroll(e);
+    });
   }
 
   componentDidMount() {
@@ -138,7 +145,36 @@ class AnalysisContainer extends Component {
 
     this.indelWorker = new Webworker(indelWorker);
     this.indelWorker.onmessage = this.getIndelWorker;
+
+    if (this.sequence) {
+      const rect = this.sequence.getBoundingClientRect();
+      this.setState({
+        sequenceY: rect.y
+      });
+    }
+
+    document.addEventListener("scroll", e => {
+      this.handleScroll(e);
+    });
   }
+
+  handleScroll = e => {
+    const { history } = this.props;
+    const windowY = window.scrollY;
+    const { sequenceY, sequenceFix } = this.state;
+    const path = history.location.pathname.split("/");
+    if (path.length <= 2) {
+      document.removeEventListener("scroll", e => {
+        console.log("remove");
+      });
+      return;
+    }
+    if (windowY >= sequenceY && !sequenceFix) {
+      this.setState({ sequenceFix: true });
+    } else if (windowY < sequenceY && sequenceFix) {
+      this.setState({ sequenceFix: false });
+    }
+  };
 
   getIndelWorker = e => {
     const { history, IndelActions } = this.props;
@@ -158,6 +194,9 @@ class AnalysisContainer extends Component {
   componentWillUnmount() {
     const { UploadActions } = this.props;
     UploadActions.resetUpload();
+    document.removeEventListener("scroll", e => {
+      this.handleScroll(e);
+    });
   }
 
   handleExcel = _ => {
@@ -209,6 +248,22 @@ class AnalysisContainer extends Component {
     link.click();
     document.body.removeChild(link);
   };
+
+  setRef = (ref, type) => {
+    this[type] = ref;
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.analysisId !== nextState.analysisId) {
+      return true;
+    }
+
+    if (this.state.sequenceFix !== nextState.sequenceFix) {
+      return true;
+    }
+
+    return false;
+  }
 
   render() {
     const { indelStatus } = this.state;

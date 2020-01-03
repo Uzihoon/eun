@@ -1,5 +1,11 @@
 @import "styles/common.scss";
 
+.analysis-wrapper {
+  &.analysis-fix-wrapper {
+    // padding-top: 165px;
+  }
+}
+
 .summary {
   .title-box {
     width: 100%;
@@ -75,6 +81,37 @@
 
 .summary-item {
   padding: 15px 0;
+  transition: all 0.3s;
+
+  &.fix-sequence {
+    .fix-wrapper {
+      width: 85%;
+      margin: auto;
+      padding: 10px;
+      // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+      // box-shadow: -1px 19px 24px -12px rgba(0, 0, 0, 0.39);
+      box-shadow: -5px -11px 58px 6px rgba(0, 0, 0, 0.39);
+      background-color: #514f4f;
+      color: #ffffff;
+
+      .sum-title-text {
+        color: #ffffff;
+      }
+    }
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    padding: 5px 14px;
+    transition: all 0.5s;
+    transition: opacity 0.4s, top 0.4s;
+
+    &.close {
+      opacity: 0;
+      bottom: -500px;
+    }
+  }
 }
 
 .sum-info {

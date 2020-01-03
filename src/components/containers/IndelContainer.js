@@ -154,12 +154,14 @@ class IndelContainer extends Component {
   handleDataset = indelData => {
     const { chartType, options } = this.state;
 
-    const datasets = indelData.result.map((data, index) => ({
-      // ...this.state.data.datasets[0],
+    const datasets = indelData.result.map(data => ({
       backgroundColor: "transparent",
       data: data.indel,
       label: data.label,
-      type: chartType
+      type: chartType,
+      pointBorderWidth: 0.1,
+      pointHitRadius: 0,
+      pointBackgroundColor: "transparent"
     }));
 
     const chartOptions = _.cloneDeep(options);

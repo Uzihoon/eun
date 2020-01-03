@@ -17,7 +17,9 @@ const Analysis = props => {
     handleIndel,
     analysisId,
     handleIndelFile,
-    download
+    download,
+    sequenceFix,
+    setRef
   } = props;
   const analysisList = props.analysisList[analysisId];
   if (!analysisList) return "";
@@ -30,8 +32,11 @@ const Analysis = props => {
 
     return prev - next;
   });
+
   return (
-    <div className={cx("analysis-wrapper")}>
+    <div
+      className={cx("analysis-wrapper", sequenceFix && "analysis-fix-wrapper")}
+    >
       <div className={cx("summary")}>
         <div className={cx("title-box")}>
           <div className={cx("title")}>Summary</div>
@@ -54,23 +59,51 @@ const Analysis = props => {
             {download && <Excel {...props} />}
           </div>
         </div>
-        <div className={cx("summary-item")}>
+        <div
+          className={cx(
+            "summary-item",
+            "fix-sequence",
+            !sequenceFix && "close"
+          )}
+          ref={ref => setRef(ref, "sequence")}
+        >
+          <div className={cx("fix-wrapper")}>
+            <div className={cx("sum-title")}>
+              <div className={cx("sum-title-text")}>WT Sequence</div>
+              <div className={cx("sum-info")}>
+                <div className={cx("info")}>
+                  <div className={cx("blue", "info-icon")} />
+                  <div className={cx("text")}>Comparision sequence</div>
+                </div>
+                <div className={cx("info")}>
+                  <div className={cx("green", "info-icon")} />
+                  <div className={cx("text")}>crRNA sequence</div>
+                </div>
+              </div>
+            </div>
+            <div className={cx("sum-val", "wt-wrapper")}>
+              {summary[analysisId].map((e, i) => (
+                <span className={cx(`sum-${e.type}`)} key={i}>
+                  {e.data}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          className={cx("summary-item")}
+          ref={ref => setRef(ref, "sequence")}
+        >
           <div className={cx("sum-title")}>
             <div className={cx("sum-title-text")}>WT Sequence</div>
             <div className={cx("sum-info")}>
               <div className={cx("info")}>
                 <div className={cx("blue", "info-icon")} />
-                <div className={cx("text")}>
-                  indicator sequences at each ends of comparision range
-                </div>
+                <div className={cx("text")}>Comparision sequence</div>
               </div>
               <div className={cx("info")}>
                 <div className={cx("green", "info-icon")} />
                 <div className={cx("text")}>crRNA sequence</div>
-              </div>
-              <div className={cx("info")}>
-                <div className={cx("red", "info-icon")} />
-                <div className={cx("text")}>WT marker sequence</div>
               </div>
             </div>
           </div>
@@ -81,12 +114,6 @@ const Analysis = props => {
               </span>
             ))}
           </div>
-        </div>
-        <div className={cx("summary-item")}>
-          <div className={cx("sum-title")}>
-            <div className={cx("sum-title-text")}>crRNA sequence</div>
-          </div>
-          <div className={cx("sum-val")}>{format[analysisId].seq_RGEN}</div>
         </div>
         {summaryList.map((e, i) => {
           const analysis = analysisList[e];
