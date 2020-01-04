@@ -170,5 +170,14 @@
       "bug": []
     },
     "date": "20200104"
+  },
+  {
+    "version": "2.5.1",
+    "log": {
+      "release": [],
+      "feature": ["Added Cleavage Site annotation in INDEL chart report page"],
+      "bug": []
+    },
+    "date": "20200105"
   }
 ]
