@@ -133,7 +133,39 @@ class AnalysisContainer extends Component {
       excelData: null,
       analysisId: match.params.analysisId,
       sequenceY: null,
-      sequenceFix: false
+      sequenceFix: false,
+      infoColorList: [
+        {
+          title: "Desired Change",
+          class: "target-val"
+        },
+        {
+          title: "Undesired Change",
+          class: "sub-val"
+        },
+        {
+          title: "Insertion",
+          class: "insertion-val"
+        },
+        {
+          title: "Deletion",
+          class: "deletion-val"
+        }
+      ],
+      changeColorList: [
+        {
+          title: "Original",
+          class: "origin-val"
+        },
+        {
+          title: "Desired Change",
+          class: "target-val"
+        },
+        {
+          title: "Undesired Change",
+          class: "sub-val"
+        }
+      ]
     };
   }
 

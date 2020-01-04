@@ -19,6 +19,8 @@ const Analysis = props => {
     handleIndelFile,
     download,
     sequenceFix,
+    infoColorList,
+    changeColorList,
     setRef
   } = props;
   const analysisList = props.analysisList[analysisId];
@@ -145,6 +147,16 @@ const Analysis = props => {
                   <div className={cx("sum-title-text")}>
                     Sequence Information
                   </div>
+                  <div className={cx("color-wrapper")}>
+                    {infoColorList.map((e, i) => {
+                      return (
+                        <div className={cx("color-box", e.class)} key={i}>
+                          <div className={cx("bg")} />
+                          <div className={cx("text")}>{e.title}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className={cx("sum-val")}>
                   <Table
@@ -157,6 +169,16 @@ const Analysis = props => {
               <div className={cx("summary-item")}>
                 <div className={cx("sum-title")}>
                   <div className={cx("sum-title-text")}>Sequence</div>
+                  <div className={cx("color-wrapper")}>
+                    {changeColorList.map((e, i) => {
+                      return (
+                        <div className={cx("color-box", e.class)} key={i}>
+                          <div className={cx("bg")} />
+                          <div className={cx("text")}>{e.title}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className={cx("sum-val")}>
                   <div className={cx("char-box")}></div>

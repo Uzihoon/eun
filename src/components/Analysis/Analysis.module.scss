@@ -79,9 +79,60 @@
   }
 }
 
+.color-wrapper {
+  display: flex;
+
+  .color-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+
+    .bg {
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+    }
+
+    .text {
+      font-size: 0.8em;
+    }
+
+    &.origin-val {
+      .bg {
+        background-color: $originVal;
+      }
+    }
+
+    &.target-val {
+      .bg {
+        background-color: $targetVal;
+      }
+    }
+
+    &.sub-val {
+      .bg {
+        background-color: $subVal;
+      }
+    }
+
+    &.deletion-val {
+      .bg {
+        background-color: $deletionVal;
+      }
+    }
+
+    &.insertion-val {
+      .bg {
+        background-color: $insertionVal;
+      }
+    }
+  }
+}
 .summary-item {
   padding: 15px 0;
   transition: all 0.3s;
+  margin-bottom: 30px;
 
   &.fix-sequence {
     .fix-wrapper {
