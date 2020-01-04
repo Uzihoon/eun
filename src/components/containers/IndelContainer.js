@@ -9,12 +9,14 @@ class IndelContainer extends Component {
   constructor(props) {
     super(props);
     const { match } = props;
+    const indelId = match.params.indelId;
+    const cleavage = this.getCleavage(props.indel[indelId]);
     this.state = {
       chartType: "line",
       data: {
         datasets: []
       },
-      indelId: match.params.indelId,
+      indelId,
       options: {
         line: {
           responsive: true,
@@ -43,11 +45,10 @@ class IndelContainer extends Component {
             intersect: true
             // onHover: this.handleMouseOut
           },
-          animation: { duration: 0 },
+          // animation: { duration: 0 },
           elements: {
-            line: {
-              tension: 0.2
-            }
+            line: { tension: 0.2 },
+            point: { radius: 0 }
           },
           tooltips: {
             mode: "index",
@@ -55,6 +56,44 @@ class IndelContainer extends Component {
             callbacks: {
               label: this.handleHover
             }
+          },
+          annotation: {
+            events: ["click"],
+            annotations: [
+              {
+                type: "line",
+                id: "vline" + 10,
+                mode: "vertical",
+                scaleID: "x-axis-0",
+                value: cleavage,
+                borderColor: "green",
+                borderWidth: 2,
+                label: {
+                  enabled: true,
+                  position: "top",
+                  content: "Cleavage Site",
+                  backgroundColor: "rgba(0,0,0,0)",
+                  fontColor: "#242424"
+                }
+                // // drawTime: "afterDatasetsDraw",
+                // id: "hline",
+                // type: "line",
+                // mode: "vertical",
+                // scaleID: "y-axis-0",
+                // value: 10,
+                // borderColor: "black",
+                // borderWidth: 1,
+                // label: {
+                //   backgroundColor: "red",
+                //   content: "Test Label",
+                //   enabled: true
+                // },
+                // onClick: function(e) {
+                //   // The annotation is is bound to the `this` variable
+                //   console.log("Annotation", e.type, this);
+                // }
+              }
+            ]
           },
           plugins: {
             colorschemes: {
@@ -94,6 +133,21 @@ class IndelContainer extends Component {
       hoverIndex: null
     };
   }
+
+  getCleavage = props => {
+    if (!props) return 0;
+    const { target_rna, seq_type, seq } = props;
+    const pattern = new RegExp(target_rna);
+    const target = pattern.exec(seq);
+    const index = target ? target.index : 0;
+    let cleavage = 0;
+    switch (seq_type) {
+      case 1:
+        cleavage = index + target_rna.length - 2.5;
+    }
+
+    return cleavage;
+  };
 
   handleMouseOut = e => {
     const type = e.type || "";
@@ -159,8 +213,9 @@ class IndelContainer extends Component {
       data: data.indel,
       label: data.label,
       type: chartType,
-      pointBorderWidth: 0.1,
+      pointBorderWidth: 0,
       pointHitRadius: 0,
+      pointBorderBackgroundColor: "transparent",
       pointBackgroundColor: "transparent"
     }));
 

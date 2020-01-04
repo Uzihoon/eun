@@ -2,6 +2,8 @@ export default () => {
   onmessage = e => {
     const data = e.data;
     let seq = "";
+    let seq_type = "";
+    let target_rna = "";
 
     const result = [];
     const dataLen = data.length;
@@ -16,6 +18,10 @@ export default () => {
 
       const valList = Object.keys(value);
       const finalIndel = [];
+
+      // default sp-cas9
+      seq_type = value.seq_type || 1;
+
       let seq_target = "";
       let standard_seq = "";
 
@@ -28,8 +34,10 @@ export default () => {
           postMessage({ error: true });
           return;
         }
+        const isOver = seq.length < target_seq.length;
+        seq = isOver ? target_seq : seq;
+        target_rna = isOver ? target.seq_target : target_rna;
 
-        seq = seq.length < target_seq.length ? target_seq : seq;
         standard_seq = target_seq;
         seq_target = target.seq_target;
         target.table
@@ -68,6 +76,6 @@ export default () => {
       result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 
-    postMessage({ result, seq });
+    postMessage({ result, seq, seq_type, target_rna });
   };
 };
