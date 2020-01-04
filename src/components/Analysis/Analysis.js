@@ -32,7 +32,7 @@ const Analysis = props => {
 
     return prev - next;
   });
-
+  const seqList = format[analysisId].seq_RGEN.split("") || [];
   return (
     <div
       className={cx("analysis-wrapper", sequenceFix && "analysis-fix-wrapper")}
@@ -159,6 +159,17 @@ const Analysis = props => {
                   <div className={cx("sum-title-text")}>Sequence</div>
                 </div>
                 <div className={cx("sum-val")}>
+                  <div className={cx("char-box")}></div>
+                  {seqList.map((s, i) => {
+                    const index = seqList.length - i;
+                    return (
+                      <div className={cx("char-box", "origin-char")} key={i}>
+                        {s} {index}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={cx("sum-val")}>
                   <div className={cx("char-box")}>
                     {sequenceCharList.map((k, j) => (
                       <div className={cx("char", "char-title")} key={j}>
@@ -166,7 +177,6 @@ const Analysis = props => {
                       </div>
                     ))}
                   </div>
-
                   {charIndex.map((e, i) => {
                     const total = analysis.tot_count;
                     return (
@@ -174,9 +184,33 @@ const Analysis = props => {
                         {sequenceCharList.map((k, j) => {
                           const val =
                             e[k] > 0 ? ((e[k] / total) * 100).toFixed(1) : 0;
+
+                          const origin = +val > 0 && k === seqList[i];
+                          const change =
+                            +val > 0 &&
+                            seqList[i] === format[analysisId].targetSeq &&
+                            k === format[analysisId].changeSeq;
+                          const sub = +val > 0 && !change && k !== seqList[i];
+                          const opacity =
+                            +val <= 0
+                              ? 1
+                              : Math.max(Math.floor(val / 10) / 10, 0.1);
+
+                          const color = opacity < 0.3 ? "#242424" : "#fffff";
+                          const charClass = {
+                            char: true,
+                            "sub-val": sub,
+                            "origin-val": origin,
+                            "target-val": change,
+                            changed: sub || origin || change
+                          };
+
                           return (
                             <Tooltip key={j} title={e[k]}>
-                              <div className={cx("char")}>{val}</div>
+                              <div className={cx(charClass)}>
+                                <div className={cx("bg")} style={{ opacity }} />
+                                <span style={{ color }}>{val}</span>
+                              </div>
                             </Tooltip>
                           );
                         })}
