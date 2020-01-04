@@ -161,5 +161,14 @@
       "bug": ["Fixed INDEL report chart bug", "Fixed file convert change issue"]
     },
     "date": "20191228"
+  },
+  {
+    "version": "2.5.0",
+    "log": {
+      "release": [],
+      "feature": ["Changed Analysis summary design"],
+      "bug": []
+    },
+    "date": "20200104"
   }
 ]

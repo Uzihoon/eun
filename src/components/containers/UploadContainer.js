@@ -48,7 +48,8 @@ class UploadContainer extends Component {
       workerNum: 0,
       postWorker: 0,
       analysisId: null,
-      runJSON: false
+      runJSON: false,
+      sequenceList: ["A", "G", "C", "T"]
     };
   }
 

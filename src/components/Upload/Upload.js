@@ -27,6 +27,7 @@ export default Form.create({ name: "upload" })(
         handleJson,
         handleChange,
         setRef,
+        sequenceList,
         sampleLoading
       } = this.props;
       const { getFieldDecorator } = this.props.form;
