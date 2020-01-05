@@ -231,7 +231,7 @@ const Analysis = props => {
                             <Tooltip key={j} title={e[k]}>
                               <div className={cx(charClass)}>
                                 <div className={cx("bg")} style={{ opacity }} />
-                                <span style={{ color }}>{val}</span>
+                                <span style={{ color }}>{+val}</span>
                               </div>
                             </Tooltip>
                           );
