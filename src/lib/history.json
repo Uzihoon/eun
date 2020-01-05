@@ -13,7 +13,7 @@
     "log": {
       "release": [],
       "feature": ["Changed upload method"],
-      "bug": ["Fiexed analysis error"]
+      "bug": ["Fixed analysis error"]
     },
     "date": "20190826"
   },
@@ -177,6 +177,15 @@
       "release": [],
       "feature": ["Added Cleavage Site annotation in INDEL chart report page"],
       "bug": []
+    },
+    "date": "20200105"
+  },
+  {
+    "version": "2.5.2",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed INDEL Chart bug", "Fixed Sequence information animation"]
     },
     "date": "20200105"
   }
