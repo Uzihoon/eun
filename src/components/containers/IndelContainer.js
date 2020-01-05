@@ -75,23 +75,6 @@ class IndelContainer extends Component {
                   backgroundColor: "rgba(0,0,0,0)",
                   fontColor: "#242424"
                 }
-                // // drawTime: "afterDatasetsDraw",
-                // id: "hline",
-                // type: "line",
-                // mode: "vertical",
-                // scaleID: "y-axis-0",
-                // value: 10,
-                // borderColor: "black",
-                // borderWidth: 1,
-                // label: {
-                //   backgroundColor: "red",
-                //   content: "Test Label",
-                //   enabled: true
-                // },
-                // onClick: function(e) {
-                //   // The annotation is is bound to the `this` variable
-                //   console.log("Annotation", e.type, this);
-                // }
               }
             ]
           },
@@ -207,7 +190,6 @@ class IndelContainer extends Component {
 
   handleDataset = indelData => {
     const { chartType, options } = this.state;
-
     const datasets = indelData.result.map(data => ({
       backgroundColor: "transparent",
       data: data.indel,

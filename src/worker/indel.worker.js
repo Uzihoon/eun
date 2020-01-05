@@ -8,6 +8,16 @@ export default () => {
     const result = [];
     const dataLen = data.length;
 
+    data.forEach(d =>
+      Object.keys(d.value).forEach(v => {
+        const target = d.value[v];
+        const isOver = seq.length < target.standard_seq.length;
+        seq = isOver ? target.standard_seq : seq;
+        target_rna = isOver ? target.seq_target : target_rna;
+      })
+    );
+
+    console.log(seq);
     for (let i = 0; i < dataLen; i++) {
       const label = data[i].key;
       const value = data[i].value;
@@ -24,7 +34,6 @@ export default () => {
 
       let seq_target = "";
       let standard_seq = "";
-
       for (let i in value) {
         const target = value[i];
         const total = target.tot_count;
@@ -34,17 +43,15 @@ export default () => {
           postMessage({ error: true });
           return;
         }
-        const isOver = seq.length < target_seq.length;
-        seq = isOver ? target_seq : seq;
-        target_rna = isOver ? target.seq_target : target_rna;
 
         standard_seq = target_seq;
         seq_target = target.seq_target;
+
         target.table
           .filter(table => table.type !== 0)
           .map(t => {
-            const origin = t.origin.split("");
-            const change = t.change.split("");
+            const origin = t.origin.split("").slice(0, seq.length);
+            const change = t.change.split("").slice(0, seq.length);
             const count = t.count;
 
             const inputIndel = (isINDEL, index) => {
