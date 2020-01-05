@@ -17,7 +17,6 @@ export default () => {
       })
     );
 
-    console.log(seq);
     for (let i = 0; i < dataLen; i++) {
       const label = data[i].key;
       const value = data[i].value;

@@ -179,7 +179,6 @@ class AnalysisContainer extends Component {
     }
 
     document.removeEventListener("scroll", e => {
-      console.log("remove");
       this.handleScroll(e);
     });
   }
@@ -197,7 +196,7 @@ class AnalysisContainer extends Component {
     if (this.sequence) {
       const rect = this.sequence.getBoundingClientRect();
       this.setState({
-        sequenceY: rect.y
+        sequenceY: Math.abs(rect.y)
       });
     }
 
@@ -212,9 +211,7 @@ class AnalysisContainer extends Component {
     const { sequenceY, sequenceFix } = this.state;
     const path = history.location.pathname.split("/");
     if (path.length <= 2) {
-      document.removeEventListener("scroll", e => {
-        console.log("remove");
-      });
+      document.removeEventListener("scroll", e => {});
       return;
     }
     if (windowY >= sequenceY && !sequenceFix) {

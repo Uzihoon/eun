@@ -67,7 +67,6 @@ const Analysis = props => {
             "fix-sequence",
             !sequenceFix && "close"
           )}
-          ref={ref => setRef(ref, "sequence")}
         >
           <div className={cx("fix-wrapper")}>
             <div className={cx("sum-title")}>
