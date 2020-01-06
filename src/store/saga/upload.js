@@ -84,6 +84,7 @@ export function* formatData(action) {
         filt_r,
         fileList,
         msgType,
+        nucleases,
         targetSeq: targetSeq.toUpperCase(),
         changeSeq: changeSeq.toUpperCase()
       };

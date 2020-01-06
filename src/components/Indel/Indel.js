@@ -3,10 +3,12 @@ import styles from "./Indel.module.scss";
 import classNames from "classnames/bind";
 import { Icon } from "antd";
 import { Line } from "react-chartjs-2";
-import "chartjs-plugin-colorschemes";
-import "chartjs-plugin-crosshair";
 import _ from "lodash";
 import imgIcon from "img/img.png";
+import * as chartjs from "chart.js";
+import "chartjs-plugin-colorschemes";
+import "chartjs-plugin-crosshair";
+import "chartjs-plugin-annotation";
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +34,6 @@ const Indel = props => {
     });
     setSeqList(seqList);
   }, [indel]);
-
   return (
     <div className={cx("indel-wrapper")}>
       <div className={cx("header")}>

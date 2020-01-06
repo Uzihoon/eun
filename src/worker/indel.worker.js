@@ -1,21 +1,38 @@
 export default () => {
   onmessage = e => {
     const data = e.data;
-    const regex = /[^|]/g;
     let seq = "";
+    let seq_type = "";
+    let target_rna = "";
 
     const result = [];
+    const dataLen = data.length;
 
-    function handleINDLE(seq, index) {}
+    data.forEach(d =>
+      Object.keys(d.value).forEach(v => {
+        const target = d.value[v];
+        const isOver = seq.length < target.standard_seq.length;
+        seq = isOver ? target.standard_seq : seq;
+        target_rna = isOver ? target.seq_target : target_rna;
+      })
+    );
 
-    for (let i = 0; i < data.length; i++) {
-      const dataLen = data.length;
+    for (let i = 0; i < dataLen; i++) {
       const label = data[i].key;
       const value = data[i].value;
+      if (!value) {
+        postMessage({ error: true });
+        return;
+      }
+
+      const valList = Object.keys(value);
       const finalIndel = [];
+
+      // default sp-cas9
+      seq_type = value.seq_type || 1;
+
       let seq_target = "";
       let standard_seq = "";
-
       for (let i in value) {
         const target = value[i];
         const total = target.tot_count;
@@ -26,14 +43,14 @@ export default () => {
           return;
         }
 
-        seq = seq.length < target_seq.length ? target_seq : seq;
         standard_seq = target_seq;
         seq_target = target.seq_target;
+
         target.table
           .filter(table => table.type !== 0)
           .map(t => {
-            const origin = t.origin.split("");
-            const change = t.change.split("");
+            const origin = t.origin.split("").slice(0, seq.length);
+            const change = t.change.split("").slice(0, seq.length);
             const count = t.count;
 
             const inputIndel = (isINDEL, index) => {
@@ -41,8 +58,7 @@ export default () => {
               const dataset = finalIndel[index] || {};
               const prev = dataset.y || 0;
               const data = (count / total) * 100;
-              const y = isINDEL ? data + prev : prev;
-
+              const y = isINDEL ? data / valList.length + prev : prev;
               finalIndel[index] = { x, y };
             };
 
@@ -66,6 +82,6 @@ export default () => {
       result.push({ indel: finalIndel, label, standard_seq, seq_target });
     }
 
-    postMessage({ result, seq });
+    postMessage({ result, seq, seq_type, target_rna });
   };
 };

@@ -13,7 +13,7 @@
     "log": {
       "release": [],
       "feature": ["Changed upload method"],
-      "bug": ["Fiexed analysis error"]
+      "bug": ["Fixed analysis error"]
     },
     "date": "20190826"
   },
@@ -141,7 +141,8 @@
       "release": [],
       "feature": [],
       "bug": ["Fixed Zip download problem - seperate environment"]
-    }
+    },
+    "date": "20191227"
   },
   {
     "version": "2.4.0",
@@ -149,7 +150,8 @@
       "release": [],
       "feature": ["Added analysis method by json file"],
       "bug": ["Fixed Zip download problem"]
-    }
+    },
+    "date": "20191228"
   },
   {
     "version": "2.4.1",
@@ -157,6 +159,34 @@
       "release": [],
       "feature": [],
       "bug": ["Fixed INDEL report chart bug", "Fixed file convert change issue"]
-    }
+    },
+    "date": "20191228"
+  },
+  {
+    "version": "2.5.0",
+    "log": {
+      "release": [],
+      "feature": ["Changed Analysis summary design"],
+      "bug": []
+    },
+    "date": "20200104"
+  },
+  {
+    "version": "2.5.1",
+    "log": {
+      "release": [],
+      "feature": ["Added Cleavage Site annotation in INDEL chart report page"],
+      "bug": []
+    },
+    "date": "20200105"
+  },
+  {
+    "version": "2.5.2",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed INDEL Chart bug", "Fixed Sequence information animation"]
+    },
+    "date": "20200105"
   }
 ]

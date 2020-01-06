@@ -1,5 +1,11 @@
 @import "styles/common.scss";
 
+.analysis-wrapper {
+  &.analysis-fix-wrapper {
+    // padding-top: 165px;
+  }
+}
+
 .summary {
   .title-box {
     width: 100%;
@@ -73,8 +79,91 @@
   }
 }
 
+.color-wrapper {
+  display: flex;
+
+  .color-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+
+    .bg {
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+    }
+
+    .text {
+      font-size: 0.8em;
+    }
+
+    &.origin-val {
+      .bg {
+        background-color: $originVal;
+      }
+    }
+
+    &.target-val {
+      .bg {
+        background-color: $targetVal;
+      }
+    }
+
+    &.sub-val {
+      .bg {
+        background-color: $subVal;
+      }
+    }
+
+    &.deletion-val {
+      .bg {
+        background-color: $deletionVal;
+      }
+    }
+
+    &.insertion-val {
+      .bg {
+        background-color: $insertionVal;
+      }
+    }
+  }
+}
 .summary-item {
   padding: 15px 0;
+  transition: all 0.3s;
+  margin-bottom: 30px;
+
+  &.fix-sequence {
+    .fix-wrapper {
+      width: 85%;
+      max-width: 1286px;
+      margin: auto;
+      padding: 10px;
+      // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+      // box-shadow: -1px 19px 24px -12px rgba(0, 0, 0, 0.39);
+      box-shadow: -5px -11px 58px 6px rgba(0, 0, 0, 0.39);
+      background-color: #514f4f;
+      color: #ffffff;
+
+      .sum-title-text {
+        color: #ffffff;
+      }
+    }
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    padding: 5px 14px;
+    transition: all 0.5s;
+    transition: opacity 0.4s, top 0.4s;
+
+    &.close {
+      opacity: 0;
+      top: -200px;
+    }
+  }
 }
 
 .sum-info {
@@ -169,17 +258,43 @@
     }
 
     .value-box {
-      margin: 0 1px;
-      & * {
-        font-size: 0.85em;
+      width: 15px;
+      height: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .value {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
       }
-      .diff {
-        color: rgb(67, 92, 255);
+
+      .target-val {
         font-weight: bold;
+        background-color: $targetVal;
+        color: #ffffff;
       }
-      .target-diff {
-        color: rgb(255, 67, 67);
+
+      .insertion-val {
         font-weight: bold;
+        background-color: $insertionVal;
+        color: #ffffff;
+      }
+
+      .deletion-val {
+        font-weight: bold;
+        background-color: $deletionVal;
+        color: #ffffff;
+      }
+
+      .sub-val {
+        font-weight: bold;
+        background-color: $subVal;
+        color: #ffffff;
       }
     }
   }
@@ -188,12 +303,59 @@
 .char-box {
   flex: 1;
 
+  &.origin-char {
+    text-align: center;
+    font-weight: bold;
+  }
+
   .char {
     text-align: center;
     cursor: pointer;
+    position: relative;
     padding: 3px 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
     &.char-title {
       font-weight: bold;
+    }
+
+    .bg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    span {
+      z-index: 100;
+    }
+
+    &.target-val {
+      .bg {
+        background-color: $targetVal;
+      }
+    }
+
+    &.origin-val {
+      .bg {
+        background-color: $originVal;
+      }
+    }
+
+    &.changed {
+      span {
+        color: #ffffff;
+      }
+    }
+
+    &.sub-val {
+      .bg {
+        background-color: $subVal;
+      }
     }
   }
 }

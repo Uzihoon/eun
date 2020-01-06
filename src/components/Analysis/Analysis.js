@@ -17,7 +17,11 @@ const Analysis = props => {
     handleIndel,
     analysisId,
     handleIndelFile,
-    download
+    download,
+    sequenceFix,
+    infoColorList,
+    changeColorList,
+    setRef
   } = props;
   const analysisList = props.analysisList[analysisId];
   if (!analysisList) return "";
@@ -30,8 +34,11 @@ const Analysis = props => {
 
     return prev - next;
   });
+  const seqList = format[analysisId].seq_RGEN.split("") || [];
   return (
-    <div className={cx("analysis-wrapper")}>
+    <div
+      className={cx("analysis-wrapper", sequenceFix && "analysis-fix-wrapper")}
+    >
       <div className={cx("summary")}>
         <div className={cx("title-box")}>
           <div className={cx("title")}>Summary</div>
@@ -54,23 +61,54 @@ const Analysis = props => {
             {download && <Excel {...props} />}
           </div>
         </div>
-        <div className={cx("summary-item")}>
+        <div
+          className={cx(
+            "summary-item",
+            "fix-sequence",
+            !sequenceFix && "close"
+          )}
+        >
+          <div className={cx("fix-wrapper")}>
+            <div className={cx("sum-title")}>
+              <div className={cx("sum-title-text")}>
+                Reference Amplicon Sequence
+              </div>
+              <div className={cx("sum-info")}>
+                <div className={cx("info")}>
+                  <div className={cx("blue", "info-icon")} />
+                  <div className={cx("text")}>Comparision sequence</div>
+                </div>
+                <div className={cx("info")}>
+                  <div className={cx("green", "info-icon")} />
+                  <div className={cx("text")}>crRNA sequence</div>
+                </div>
+              </div>
+            </div>
+            <div className={cx("sum-val", "wt-wrapper")}>
+              {summary[analysisId].map((e, i) => (
+                <span className={cx(`sum-${e.type}`)} key={i}>
+                  {e.data}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          className={cx("summary-item")}
+          ref={ref => setRef(ref, "sequence")}
+        >
           <div className={cx("sum-title")}>
-            <div className={cx("sum-title-text")}>WT Sequence</div>
+            <div className={cx("sum-title-text")}>
+              Reference Amplicon Sequence
+            </div>
             <div className={cx("sum-info")}>
               <div className={cx("info")}>
                 <div className={cx("blue", "info-icon")} />
-                <div className={cx("text")}>
-                  indicator sequences at each ends of comparision range
-                </div>
+                <div className={cx("text")}>Comparision sequence</div>
               </div>
               <div className={cx("info")}>
                 <div className={cx("green", "info-icon")} />
                 <div className={cx("text")}>crRNA sequence</div>
-              </div>
-              <div className={cx("info")}>
-                <div className={cx("red", "info-icon")} />
-                <div className={cx("text")}>WT marker sequence</div>
               </div>
             </div>
           </div>
@@ -81,12 +119,6 @@ const Analysis = props => {
               </span>
             ))}
           </div>
-        </div>
-        <div className={cx("summary-item")}>
-          <div className={cx("sum-title")}>
-            <div className={cx("sum-title-text")}>crRNA sequence</div>
-          </div>
-          <div className={cx("sum-val")}>{format[analysisId].seq_RGEN}</div>
         </div>
         {summaryList.map((e, i) => {
           const analysis = analysisList[e];
@@ -114,6 +146,16 @@ const Analysis = props => {
                   <div className={cx("sum-title-text")}>
                     Sequence Information
                   </div>
+                  <div className={cx("color-wrapper")}>
+                    {infoColorList.map((e, i) => {
+                      return (
+                        <div className={cx("color-box", e.class)} key={i}>
+                          <div className={cx("bg")} />
+                          <div className={cx("text")}>{e.title}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className={cx("sum-val")}>
                   <Table
@@ -126,6 +168,27 @@ const Analysis = props => {
               <div className={cx("summary-item")}>
                 <div className={cx("sum-title")}>
                   <div className={cx("sum-title-text")}>Sequence</div>
+                  <div className={cx("color-wrapper")}>
+                    {changeColorList.map((e, i) => {
+                      return (
+                        <div className={cx("color-box", e.class)} key={i}>
+                          <div className={cx("bg")} />
+                          <div className={cx("text")}>{e.title}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className={cx("sum-val")}>
+                  <div className={cx("char-box")}></div>
+                  {seqList.map((s, i) => {
+                    const index = seqList.length - i;
+                    return (
+                      <div className={cx("char-box", "origin-char")} key={i}>
+                        {s} {index}
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className={cx("sum-val")}>
                   <div className={cx("char-box")}>
@@ -135,7 +198,6 @@ const Analysis = props => {
                       </div>
                     ))}
                   </div>
-
                   {charIndex.map((e, i) => {
                     const total = analysis.tot_count;
                     return (
@@ -143,9 +205,33 @@ const Analysis = props => {
                         {sequenceCharList.map((k, j) => {
                           const val =
                             e[k] > 0 ? ((e[k] / total) * 100).toFixed(1) : 0;
+
+                          const origin = +val > 0 && k === seqList[i];
+                          const change =
+                            +val > 0 &&
+                            seqList[i] === format[analysisId].targetSeq &&
+                            k === format[analysisId].changeSeq;
+                          const sub = +val > 0 && !change && k !== seqList[i];
+                          const opacity =
+                            +val <= 0
+                              ? 1
+                              : Math.max(Math.floor(val / 10) / 10, 0.1);
+
+                          const color = opacity < 0.3 ? "#242424" : "#fffff";
+                          const charClass = {
+                            char: true,
+                            "sub-val": sub,
+                            "origin-val": origin,
+                            "target-val": change,
+                            changed: sub || origin || change
+                          };
+
                           return (
                             <Tooltip key={j} title={e[k]}>
-                              <div className={cx("char")}>{val}</div>
+                              <div className={cx(charClass)}>
+                                <div className={cx("bg")} style={{ opacity }} />
+                                <span style={{ color }}>{+val}</span>
+                              </div>
                             </Tooltip>
                           );
                         })}

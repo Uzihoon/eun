@@ -440,7 +440,8 @@ self.onmessage = e => {
     seq_hdr,
     targetSeq,
     changeSeq,
-    fileId
+    fileId,
+    nucleases
   } = data;
   let bp, m;
   if (rgen_type < 2) {
@@ -518,9 +519,37 @@ self.onmessage = e => {
       pri_back.slice(0, i) + "[AGCT]" + pri_back.slice(i + 1)
     );
   }
+
+  // original seq francy
   const seq_fancy_wt = [];
+  const eun_seq_fancy_wt = [];
 
   const setSeq = () => {
+    eun_seq_fancy_wt.push({
+      data: seq_wt.slice(0, start_pos),
+      type: "normal"
+    });
+
+    eun_seq_fancy_wt.push({
+      data: seq_wt.slice(start_pos, m.index),
+      type: "primerSeq"
+    });
+
+    eun_seq_fancy_wt.push({
+      data: seq_wt.slice(m.index, m.index + seq_RGEN.length),
+      type: "rgenSeq"
+    });
+
+    eun_seq_fancy_wt.push({
+      data: seq_wt.slice(m.index + seq_RGEN.length, end_pos),
+      type: "primerSeq"
+    });
+
+    eun_seq_fancy_wt.push({
+      data: seq_wt.slice(end_pos),
+      type: "normal"
+    });
+
     seq_fancy_wt.push({
       data: seq_wt.slice(0, start_pos),
       type: "normal"
@@ -563,7 +592,11 @@ self.onmessage = e => {
       data: seq_wt.slice(end_pos),
       type: "normal"
     });
-    post(0, seq_fancy_wt);
+    // RGEN TOOL
+    // post(0, seq_fancy_wt);
+
+    // EUN
+    post(0, eun_seq_fancy_wt);
   };
 
   setSeq();
@@ -1279,6 +1312,7 @@ self.onmessage = e => {
     data.change_target = store.change_target;
     data.standard_seq = seq_range;
     data.seq_target = seq_RGEN;
+    data.seq_type = nucleases;
     pgcallback(100);
     return data;
   };
