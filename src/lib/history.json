@@ -185,8 +185,12 @@
     "log": {
       "release": [],
       "feature": [],
-      "bug": ["Fixed INDEL Chart bug", "Fixed Sequence information animation"]
+      "bug": [
+        "Fixed INDEL Chart bug",
+        "Fixed Sequence information animation",
+        "Fixed analysis range error"
+      ]
     },
-    "date": "20200105"
+    "date": "20200106"
   }
 ]
