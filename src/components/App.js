@@ -16,7 +16,7 @@ import {
 } from "pages";
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
-// import Intro from "components/common/Intro";
+import Intro from "components/common/Intro";
 import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
@@ -106,7 +106,7 @@ class App extends Component {
           </Switch>
         </HashRouter>
         <InfoMessage />
-        {/* <Intro /> */}
+        <Intro />
       </>
     );
   }

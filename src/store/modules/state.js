@@ -70,7 +70,8 @@ const initialState = Map({
       url: "/convert",
       icon: File
     }
-  ]
+  ],
+  intro: true
 });
 
 export default handleActions(

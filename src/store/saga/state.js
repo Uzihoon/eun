@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, delay } from "redux-saga/effects";
 import { Auth } from "aws-amplify";
 import * as stateActions from "store/modules/state";
 
@@ -47,6 +47,9 @@ export function* checkAuth(action) {
         yield errorMsg(error);
       }
     }
+  } finally {
+    yield delay(2000);
+    yield put(stateActions.setState({ key: "intro", value: false }));
   }
 }
 
