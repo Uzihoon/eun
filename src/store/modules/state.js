@@ -71,7 +71,8 @@ const initialState = Map({
       icon: File
     }
   ],
-  intro: true
+  intro: true,
+  innerLoading: false
 });
 
 export default handleActions(

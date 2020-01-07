@@ -163,8 +163,8 @@ class UploadContainer extends Component {
   };
 
   handleChange = e => {
-    const { UploadActions } = this.props;
-
+    const { UploadActions, StateActions } = this.props;
+    StateActions.setState({ key: "innerLoading", value: true });
     const json = e.target.files[0];
     const analysisId = getUniqId();
 

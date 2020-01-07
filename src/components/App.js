@@ -17,6 +17,7 @@ import {
 import PrivateRouter from "lib/PrivateRouter";
 import InfoMessage from "components/common/InfoMessage";
 import Intro from "components/common/Intro";
+import InnerLoader from "components/common/InnerLoader";
 import { withRouter } from "react-router";
 import * as stateActions from "store/modules/state";
 
@@ -107,6 +108,7 @@ class App extends Component {
         </HashRouter>
         <InfoMessage />
         <Intro />
+        <InnerLoader />
       </>
     );
   }

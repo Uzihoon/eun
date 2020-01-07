@@ -192,5 +192,14 @@
       ]
     },
     "date": "20200106"
+  },
+  {
+    "version": "2.6.0",
+    "log": {
+      "release": [],
+      "feature": ["Added intro page"],
+      "bug": []
+    },
+    "date": "20200107"
   }
 ]

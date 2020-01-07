@@ -153,7 +153,7 @@ export default () => {
       ySteps: 2,
       xSteps: 1
     };
-
+    console.log(dataset);
     postMessage({ dataset, main, sequence: sequenceExcelData });
   };
 };
