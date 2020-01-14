@@ -6,7 +6,8 @@ import { Button } from "antd";
 const cx = classNames.bind(styles);
 
 const List = ({ userInfo, listRender }) => {
-  const user = userInfo.email || "Unkown";
+  const user = userInfo.email.split("@")[0];
+
   const test = [
     {
       name: "test",
@@ -27,31 +28,11 @@ const List = ({ userInfo, listRender }) => {
   ];
   return (
     <div className={cx("list-wrapper")}>
-      <div className={cx("list-container")}>
-        <div className={cx("list-title")}>Report List</div>
-        <div className={cx("list-header")}>
-          {listRender.map((e, i) => (
-            <div className={cx("list-item", e.key)} key={i}>
-              {e.title}
-            </div>
-          ))}
-        </div>
-        <div className={cx("list-body")}>
-          {test.map((data, key) => {
-            return (
-              <div className={cx("list-item-box")} key={key}>
-                {listRender.map((e, i) => {
-                  const value = e.render ? e.render(data, key) : data[e.key];
-                  return (
-                    <div key={i} className={cx("list-item", e.key)}>
-                      {value}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+      <div className={cx("header")}>
+        <div className={cx("title")}>{user}'s List</div>
+      </div>
+      <div className={cx("body")}>
+
       </div>
     </div>
   );

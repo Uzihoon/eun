@@ -1,72 +1,18 @@
+@import "styles/common.scss";
+
 .list-wrapper {
-  min-height: 90vh;
-  background-color: #ffffff;
-  width: 100%;
-  .list-container {
-    width: 80%;
-    margin: auto;
-    max-width: 1100px;
+  .header {
+    margin-bottom: 20px;
 
-    padding: 50px 30px;
-  }
-  .list-title {
-    font-size: 1.5em;
-    .point {
-      font-size: 0.9em;
+    .title {
+      font-size: $fontSize;
+      font-weight: $fontWeight;
+      margin-bottom: $marginBottom;
+      color: $fontColor;
     }
   }
 
-  .list-header {
-    padding: 10px;
-    border-bottom: 1px solid rgb(187, 187, 187);
-    display: flex;
-    margin: 20px 0;
-
-    .list-item {
-      font-size: 0.9em;
-      color: rgb(182, 182, 182);
-      text-align: center;
-    }
-  }
-
-  .list-body {
-    .list-item-box {
-      width: 100%;
-      padding: 10px;
-      display: flex;
-
-      .list-item {
-        font-size: 0.9em;
-        padding: 0 3px; 
-        text-align: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-
-  .list-item {
-    &.no,
-    &.download,
-    &.fileCount {
-      width: 5%;
-    }
-
-    &.name {
-      width: 45%;
-    }
-
-    &.target,
-    &.change {
-      width: 10%;
-    }
-
-    &.average {
-      width: 8%;
-    }
-
-    &.date {
-      width: 12%;
-    }
+  .button-box {
+    margin-top: 10px;
   }
 }

@@ -1,5 +1,5 @@
 import { call, put, delay } from "redux-saga/effects";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 import * as stateActions from "store/modules/state";
 
 export function* login(action) {
