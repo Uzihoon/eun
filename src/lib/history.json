@@ -201,5 +201,14 @@
       "bug": []
     },
     "date": "20200107"
+  },
+  {
+    "version": "2.6.1",
+    "log": {
+      "release": [],
+      "feature": ["Added Analysis List page", "Added guide modal"],
+      "bug": []
+    },
+    "date": "20200314"
   }
 ]
