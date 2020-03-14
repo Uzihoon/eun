@@ -2,11 +2,13 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./List.module.scss";
 import { Button } from "antd";
+import forensic from "img/forensic.png";
 
 const cx = classNames.bind(styles);
 
 const List = ({ userInfo, listRender }) => {
-  const user = userInfo.email || "Unkown";
+  const user = userInfo.email.split("@")[0];
+
   const test = [
     {
       name: "test",
@@ -17,7 +19,8 @@ const List = ({ userInfo, listRender }) => {
       date: "2018-09-09"
     },
     {
-      name: "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest",
+      name:
+        "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest",
       fileCount: 5,
       target: " C",
       change: "D",
@@ -27,30 +30,15 @@ const List = ({ userInfo, listRender }) => {
   ];
   return (
     <div className={cx("list-wrapper")}>
-      <div className={cx("list-container")}>
-        <div className={cx("list-title")}>Report List</div>
-        <div className={cx("list-header")}>
-          {listRender.map((e, i) => (
-            <div className={cx("list-item", e.key)} key={i}>
-              {e.title}
-            </div>
-          ))}
-        </div>
-        <div className={cx("list-body")}>
-          {test.map((data, key) => {
-            return (
-              <div className={cx("list-item-box")} key={key}>
-                {listRender.map((e, i) => {
-                  const value = e.render ? e.render(data, key) : data[e.key];
-                  return (
-                    <div key={i} className={cx("list-item", e.key)}>
-                      {value}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+      <div className={cx("header")}>
+        <div className={cx("title")}>{user}'s List</div>
+      </div>
+      <div className={cx("body")}>
+        <div className={cx("no-data")}>
+          <div className={cx("img")}>
+            <img src={forensic} />
+          </div>
+          <div className={cx("text")}>Sorry. there's no analysed list.</div>
         </div>
       </div>
     </div>

@@ -11,7 +11,18 @@ const IndelReport = props => {
     <div className={cx("indel-wrapper")}>
       <div className={cx("header")}>
         <div className={cx("title")}>INDEL Type Report</div>
-        <div className={cx("desc")}>This is Indel Report type bla bla bla</div>
+        <div className={cx("desc")}>
+          This chart shows the average indel position of analyzed data. You can
+          compare the position of cleavage or indel site of multiple target
+          sequences.
+          <p>
+            Please run{" "}
+            <b>
+              <a href="/#/analysis">Cas analysis</a>
+            </b>{" "}
+            first, and put <b>.json</b> file here.
+          </p>
+        </div>
       </div>
       <div className={cx("upload-box")}>
         <DragBox uploadInfo={props.uploadInfo} />

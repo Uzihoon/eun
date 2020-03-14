@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Main.module.scss";
 import classNames from "classnames/bind";
+import { connect } from "react-redux";
+import { API } from "aws-amplify";
+import { join } from "path";
 
 const cx = classNames.bind(styles);
 
 const Main = props => {
-  const { menuList, clickToLink } = props;
+  const { menuList, clickToLink, authed } = props;
+
+  useEffect(() => {
+    async function Load() {
+      if (!authed) return;
+
+      try {
+        const list = await loadEun();
+        console.log(list);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    // Load();
+    console.log(menuList);
+  }, [authed]);
+
+  function loadEun() {
+    return API.get("eun", "/eun");
+  }
 
   return (
     <div className={cx("main-container")}>
@@ -37,4 +59,6 @@ const Main = props => {
   );
 };
 
-export default Main;
+export default connect(state => ({
+  authed: state.state.get("authed")
+}))(Main);

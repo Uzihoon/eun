@@ -3,7 +3,7 @@ import PageTemplate from "components/common/PageTemplate";
 import ListContainer from "components/containers/ListContainer";
 
 const ListPage = () => (
-  <PageTemplate nolayout={true}>
+  <PageTemplate >
     <ListContainer />
   </PageTemplate>
 );

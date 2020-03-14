@@ -3,6 +3,7 @@ import { Map, fromJS } from "immutable";
 import Line from "img/line.png";
 import Dna from "img/dna.png";
 import File from "img/file.png";
+import List from "img/list.png";
 
 const SHOW_MSG = "state/SHOW_MSG";
 const HIDE_MSG = "state/HIDE_MSG";
@@ -69,8 +70,15 @@ const initialState = Map({
       title: "File Convert",
       url: "/convert",
       icon: File
+    },
+    {
+      title: "Analysis List",
+      url: "/list",
+      icon: List
     }
-  ]
+  ],
+  intro: true,
+  innerLoading: false
 });
 
 export default handleActions(

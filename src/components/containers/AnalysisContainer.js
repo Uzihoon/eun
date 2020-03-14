@@ -186,7 +186,7 @@ class AnalysisContainer extends Component {
   componentDidMount() {
     const { StateActions } = this.props;
     StateActions.setState({ key: "sampleLoading", value: false });
-
+    StateActions.setState({ key: "innerLoading", value: false });
     this.analysisWorker = new Webworker(analysisWorker);
     this.analysisWorker.onmessage = this.getDownload;
 
@@ -246,7 +246,8 @@ class AnalysisContainer extends Component {
 
   handleExcel = _ => {
     const { resultList, sequenceCharList, analysisId } = this.state;
-    const { analysisList, format } = this.props;
+    const { analysisList, format, StateActions } = this.props;
+    StateActions.setState({ key: "innerLoading", value: true });
     this.setState({ download: false, excelData: null });
     this.analysisWorker.postMessage({
       analysisList: analysisList[analysisId],
@@ -299,11 +300,19 @@ class AnalysisContainer extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    const { StateActions } = nextProps;
+    const { download } = nextState;
     if (this.state.analysisId !== nextState.analysisId) {
       return true;
     }
 
     if (this.state.sequenceFix !== nextState.sequenceFix) {
+      return true;
+    }
+
+    if (this.state.download !== download && download) {
+      this.setState({ download: false });
+      StateActions.setState({ key: "innerLoading", value: false });
       return true;
     }
 

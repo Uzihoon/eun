@@ -79,7 +79,7 @@ export function* formatData(action) {
         rgen_type,
         seq_RGEN,
         seq_RGEN2,
-        end_range,
+        end_range: +end_range,
         filt_n,
         filt_r,
         fileList,

@@ -35,7 +35,12 @@ export default Form.create({ name: "upload" })(
       return (
         <Form>
           <div className={cx("header")}>
-            <div className={cx("title")}>Cas Analysis</div>
+            <div className={cx("title")}>
+              <div className={cx("main")}>Cas Analysis</div>
+              <div className={cx("desc")}>
+                Cas Analysis provides multi-sample analysis of NGS data.
+              </div>
+            </div>
             <div className={cx("button-box")}>
               <div className={cx("sample-btn")} onClick={handleJson}>
                 <input
@@ -83,10 +88,10 @@ export default Form.create({ name: "upload" })(
                     message: "Please input file pattern"
                   }
                 ]
-              })(<Input />)}
+              })(<Input placeholder="Sample-ID" />)}
             </Item>
             <Item className={cx("half-item")}>
-              <div className={cx("item-title")}>File Index Pattern*</div>
+              <div className={cx("item-title")}>File Index Pattern</div>
               {getFieldDecorator("indexPattern", {
                 // initialValue: "_L001_",
                 rules: [
@@ -95,12 +100,12 @@ export default Form.create({ name: "upload" })(
                     message: "Please input file pattern"
                   }
                 ]
-              })(<Input />)}
+              })(<Input placeholder="_L001_" />)}
             </Item>
           </div>
           <Item>
             <div className={cx("item-title")}>
-              Sequencing Data* (Paired-end reads)
+              Sequencing Data (Paired-end reads)
             </div>
             {getFieldDecorator("files", {
               rules: [{ required: true, message: "Please submit files" }]
@@ -116,12 +121,14 @@ export default Form.create({ name: "upload" })(
             )}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Reference Amplicon Sequence*</div>
+            <div className={cx("item-title")}>Reference Amplicon Sequence</div>
             {getFieldDecorator("fullseq", {
               // initialValue:
               // "GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
               rules: [{ required: true, message: "Please input Full Sequence" }]
-            })(<TextArea />)}
+            })(
+              <TextArea placeholder="GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC" />
+            )}
           </Item>
           {/* <Item>
             <div className={cx("item-title")}>Nuclease Type</div>
@@ -138,7 +145,7 @@ export default Form.create({ name: "upload" })(
             )}
           </Item> */}
           <Item>
-            <div className={cx("item-title")}>Used Cas otholog*</div>
+            <div className={cx("item-title")}>Used Cas Ortholog</div>
             {getFieldDecorator("nucleases", {
               initialValue: nucleaseList[0].value
             })(
@@ -153,38 +160,38 @@ export default Form.create({ name: "upload" })(
           </Item>
           <Item>
             <div className={cx("item-title")}>
-              Target DNA sequence* (5 to 3, without PAM sequence)
+              Target DNA sequence* (5' to 3', without PAM sequence)
             </div>
             {getFieldDecorator("rgenseq", {
               // initialValue: "ACCTCAGTTCCCCTTCAAAG",
               rules: [
                 { required: true, message: "Please input target DNA sequence" }
               ]
-            })(<Input />)}
+            })(<Input placeholder="ACCTCAGTTCCCCTTCAAAG" />)}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Standard Range*</div>
+            <div className={cx("item-title")}>Standard Range</div>
             {getFieldDecorator("end_range", {
               initialValue: "70",
               rules: [
                 { required: true, message: "Please input range" },
                 { validator: checkNumber }
               ]
-            })(<Input />)}
+            })(<Input placeholder="Standard Range" />)}
           </Item>
           <Item>
-            <div className={cx("item-title")}>Target Nucleotide*</div>
+            <div className={cx("item-title")}>Target Nucleotide</div>
             {getFieldDecorator("targetSeq", {
               // initialValue: "c",
               rules: [
                 { required: true, message: "Please input target" },
                 { validator: validationCheck }
               ]
-            })(<Input />)}
+            })(<Input placeholder="C" />)}
           </Item>
           <Item>
             <div className={cx("item-title")}>
-              Desired change of target nucleotide*
+              Desired change of target nucleotide
             </div>
             {getFieldDecorator("changeSeq", {
               // initialValue: "t",
@@ -192,7 +199,7 @@ export default Form.create({ name: "upload" })(
                 { required: true, message: "Please input change" },
                 { validator: validationCheck }
               ]
-            })(<Input />)}
+            })(<Input placeholder="T" />)}
           </Item>
           <div className={cx("button-box")}>
             <Button onClick={handleSubmit}>Submit</Button>

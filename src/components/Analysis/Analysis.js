@@ -52,7 +52,7 @@ const Analysis = props => {
               onClick={handleIndelFile}
             >
               <Icon type="file-text" />
-              <span className={cx("btn-guide")}>Download for INDEL Report</span>
+              <span className={cx("btn-guide")}>Download for JSON file</span>
             </div>
             <div className={cx("btn-box", "excel-btn")} onClick={handleExcel}>
               <Icon type="file-excel" />

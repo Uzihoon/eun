@@ -1,6 +1,6 @@
 {
   "name": "eun",
-  "version": "0.1.0",
+  "version": "2.5.2",
   "private": true,
   "dependencies": {
     "antd": "^3.20.7",

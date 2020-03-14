@@ -6,10 +6,16 @@
   justify-content: space-between;
 
   .title {
-    font-size: $fontSize;
-    font-weight: $fontWeight;
     margin-bottom: $marginBottom;
-    color: $fontColor;
+    .main {
+      font-size: $fontSize;
+      font-weight: $fontWeight;
+      color: $fontColor;
+    }
+
+    .desc {
+      color: $descColor;
+    }
   }
 
   .button-box {
@@ -179,5 +185,4 @@
       width: 100%;
     }
   }
-
 }

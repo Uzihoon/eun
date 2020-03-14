@@ -185,8 +185,30 @@
     "log": {
       "release": [],
       "feature": [],
-      "bug": ["Fixed INDEL Chart bug", "Fixed Sequence information animation"]
+      "bug": [
+        "Fixed INDEL Chart bug",
+        "Fixed Sequence information animation",
+        "Fixed analysis range error"
+      ]
     },
-    "date": "20200105"
+    "date": "20200106"
+  },
+  {
+    "version": "2.6.0",
+    "log": {
+      "release": [],
+      "feature": ["Added intro page"],
+      "bug": []
+    },
+    "date": "20200107"
+  },
+  {
+    "version": "2.6.1",
+    "log": {
+      "release": [],
+      "feature": ["Added Analysis List page", "Added guide modal"],
+      "bug": []
+    },
+    "date": "20200314"
   }
 ]

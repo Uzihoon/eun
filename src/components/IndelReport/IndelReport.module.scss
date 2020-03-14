@@ -7,8 +7,25 @@
     .title {
       font-size: $fontSize;
       font-weight: $fontWeight;
-      margin-bottom: $marginBottom;
+      // margin-bottom: $marginBottom;
       color: $fontColor;
+    }
+    .desc {
+      color: $descColor;
+    }
+
+    b {
+      color: #fd7474;
+
+      a {
+        color: inherit;
+        border-bottom: 1px solid;
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+      color: #ff9c9c;
     }
   }
 

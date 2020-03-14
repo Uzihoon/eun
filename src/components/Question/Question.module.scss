@@ -1,0 +1,95 @@
+$bubble: #5f5f5f;
+
+.question-icon {
+  position: fixed;
+  z-index: 20;
+  right: 24px;
+  bottom: 24px;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #4b9af4;
+  background-color: #e7f3fc;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 6px 0px !important;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translate(0, -5px);
+  }
+
+  img {
+    width: 50px;
+  }
+}
+
+.speech-bubble {
+  top: -60px;
+  position: absolute;
+  background: $bubble;
+  border-radius: 0.4em;
+  color: #ffffff;
+  width: 117px;
+  padding: 10px;
+  right: 0px;
+  opacity: 0;
+
+  .text {
+    color: #ffffff;
+    z-index: 10;
+    position: relative;
+  }
+}
+
+.speech-bubble:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: $bubble;
+  border-bottom: 0;
+  border-left: 0;
+  margin-left: -5px;
+  margin-bottom: -10px;
+}
+
+.hidden {
+  animation: hiddenAni 1s;
+  opacity: 0;
+}
+
+.show {
+  animation: showAni 1s;
+  opacity: 1;
+  transition: all 0.3s;
+}
+
+@keyframes showAni {
+  0% {
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes hiddenAni {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
+}
