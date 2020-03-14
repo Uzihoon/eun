@@ -7,8 +7,12 @@
     .title {
       font-size: $fontSize;
       font-weight: $fontWeight;
-      margin-bottom: $marginBottom;
+      // margin-bottom: $marginBottom;
       color: $fontColor;
+    }
+
+    .desc {
+      color: $descColor;
     }
   }
 

@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./List.module.scss";
 import { Button } from "antd";
+import forensic from "img/forensic.png";
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +19,8 @@ const List = ({ userInfo, listRender }) => {
       date: "2018-09-09"
     },
     {
-      name: "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest",
+      name:
+        "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest",
       fileCount: 5,
       target: " C",
       change: "D",
@@ -32,7 +34,12 @@ const List = ({ userInfo, listRender }) => {
         <div className={cx("title")}>{user}'s List</div>
       </div>
       <div className={cx("body")}>
-
+        <div className={cx("no-data")}>
+          <div className={cx("img")}>
+            <img src={forensic} />
+          </div>
+          <div className={cx("text")}>Sorry. there's no analysed list.</div>
+        </div>
       </div>
     </div>
   );

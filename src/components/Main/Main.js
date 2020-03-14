@@ -8,23 +8,21 @@ import { join } from "path";
 const cx = classNames.bind(styles);
 
 const Main = props => {
-  const { menuList, clickToLink,authed } = props;
+  const { menuList, clickToLink, authed } = props;
 
   useEffect(() => {
-
     async function Load() {
       if (!authed) return;
 
       try {
         const list = await loadEun();
-        console.log(list)
-      } catch(e){
-        console.error(e)
+        console.log(list);
+      } catch (e) {
+        console.error(e);
       }
     }
-
-    Load();
-    
+    // Load();
+    console.log(menuList);
   }, [authed]);
 
   function loadEun() {
@@ -61,8 +59,6 @@ const Main = props => {
   );
 };
 
-export default connect(
-  state => ({
-    authed: state.state.get("authed")
-  })
-)(Main);
+export default connect(state => ({
+  authed: state.state.get("authed")
+}))(Main);

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import TopBar from "components/common/TopBar";
 import { VERSION } from "environment";
+import Question from "components/Question";
 
 import * as stateActions from "store/modules/state";
 import * as uploadActions from "store/modules/upload";
@@ -30,6 +31,7 @@ class PageTemplate extends Component {
     const { children, nolayout } = this.props;
     return (
       <Layout className={cx("full-layout")}>
+        <Question />
         <TopBar {...this.props} {...this} />
         <Layout className={cx("content-layout")}>
           {nolayout ? (

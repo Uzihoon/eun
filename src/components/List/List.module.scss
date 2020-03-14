@@ -16,3 +16,26 @@
     margin-top: 10px;
   }
 }
+
+.no-data {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  .img {
+    width: 150px;
+    opacity: 0.8;
+    margin-bottom: 10px;
+    img {
+      width: 100%;
+    }
+  }
+
+  .text {
+    font-size: 1.5em;
+    color: #242424;
+  }
+}
