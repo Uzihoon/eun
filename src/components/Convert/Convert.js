@@ -12,7 +12,12 @@ const Convert = props => {
     <div className={cx("convert-wrapper")}>
       <div className={cx("header")}>
         <div className={cx("title")}>File Convert</div>
-        <div className={cx("desc")}>Convert your analysised file</div>
+        <div className={cx("desc")}>
+          You can convert the file or change the sequence data.
+          <br />
+          Click the button what you want to convert and after convert, it would
+          be downloaded for zip file.
+        </div>
       </div>
       <div className={cx("upload-box")}>
         <DragBox uploadInfo={props.uploadInfo} />
