@@ -16,13 +16,11 @@ const Main = props => {
 
       try {
         const list = await loadEun();
-        console.log(list);
       } catch (e) {
         console.error(e);
       }
     }
     // Load();
-    console.log(menuList);
   }, [authed]);
 
   function loadEun() {

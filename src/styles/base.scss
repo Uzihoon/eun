@@ -8,3 +8,8 @@ body {
   font-size: 14px;
   font-family: "Roboto", sans-serif;
 }
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  color: #ff9a9f !important;
+}

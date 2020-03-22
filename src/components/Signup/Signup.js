@@ -43,9 +43,9 @@ export default Form.create({ name: "signup" })(
                   required: true,
                   message: "Please input your password!"
                 },
-                {
-                  min: 6
-                },
+                // {
+                //   min: 8
+                // },
                 {
                   validator: validateToNextPassword
                 }
