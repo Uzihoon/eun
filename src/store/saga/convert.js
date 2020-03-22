@@ -126,8 +126,6 @@ export function* convertFile(action) {
   yield put(ConvertActions.setGauge(50));
   convertType.map(c => (convertedFile = convert[c](convertedFile)));
   yield put(ConvertActions.setGauge(100));
-  console.log(convertedFile);
-  console.log(originalFile);
   const zip = new JSZip();
   convertedFile.map(file => {
     const data = {

@@ -108,14 +108,19 @@ class SignupContainer extends Component {
     callback(msg);
   };
   validateToNextPassword = (rule, value, callback) => {
-    // 특수문자, 대문자, 숫자, 최소 6자리 이상이어야 한다.
+    // 특수문자, 대문자, 숫자, 최소 8자리 이상이어야 한다.
+    if (!value || value === "") {
+      callback(undefined);
+      return;
+    }
     const regex = new RegExp(
-      "(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[#$@!%&*?]).{6,}"
+      "(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[#$@!%&*?]).{8,}"
     );
     const match = value.match(regex);
     let msg = undefined;
     if (!match) {
-      msg = "Password must have uppercase and numeric and special characters ";
+      msg =
+        "At least 8 character with uppercase and lowercase letters, numbers and at least one special character eg. Password1!";
     }
     callback(msg);
   };
