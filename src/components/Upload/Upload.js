@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Upload.module.scss";
-import { Form, Input, Select, Button, Upload } from "antd";
+import { Form, Input, Select, Button, Upload, Radio } from "antd";
 import UploadIcon from "img/gene.png";
 import RunIcon from "img/sample.png";
 import FileIcon from "img/json.png";
@@ -12,6 +12,8 @@ const Dragger = Upload.Dragger;
 const Option = Select.Option;
 
 const cx = classNames.bind(styles);
+
+const tideList = ["A", "C", "G", "T"];
 
 export default Form.create({ name: "upload" })(
   class extends React.Component {
@@ -187,7 +189,15 @@ export default Form.create({ name: "upload" })(
                 { required: true, message: "Please input target" },
                 { validator: validationCheck }
               ]
-            })(<Input placeholder="C" />)}
+            })(
+              <Radio.Group>
+                {tideList.map(tide => (
+                  <Radio key={tide} value={tide}>
+                    {tide}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            )}
           </Item>
           <Item>
             <div className={cx("item-title")}>
@@ -199,7 +209,15 @@ export default Form.create({ name: "upload" })(
                 { required: true, message: "Please input change" },
                 { validator: validationCheck }
               ]
-            })(<Input placeholder="T" />)}
+            })(
+              <Radio.Group>
+                {tideList.map(tide => (
+                  <Radio key={tide} value={tide}>
+                    {tide}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            )}
           </Item>
           <div className={cx("button-box")}>
             <Button onClick={handleSubmit}>Submit</Button>

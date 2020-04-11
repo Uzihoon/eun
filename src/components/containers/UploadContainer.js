@@ -182,6 +182,7 @@ class UploadContainer extends Component {
     const files = fileList.toJS();
     form.validateFields((err, val) => {
       if (err) return;
+      console.log(val);
       const evenFile = files.length % 2;
       if (evenFile > 0) {
         StateActions.showMsg({
