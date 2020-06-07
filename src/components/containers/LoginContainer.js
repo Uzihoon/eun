@@ -27,6 +27,11 @@ class LoginContainer extends Component {
     history.push("/signup");
   };
 
+  handleGuest = () => {
+    const { StateActions } = this.props;
+    StateActions.loginSuccess({ email: "Guest@" });
+  };
+
   componentDidMount() {
     const { enterEvent } = this;
     window.addEventListener("keydown", enterEvent);

@@ -11,7 +11,7 @@ const Password = Input.Password;
 export default Form.create({ name: "login" })(
   class extends React.Component {
     render() {
-      const { handleSubmit, handleRegister } = this.props;
+      const { handleSubmit, handleRegister, handleGuest } = this.props;
       const { getFieldDecorator } = this.props.form;
 
       return (
@@ -68,7 +68,7 @@ export default Form.create({ name: "login" })(
                   />
                 )}
               </Item>
-              <Item className={cx("input-box")}>
+              <Item className={cx("input-box", "last-input")}>
                 {getFieldDecorator("password", {
                   rules: [{ required: true, message: "Please input password" }]
                 })(
@@ -83,6 +83,9 @@ export default Form.create({ name: "login" })(
                   />
                 )}
               </Item>
+              <div className={cx("without-login")} onClick={handleGuest}>
+                Use EUN analysis without login
+              </div>
               <div className={cx("button-box")}>
                 <div className={cx("login-button")} onClick={handleSubmit}>
                   <span>LOGIN</span>
