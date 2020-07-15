@@ -48,6 +48,10 @@
 
   .input-box {
     width: 100%;
+
+    &.last-input {
+      margin-bottom: 0 !important;
+    }
     svg {
       color: rgba(255, 255, 255, 0.55);
     }
@@ -213,4 +217,18 @@
   color: #ffffff;
   font-weight: 200;
   opacity: 0.3;
+}
+
+.without-login {
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  color: #ffffff;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.4s;
+
+  &:hover {
+    opacity: 1;
+  }
 }
