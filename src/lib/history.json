@@ -210,5 +210,14 @@
       "bug": []
     },
     "date": "20200314"
+  },
+  {
+    "version": "2.6.2",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed layout"]
+    },
+    "date": "20200821"
   }
 ]
