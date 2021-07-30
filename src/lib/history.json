@@ -219,5 +219,14 @@
       "bug": ["Fixed layout"]
     },
     "date": "20200821"
+  },
+  {
+    "version": "2.6.3",
+    "log": {
+      "release": [],
+      "feature": [],
+      "bug": ["Fixed table style"]
+    },
+    "date": "20210730"
   }
 ]

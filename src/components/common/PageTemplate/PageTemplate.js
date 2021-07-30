@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import classNames from "classnames/bind";
-import styles from "./PageTemplate.module.scss";
-import { Layout } from "antd";
-import { withRouter } from "react-router";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import TopBar from "components/common/TopBar";
-import { VERSION } from "environment";
-import Question from "components/Question";
+import React, { Component } from 'react';
+import classNames from 'classnames/bind';
+import styles from './PageTemplate.module.scss';
+import { Layout } from 'antd';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import TopBar from 'components/common/TopBar';
+import { VERSION } from 'environment';
+import Question from 'components/Question';
 
-import * as stateActions from "store/modules/state";
-import * as uploadActions from "store/modules/upload";
+import * as stateActions from 'store/modules/state';
+import * as uploadActions from 'store/modules/upload';
 
 const { Content } = Layout;
 
@@ -30,21 +30,21 @@ class PageTemplate extends Component {
   render() {
     const { children, nolayout } = this.props;
     return (
-      <Layout className={cx("full-layout")}>
+      <Layout className={cx('full-layout')}>
         <Question />
         <TopBar {...this.props} {...this} />
-        <Layout className={cx("content-layout")}>
+        <Layout className={cx('content-layout')}>
           {nolayout ? (
             children
           ) : (
-            <Layout className={cx("main-layout")}>
-              <Content className={cx("eun-content")}>{children}</Content>
-              <div className={cx("footer")}>
-                <a href="https://github.com/Uzihoon">
-                  © 2019 Uzihoon All rights reserved
+            <Layout className={cx('main-layout')}>
+              <Content className={cx('eun-content')}>{children}</Content>
+              <div className={cx('footer')}>
+                <a href='https://github.com/Uzihoon'>
+                  {`© 2019 - ${new Date().getFullYear()} Uzihoon All rights reserved`}
                 </a>
-                <div className={cx("line")}></div>
-                <a href="/#/version">{VERSION} version</a>
+                <div className={cx('line')}></div>
+                <a href='/#/version'>{VERSION} version</a>
               </div>
             </Layout>
           )}
@@ -57,7 +57,7 @@ class PageTemplate extends Component {
 export default withRouter(
   connect(
     state => ({
-      menuList: state.state.get("menuList")
+      menuList: state.state.get('menuList')
     }),
     dispatch => ({
       StateActions: bindActionCreators(stateActions, dispatch),
