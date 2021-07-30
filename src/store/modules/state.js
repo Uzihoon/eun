@@ -1,22 +1,22 @@
-import { createAction, handleActions } from "redux-actions";
-import { Map, fromJS } from "immutable";
-import Line from "img/line.png";
-import Dna from "img/dna.png";
-import File from "img/file.png";
-import List from "img/list.png";
+import { createAction, handleActions } from 'redux-actions';
+import { Map, fromJS } from 'immutable';
+import Line from 'img/line.png';
+import Dna from 'img/dna.png';
+import File from 'img/file.png';
+import List from 'img/list.png';
 
-const SHOW_MSG = "state/SHOW_MSG";
-const HIDE_MSG = "state/HIDE_MSG";
-const SET_PENDING = "state/SET_PENDING";
-const SET_FINISH = "state/SET_FINISH";
-const LOGIN_SUCCESS = "state/LOGIN_SUCCESS";
-const LOGOUT = "state/LOGOUT";
-const HANDLE_CONFIRM = "state/HANDLE_CONFIRM";
-const SET_TEMP_USERNAME = "state/SET_TEMP_USERNAME";
-const SET_STATE = "state/SET_STATE";
-const LOGIN = "state/LOGIN";
-const CHECK_AUTH = "state/CHECK_AUTH";
-const RESET_USER = "state/RESET_USER";
+const SHOW_MSG = 'state/SHOW_MSG';
+const HIDE_MSG = 'state/HIDE_MSG';
+const SET_PENDING = 'state/SET_PENDING';
+const SET_FINISH = 'state/SET_FINISH';
+const LOGIN_SUCCESS = 'state/LOGIN_SUCCESS';
+const LOGOUT = 'state/LOGOUT';
+const HANDLE_CONFIRM = 'state/HANDLE_CONFIRM';
+const SET_TEMP_USERNAME = 'state/SET_TEMP_USERNAME';
+const SET_STATE = 'state/SET_STATE';
+const LOGIN = 'state/LOGIN';
+const CHECK_AUTH = 'state/CHECK_AUTH';
+const RESET_USER = 'state/RESET_USER';
 
 export const showMsg = createAction(SHOW_MSG);
 export const hideMsg = createAction(HIDE_MSG);
@@ -33,8 +33,8 @@ export const resetUser = createAction(RESET_USER);
 
 const initialState = Map({
   msg: {
-    status: "",
-    content: "",
+    status: '',
+    content: '',
     show: false
   },
   loading: false,
@@ -44,36 +44,36 @@ const initialState = Map({
   tempUsername: null,
   sampleLoading: false,
   sample: Map({
-    changeSeq: "g",
+    changeSeq: 'g',
     fullseq:
-      "ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT",
-    indexPattern: "_L001_",
-    namePattern: "",
-    nucleases: "1",
-    nuctype: "0",
-    rgenseq: "TCAGAAAGTGGTGGCTGGTG",
-    targetSeq: "a",
+      'ACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACT',
+    indexPattern: '_L001_',
+    namePattern: '',
+    nucleases: '1',
+    nuctype: '0',
+    rgenseq: 'TCAGAAAGTGGTGGCTGGTG',
+    targetSeq: 'a',
     end_range: 70
   }),
   menuList: [
     {
-      title: "Cas Analysis",
-      url: "/analysis",
+      title: 'Cas Analysis',
+      url: '/analysis',
       icon: Dna
     },
     {
-      title: "INDEL Type Report",
-      url: "/indel",
+      title: 'INDEL Type Report',
+      url: '/indel',
       icon: Line
     },
     {
-      title: "File Convert",
-      url: "/convert",
+      title: 'File Convert',
+      url: '/convert',
       icon: File
     },
     {
-      title: "Analysis List",
-      url: "/list",
+      title: 'Analysis List',
+      url: '/list',
       icon: List
     }
   ],
@@ -86,35 +86,35 @@ export default handleActions(
     [SHOW_MSG]: (state, action) => {
       const { status, content } = action.payload;
       return state
-        .setIn(["msg", "status"], status)
-        .setIn(["msg", "content"], content)
-        .setIn(["msg", "show"], true);
+        .setIn(['msg', 'status'], status)
+        .setIn(['msg', 'content'], content)
+        .setIn(['msg', 'show'], true);
     },
     [HIDE_MSG]: (state, action) => {
       return state
-        .setIn(["msg", "status"], "")
-        .setIn(["msg", "content"], "")
-        .setIn(["msg", "show"], false);
+        .setIn(['msg', 'status'], '')
+        .setIn(['msg', 'content'], '')
+        .setIn(['msg', 'show'], false);
     },
     [SET_PENDING]: (state, action) => {
-      return state.set("loading", true);
+      return state.set('loading', true);
     },
     [SET_FINISH]: (state, action) => {
-      return state.set("loading", false);
+      return state.set('loading', false);
     },
     [LOGIN_SUCCESS]: (state, action) => {
       const { payload: userInfo } = action;
-      return state.set("authed", true).set("userInfo", fromJS(userInfo));
+      return state.set('authed', true).set('userInfo', fromJS(userInfo));
     },
     [RESET_USER]: (state, action) => {
-      return state.set("authed", false).set("userInfo", Map({}));
+      return state.set('authed', false).set('userInfo', Map({}));
     },
     [HANDLE_CONFIRM]: (state, action) => {
-      return state.set("confirm", true);
+      return state.set('confirm', true);
     },
     [SET_TEMP_USERNAME]: (state, action) => {
       const { payload: username } = action;
-      return state.set("tempUsername", username);
+      return state.set('tempUsername', username);
     },
     [SET_STATE]: (state, action) => {
       const { key, value } = action.payload;

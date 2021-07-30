@@ -1122,6 +1122,7 @@ self.onmessage = e => {
           fq[0].seq.s.join("") + rc.seq.s.slice(besto).join("") + "\n"
         );
       }
+      // console.log(`modulo: ${helper.__modulo(nrec, steprec)}, nrec: ${nrec} steprec: ${steprec}`)
       if (helper.__modulo(nrec, steprec) === 0) {
         if (prevfpos !== readers[0].fpos) {
           pgcallback((readers[0].fpos * 100) / files[0].size);

@@ -1,11 +1,11 @@
-import { put, select, call, all } from "redux-saga/effects";
-import { fromJS } from "immutable";
-import _ from "lodash";
-import { getFileData } from "lib/utility";
+import { put, select, call, all } from 'redux-saga/effects';
+import { fromJS } from 'immutable';
+import _ from 'lodash';
+import { getFileData } from 'lib/utility';
 
-import * as stateActions from "store/modules/state";
-import * as analysisActions from "store/modules/analysis";
-import * as uploadActions from "store/modules/upload";
+import * as stateActions from 'store/modules/state';
+import * as analysisActions from 'store/modules/analysis';
+import * as uploadActions from 'store/modules/upload';
 
 const getAnalysisDataFromStore = state => state.analysis;
 
@@ -24,8 +24,8 @@ export function* formatData(action) {
       indexPattern,
       end_range
     } = data;
-    const seq_wt = fullseq.toUpperCase().replace(/\s/g, "");
-    const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, "");
+    const seq_wt = fullseq.toUpperCase().replace(/\s/g, '');
+    const seq_RGEN = rgenseq.toUpperCase().replace(/\s/g, '');
     const msgType = 0;
     //TODO: optfile select box 설정 필요 우선 하드코딩
     const fileopt = 0;
@@ -34,12 +34,12 @@ export function* formatData(action) {
     const filt_r = 5;
 
     let rgen_type = 0;
-    let seq_RGEN2 = "";
+    let seq_RGEN2 = '';
 
     if (+nuctype === 0 && +nucleases === 6) {
       rgen_type = 1;
     } else if (+nuctype === 1) {
-      seq_RGEN2 = "";
+      seq_RGEN2 = '';
       if (+nucleases === 9) {
         rgen_type = 4;
       } else if (+nucleases === 10) {
@@ -68,8 +68,8 @@ export function* formatData(action) {
     if (Object.keys(fileList).length <= 0) {
       yield put(
         stateActions.showMsg({
-          status: "warning",
-          content: "Please check file again!"
+          status: 'warning',
+          content: 'Please check file again!'
         })
       );
     } else {
@@ -89,14 +89,13 @@ export function* formatData(action) {
         changeSeq: changeSeq.toUpperCase()
       };
       const analysisData = yield select(getAnalysisDataFromStore);
-      const prevFormat = analysisData.get("format");
+      const prevFormat = analysisData.get('format');
       const nextFormat = prevFormat.set(analysisId, fromJS(format));
-
       yield put(
-        analysisActions.saveAnalysisImmu({ type: "format", data: nextFormat })
+        analysisActions.saveAnalysisImmu({ type: 'format', data: nextFormat })
       );
       yield put(
-        analysisActions.saveAnalysis({ type: "failList", data: failList })
+        analysisActions.saveAnalysis({ type: 'failList', data: failList })
       );
     }
   } catch (error) {
@@ -110,8 +109,8 @@ export function* analysisJson(action) {
   if (!data.length || !data[0] || !data[0].value) {
     yield put(
       stateActions.showMsg({
-        status: "warning",
-        content: "Please check file again!"
+        status: 'warning',
+        content: 'Please check file again!'
       })
     );
     return;
@@ -122,25 +121,25 @@ export function* analysisJson(action) {
   yield all([
     put(
       analysisActions.saveAnalysises({
-        types: ["format", analysisId],
+        types: ['format', analysisId],
         data: analysis.format
       })
     ),
     put(
       analysisActions.saveAnalysises({
-        types: ["summary", analysisId],
+        types: ['summary', analysisId],
         data: analysis.summary
       })
     ),
     put(
       analysisActions.saveAnalysises({
-        types: ["analysisList", analysisId],
+        types: ['analysisList', analysisId],
         data: analysis.value
       })
     ),
     put(
       analysisActions.saveAnalysisImmu({
-        type: "analysised",
+        type: 'analysised',
         data: true
       })
     )

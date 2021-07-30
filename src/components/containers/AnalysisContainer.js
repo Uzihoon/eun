@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { withRouter } from "react-router";
-import Analysis from "components/Analysis";
-import Webworker from "worker/Webworker";
-import analysisWorker from "worker/analysis.worker.js";
-import indelWorker from "worker/indel.worker.js";
-import Loading from "components/common/Loading";
-import { getUniqId } from "lib/utility";
-import classNames from "classnames";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
+import Analysis from 'components/Analysis';
+import Webworker from 'worker/Webworker';
+import analysisWorker from 'worker/analysis.worker.js';
+import indelWorker from 'worker/indel.worker.js';
+import Loading from 'components/common/Loading';
+import { getUniqId } from 'lib/utility';
+import classNames from 'classnames';
 
-import * as uploadActions from "store/modules/upload";
-import * as analysisActions from "store/modules/analysis";
-import * as stateActions from "store/modules/state";
-import * as indelActions from "store/modules/indel";
+import * as uploadActions from 'store/modules/upload';
+import * as analysisActions from 'store/modules/analysis';
+import * as stateActions from 'store/modules/state';
+import * as indelActions from 'store/modules/indel';
 
 class AnalysisContainer extends Component {
   constructor(props) {
@@ -26,39 +26,39 @@ class AnalysisContainer extends Component {
       },
       resultList: [
         {
-          title: "Total Sequences",
-          value: "joins_length"
+          title: 'Total Sequences',
+          value: 'joins_length'
         },
         {
-          title: "With both indicator sequences",
-          value: "totlr_count"
+          title: 'With both indicator sequences',
+          value: 'totlr_count'
         },
         {
-          title: "More than minimum frequency",
-          value: "tot_count"
+          title: 'More than minimum frequency',
+          value: 'tot_count'
         },
         {
-          title: "Insertions",
-          value: "cnt_ins"
+          title: 'Insertions',
+          value: 'cnt_ins'
         },
         {
-          title: "Deletions",
-          value: "cnt_del"
+          title: 'Deletions',
+          value: 'cnt_del'
         }
       ],
       sequenceList: [
         {
-          title: "ID",
-          dataIndex: "id"
+          title: 'ID',
+          dataIndex: 'id'
         },
         {
-          title: "Sequence",
-          dataIndex: "origin",
+          title: 'Sequence',
+          dataIndex: 'origin',
           render: (text, val) => {
             const { analysisId } = this.state;
-            const seq = val.origin.split("");
+            const seq = val.origin.split('');
             return (
-              <div className={"value-wrapper"}>
+              <div className={'value-wrapper'}>
                 {seq.map((e, i) => {
                   const origin = val.origin[i];
                   const change = val.change[i];
@@ -70,21 +70,21 @@ class AnalysisContainer extends Component {
 
                   const targetDiff =
                     changed && origin === targetSeq && change === changeSeq;
-                  const insertion = changed && origin === "-" && change !== "-";
-                  const deletion = changed && origin !== "-" && change === "-";
+                  const insertion = changed && origin === '-' && change !== '-';
+                  const deletion = changed && origin !== '-' && change === '-';
                   const sub =
-                    changed && !targetDiff && origin !== "-" && change !== "-";
+                    changed && !targetDiff && origin !== '-' && change !== '-';
 
                   const valueClass = classNames({
                     value: true,
-                    "target-val": targetDiff,
-                    "insertion-val": insertion,
-                    "deletion-val": deletion,
-                    "sub-val": sub
+                    'target-val': targetDiff,
+                    'insertion-val': insertion,
+                    'deletion-val': deletion,
+                    'sub-val': sub
                   });
 
                   return (
-                    <div className="value-box" key={i}>
+                    <div className='value-box' key={i}>
                       <div className={valueClass}>{val.change[i]}</div>
                     </div>
                   );
@@ -94,41 +94,41 @@ class AnalysisContainer extends Component {
           }
         },
         {
-          title: "Length",
-          dataIndex: "length",
+          title: 'Length',
+          dataIndex: 'length',
           sorter: (a, b) => a.length - b.length
         },
         {
-          title: "Count",
-          dataIndex: "count",
+          title: 'Count',
+          dataIndex: 'count',
           sorter: (a, b) => a.count - b.count
         },
         {
-          title: "Type",
-          dataIndex: "type",
+          title: 'Type',
+          dataIndex: 'type',
           filters: [
-            { text: "WT or Sub", value: 0 },
-            { text: "INS", value: 1 },
-            { text: "DEL", value: 2 }
+            { text: 'WT or Sub', value: 0 },
+            { text: 'INS', value: 1 },
+            { text: 'DEL', value: 2 }
           ],
           onFilter: (value, record) => record.type === value,
           render: text => {
-            if (+text === 0) return "WT or Sub";
-            if (+text === 1) return "INS";
-            return "DEL";
+            if (+text === 0) return 'WT or Sub';
+            if (+text === 1) return 'INS';
+            return 'DEL';
           }
         },
         {
-          title: "HDR",
-          dataIndex: "hdr",
+          title: 'HDR',
+          dataIndex: 'hdr',
           render: text => {
-            if (text < -1) return "N/A";
-            if (text === -1) return "X";
-            return "O";
+            if (text < -1) return 'N/A';
+            if (text === -1) return 'X';
+            return 'O';
           }
         }
       ],
-      sequenceCharList: ["A", "C", "G", "T"],
+      sequenceCharList: ['A', 'C', 'G', 'T'],
       download: false,
       excelData: null,
       analysisId: match.params.analysisId,
@@ -136,34 +136,34 @@ class AnalysisContainer extends Component {
       sequenceFix: false,
       infoColorList: [
         {
-          title: "Desired Change",
-          class: "target-val"
+          title: 'Desired Change',
+          class: 'target-val'
         },
         {
-          title: "Undesired Change",
-          class: "sub-val"
+          title: 'Undesired Change',
+          class: 'sub-val'
         },
         {
-          title: "Insertion",
-          class: "insertion-val"
+          title: 'Insertion',
+          class: 'insertion-val'
         },
         {
-          title: "Deletion",
-          class: "deletion-val"
+          title: 'Deletion',
+          class: 'deletion-val'
         }
       ],
       changeColorList: [
         {
-          title: "Original",
-          class: "origin-val"
+          title: 'Original',
+          class: 'origin-val'
         },
         {
-          title: "Desired Change",
-          class: "target-val"
+          title: 'Desired Change',
+          class: 'target-val'
         },
         {
-          title: "Undesired Change",
-          class: "sub-val"
+          title: 'Undesired Change',
+          class: 'sub-val'
         }
       ]
     };
@@ -175,18 +175,18 @@ class AnalysisContainer extends Component {
     const targetSUM = summary[analysisId];
 
     if (!analysisId || !targetSUM || targetSUM.length <= 0) {
-      history.push("/analysis");
+      history.push('/analysis');
     }
 
-    document.removeEventListener("scroll", e => {
+    document.removeEventListener('scroll', e => {
       this.handleScroll(e);
     });
   }
 
   componentDidMount() {
     const { StateActions } = this.props;
-    StateActions.setState({ key: "sampleLoading", value: false });
-    StateActions.setState({ key: "innerLoading", value: false });
+    StateActions.setState({ key: 'sampleLoading', value: false });
+    StateActions.setState({ key: 'innerLoading', value: false });
     this.analysisWorker = new Webworker(analysisWorker);
     this.analysisWorker.onmessage = this.getDownload;
 
@@ -200,7 +200,7 @@ class AnalysisContainer extends Component {
       });
     }
 
-    document.addEventListener("scroll", e => {
+    document.addEventListener('scroll', e => {
       this.handleScroll(e);
     });
   }
@@ -209,9 +209,9 @@ class AnalysisContainer extends Component {
     const { history } = this.props;
     const windowY = window.scrollY;
     const { sequenceY, sequenceFix } = this.state;
-    const path = history.location.pathname.split("/");
+    const path = history.location.pathname.split('/');
     if (path.length <= 2) {
-      document.removeEventListener("scroll", e => {});
+      document.removeEventListener('scroll', e => {});
       return;
     }
     if (windowY >= sequenceY && !sequenceFix) {
@@ -239,7 +239,7 @@ class AnalysisContainer extends Component {
   componentWillUnmount() {
     const { UploadActions } = this.props;
     UploadActions.resetUpload();
-    document.removeEventListener("scroll", e => {
+    document.removeEventListener('scroll', e => {
       this.handleScroll(e);
     });
   }
@@ -247,7 +247,7 @@ class AnalysisContainer extends Component {
   handleExcel = _ => {
     const { resultList, sequenceCharList, analysisId } = this.state;
     const { analysisList, format, StateActions } = this.props;
-    StateActions.setState({ key: "innerLoading", value: true });
+    StateActions.setState({ key: 'innerLoading', value: true });
     this.setState({ download: false, excelData: null });
     this.analysisWorker.postMessage({
       analysisList: analysisList[analysisId],
@@ -285,9 +285,9 @@ class AnalysisContainer extends Component {
     const target = format[analysisId] || {};
     const analysisData = JSON.stringify(this.getAnalysisData());
     const fileName = `${target.targetSeq}${target.changeSeq}`;
-    const blob = new Blob([analysisData], { type: "application/json" });
+    const blob = new Blob([analysisData], { type: 'application/json' });
     const href = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = href;
     link.download = `${fileName}.json`;
     document.body.appendChild(link);
@@ -312,7 +312,7 @@ class AnalysisContainer extends Component {
 
     if (this.state.download !== download && download) {
       this.setState({ download: false });
-      StateActions.setState({ key: "innerLoading", value: false });
+      StateActions.setState({ key: 'innerLoading', value: false });
       return true;
     }
 
@@ -324,7 +324,7 @@ class AnalysisContainer extends Component {
     return (
       <>
         <Analysis {...this.state} {...this.props} {...this} />
-        {indelStatus.loading && <Loading title="" gauge={indelStatus.gauge} />}
+        {indelStatus.loading && <Loading title='' gauge={indelStatus.gauge} />}
       </>
     );
   }
@@ -333,10 +333,10 @@ class AnalysisContainer extends Component {
 export default withRouter(
   connect(
     state => ({
-      summary: state.analysis.get("summary").toJS(),
-      analysisList: state.analysis.get("analysisList").toJS(),
-      format: state.analysis.get("format").toJS(),
-      failList: state.analysis.get("failList").toJS()
+      summary: state.analysis.get('summary').toJS(),
+      analysisList: state.analysis.get('analysisList').toJS(),
+      format: state.analysis.get('format').toJS(),
+      failList: state.analysis.get('failList').toJS()
     }),
     dispatch => ({
       UploadActions: bindActionCreators(uploadActions, dispatch),
