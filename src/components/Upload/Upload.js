@@ -125,8 +125,8 @@ export default Form.create({ name: 'upload' })(
           <Item>
             <div className={cx('item-title')}>Reference Amplicon Sequence</div>
             {getFieldDecorator('fullseq', {
-              initialValue:
-                'tagatgggagctcaggctaacatgataccctgaaacctgctgactagcacctcctctccaggacgacttccccagataccccgtgggcaagttcttccaatatgacacctggagacagtccgcgggacgcctgcgcagaggcctgcctgccctcctgcgtgcccgccggggtcgcatgcttgccaaagagctcaaagagttcagagaggccaaacgtc',
+              // initialValue:
+              // 'tagatgggagctcaggctaacatgataccctgaaacctgctgactagcacctcctctccaggacgacttccccagataccccgtgggcaagttcttccaatatgacacctggagacagtccgcgggacgcctgcgcagaggcctgcctgccctcctgcgtgcccgccggggtcgcatgcttgccaaagagctcaaagagttcagagaggccaaacgtc',
               // "GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
               rules: [{ required: true, message: 'Please input Full Sequence' }]
             })(
@@ -167,7 +167,7 @@ export default Form.create({ name: 'upload' })(
             </div>
             {getFieldDecorator('rgenseq', {
               // initialValue: "ACCTCAGTTCCCCTTCAAAG",
-              initialValue: 'tattggaagaacttgcccac',
+              // initialValue: 'tattggaagaacttgcccac',
               rules: [
                 { required: true, message: 'Please input target DNA sequence' }
               ]
