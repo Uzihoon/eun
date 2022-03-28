@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import Login from "components/Login";
-import { withRouter } from "react-router";
-import { Redirect } from "react-router-dom";
-import * as stateActions from "store/modules/state";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Login from 'components/Login';
+import { withRouter } from 'react-router';
+import { Redirect } from 'react-router-dom';
+import * as stateActions from 'store/modules/state';
 
+const GUEST = 'Guest@';
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,22 +25,22 @@ class LoginContainer extends Component {
 
   handleRegister = _ => {
     const { history } = this.props;
-    history.push("/signup");
+    history.push('/signup');
   };
 
   handleGuest = () => {
     const { StateActions } = this.props;
-    StateActions.loginSuccess({ email: "Guest@" });
+    StateActions.loginSuccess({ email: GUEST });
   };
 
   componentDidMount() {
     const { enterEvent } = this;
-    window.addEventListener("keydown", enterEvent);
+    window.addEventListener('keydown', enterEvent);
   }
 
   componentWillUnmount() {
     const { enterEvent } = this;
-    window.removeEventListener("keydown", enterEvent);
+    window.removeEventListener('keydown', enterEvent);
   }
 
   enterEvent = e => {
@@ -60,8 +61,10 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { authed } = this.props;
-    if (authed) return <Redirect to="/analysis" />;
+    const { authed, userInfo } = this.props;
+
+    if (authed && userInfo.get('email') === GUEST) return <Redirect to='/' />;
+    if (authed) return <Redirect to='/analysis' />;
     return <Login {...this} {...this.state} />;
   }
 }
@@ -69,7 +72,8 @@ class LoginContainer extends Component {
 export default withRouter(
   connect(
     state => ({
-      authed: state.state.get("authed")
+      authed: state.state.get('authed'),
+      userInfo: state.state.get('userInfo')
     }),
     dispatch => ({
       StateActions: bindActionCreators(stateActions, dispatch)

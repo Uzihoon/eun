@@ -16,7 +16,9 @@ export default Form.create({ name: 'login' })(
 
       return (
         <Form className={cx('login-container')} onSubmit={handleSubmit}>
-          <div className={cx('for-daeun')}>@2019 Uzihoon to Da-Eun Yoon</div>
+          <div
+            className={cx('for-daeun')}
+          >{`© 2019 - ${new Date().getFullYear()} Uzihoon All rights reserved`}</div>
           <div className={cx('circle')}>
             <img src={bg} />
           </div>

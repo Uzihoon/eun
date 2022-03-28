@@ -95,7 +95,7 @@ export default Form.create({ name: 'upload' })(
             <Item className={cx('half-item')}>
               <div className={cx('item-title')}>File Index Pattern</div>
               {getFieldDecorator('indexPattern', {
-                initialValue: '_L001_',
+                initialValue: '',
                 rules: [
                   {
                     required: true,
