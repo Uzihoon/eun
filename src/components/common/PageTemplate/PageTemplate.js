@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import TopBar from 'components/common/TopBar';
 import { VERSION } from 'environment';
 import Question from 'components/Question';
+import Banner from 'components/common/Banner';
 
 import * as stateActions from 'store/modules/state';
 import * as uploadActions from 'store/modules/upload';
@@ -17,12 +18,12 @@ const { Content } = Layout;
 const cx = classNames.bind(styles);
 
 class PageTemplate extends Component {
-  pushPage = url => {
+  pushPage = (url) => {
     const { history } = this.props;
     history.push(url);
   };
 
-  handleLogout = _ => {
+  handleLogout = (_) => {
     const { StateActions, history } = this.props;
     StateActions.logout(history);
   };
@@ -31,6 +32,7 @@ class PageTemplate extends Component {
     const { children, nolayout } = this.props;
     return (
       <Layout className={cx('full-layout')}>
+        <Banner />
         <Question />
         <TopBar {...this.props} {...this} />
         <Layout className={cx('content-layout')}>
@@ -56,12 +58,12 @@ class PageTemplate extends Component {
 
 export default withRouter(
   connect(
-    state => ({
-      menuList: state.state.get('menuList')
+    (state) => ({
+      menuList: state.state.get('menuList'),
     }),
-    dispatch => ({
+    (dispatch) => ({
       StateActions: bindActionCreators(stateActions, dispatch),
-      UploadActions: bindActionCreators(uploadActions, dispatch)
+      UploadActions: bindActionCreators(uploadActions, dispatch),
     })
   )(PageTemplate)
 );

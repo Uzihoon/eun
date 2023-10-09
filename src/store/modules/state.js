@@ -35,7 +35,7 @@ const initialState = Map({
   msg: {
     status: '',
     content: '',
-    show: false
+    show: false,
   },
   loading: false,
   authed: false,
@@ -53,32 +53,32 @@ const initialState = Map({
     nuctype: '0',
     rgenseq: 'TCAGAAAGTGGTGGCTGGTG',
     targetSeq: 'a',
-    end_range: 70
+    end_range: 70,
   }),
   menuList: [
     {
       title: 'Cas Analysis',
       url: '/analysis',
-      icon: Dna
+      icon: Dna,
     },
     {
       title: 'INDEL Type Report',
       url: '/indel',
-      icon: Line
+      icon: Line,
     },
     {
       title: 'File Convert',
       url: '/convert',
-      icon: File
+      icon: File,
     },
     {
       title: 'Analysis List',
       url: '/list',
-      icon: List
-    }
+      icon: List,
+    },
   ],
   intro: true,
-  innerLoading: false
+  innerLoading: false,
 });
 
 export default handleActions(
@@ -119,7 +119,7 @@ export default handleActions(
     [SET_STATE]: (state, action) => {
       const { key, value } = action.payload;
       return state.set(key, value);
-    }
+    },
   },
   initialState
 );

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Switch, Route, HashRouter, Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Switch, Route, HashRouter, Redirect } from 'react-router-dom';
 import {
   UploadPage,
   LoginPage,
@@ -12,20 +12,21 @@ import {
   MainPage,
   IndelPage,
   ConvertPage,
-  VersionPage
-} from "pages";
-import PrivateRouter from "lib/PrivateRouter";
-import InfoMessage from "components/common/InfoMessage";
-import Intro from "components/common/Intro";
-import InnerLoader from "components/common/InnerLoader";
-import { withRouter } from "react-router";
-import * as stateActions from "store/modules/state";
+  VersionPage,
+} from 'pages';
+import PrivateRouter from 'lib/PrivateRouter';
+import InfoMessage from 'components/common/InfoMessage';
+import Intro from 'components/common/Intro';
+import InnerLoader from 'components/common/InnerLoader';
+import Banner from 'components/common/Banner';
+import { withRouter } from 'react-router';
+import * as stateActions from 'store/modules/state';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      localAuthed: false
+      localAuthed: false,
     };
   }
 
@@ -49,6 +50,12 @@ class App extends Component {
     if (!authed) {
       StateActions.checkAuth({ location, history });
     }
+    const closeBanner = localStorage.getItem('EUN_CLOSE_BANNER');
+
+    if (closeBanner) {
+      const isClose = closeBanner === 'TRUE' ? true : false;
+      StateActions.setState({ key: 'close', value: isClose });
+    }
   }
 
   render() {
@@ -57,22 +64,22 @@ class App extends Component {
       <>
         <HashRouter>
           <Switch>
-            <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={SignupPage} />
+            <Route path='/login' component={LoginPage} />
+            <Route path='/signup' component={SignupPage} />
             <PrivateRouter
-              path="/"
+              path='/'
               component={MainPage}
               exact
               authed={authed}
             />
             <PrivateRouter
-              path="/analysis"
+              path='/analysis'
               component={UploadPage}
               authed={authed}
               exact
             />
             <PrivateRouter
-              path="/analysis/:analysisId"
+              path='/analysis/:analysisId'
               component={AnalysisPage}
               authed={authed}
             />
@@ -82,28 +89,28 @@ class App extends Component {
               authed={authed}
             /> */}
             <PrivateRouter
-              path="/indel"
+              path='/indel'
               component={IndelReportPage}
               authed={authed}
               exact
             />
             <PrivateRouter
-              path="/indel/:indelId"
+              path='/indel/:indelId'
               component={IndelPage}
               authed={authed}
             />
             <PrivateRouter
-              path="/convert"
+              path='/convert'
               component={ConvertPage}
               authed={authed}
             />
             <PrivateRouter
-              path="/version"
+              path='/version'
               component={VersionPage}
               authed={authed}
             />
-            <PrivateRouter path="/list" component={ListPage} authed={authed} />
-            <Redirect to="/" />
+            <PrivateRouter path='/list' component={ListPage} authed={authed} />
+            <Redirect to='/' />
           </Switch>
         </HashRouter>
         <InfoMessage />
@@ -116,11 +123,11 @@ class App extends Component {
 
 export default withRouter(
   connect(
-    state => ({
-      authed: state.state.get("authed")
+    (state) => ({
+      authed: state.state.get('authed'),
     }),
-    dispatch => ({
-      StateActions: bindActionCreators(stateActions, dispatch)
+    (dispatch) => ({
+      StateActions: bindActionCreators(stateActions, dispatch),
     })
   )(App)
 );

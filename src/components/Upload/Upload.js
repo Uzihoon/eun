@@ -30,7 +30,7 @@ export default Form.create({ name: 'upload' })(
         handleChange,
         setRef,
         sequenceList,
-        sampleLoading
+        sampleLoading,
       } = this.props;
       const { getFieldDecorator } = this.props.form;
       const aniClass = sampleLoading && 'animation';
@@ -87,9 +87,9 @@ export default Form.create({ name: 'upload' })(
                 rules: [
                   {
                     required: false,
-                    message: 'Please input file pattern'
-                  }
-                ]
+                    message: 'Please input file pattern',
+                  },
+                ],
               })(<Input placeholder='Sample-ID' />)}
             </Item>
             <Item className={cx('half-item')}>
@@ -99,9 +99,9 @@ export default Form.create({ name: 'upload' })(
                 rules: [
                   {
                     required: true,
-                    message: 'Please input file pattern'
-                  }
-                ]
+                    message: 'Please input file pattern',
+                  },
+                ],
               })(<Input placeholder='_L001_' />)}
             </Item>
           </div>
@@ -110,7 +110,7 @@ export default Form.create({ name: 'upload' })(
               Sequencing Data (Paired-end reads)
             </div>
             {getFieldDecorator('files', {
-              rules: [{ required: true, message: 'Please submit files' }]
+              rules: [{ required: true, message: 'Please submit files' }],
             })(
               <Dragger {...uploadInfo}>
                 <p className={cx('upload-icon')}>
@@ -128,7 +128,9 @@ export default Form.create({ name: 'upload' })(
               // initialValue:
               // 'tagatgggagctcaggctaacatgataccctgaaacctgctgactagcacctcctctccaggacgacttccccagataccccgtgggcaagttcttccaatatgacacctggagacagtccgcgggacgcctgcgcagaggcctgcctgccctcctgcgtgcccgccggggtcgcatgcttgccaaagagctcaaagagttcagagaggccaaacgtc',
               // "GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC",
-              rules: [{ required: true, message: 'Please input Full Sequence' }]
+              rules: [
+                { required: true, message: 'Please input Full Sequence' },
+              ],
             })(
               <TextArea placeholder='GGAGTTTCCAGATCTCTGATGGCCATTTTCCTCGAGCCTGTGCCTCCTCTAAGAACTTGTTGGCAAAAGAATGCTGCCCACCATGGATGGGTGATGGGAGTCCCTGCGGCCAGCTTTCAGGCAGAGGTTCCTGCCAGGATATCCTTCTGTCCAGTGCACCATCTGGACCTCAGTTCCCCTTCAAAGGGGTGGATGACCGTGAGTCCTGGCCCTCTGTGTTTTATAATAGGACCTGCCAGTGC' />
             )}
@@ -150,7 +152,7 @@ export default Form.create({ name: 'upload' })(
           <Item>
             <div className={cx('item-title')}>Used Cas Ortholog</div>
             {getFieldDecorator('nucleases', {
-              initialValue: nucleaseList[0].value
+              initialValue: nucleaseList[0].value,
             })(
               <Select placeholder='Select Nucleases'>
                 {nucleaseList.map((e, i) => (
@@ -169,8 +171,8 @@ export default Form.create({ name: 'upload' })(
               // initialValue: "ACCTCAGTTCCCCTTCAAAG",
               // initialValue: 'tattggaagaacttgcccac',
               rules: [
-                { required: true, message: 'Please input target DNA sequence' }
-              ]
+                { required: true, message: 'Please input target DNA sequence' },
+              ],
             })(<Input placeholder='ACCTCAGTTCCCCTTCAAAG' />)}
           </Item>
           <Item>
@@ -179,8 +181,8 @@ export default Form.create({ name: 'upload' })(
               initialValue: '70',
               rules: [
                 { required: true, message: 'Please input range' },
-                { validator: checkNumber }
-              ]
+                { validator: checkNumber },
+              ],
             })(<Input placeholder='Standard Range' />)}
           </Item>
           <Item>
@@ -189,11 +191,11 @@ export default Form.create({ name: 'upload' })(
               // initialValue: "c",
               rules: [
                 { required: true, message: 'Please input target' },
-                { validator: validationCheck }
-              ]
+                { validator: validationCheck },
+              ],
             })(
               <Radio.Group>
-                {tideList.map(tide => (
+                {tideList.map((tide) => (
                   <Radio key={tide} value={tide}>
                     {tide}
                   </Radio>
@@ -209,11 +211,11 @@ export default Form.create({ name: 'upload' })(
               // initialValue: "t",
               rules: [
                 { required: true, message: 'Please input change' },
-                { validator: validationCheck }
-              ]
+                { validator: validationCheck },
+              ],
             })(
               <Radio.Group>
-                {tideList.map(tide => (
+                {tideList.map((tide) => (
                   <Radio key={tide} value={tide}>
                     {tide}
                   </Radio>
@@ -222,7 +224,9 @@ export default Form.create({ name: 'upload' })(
             )}
           </Item>
           <div className={cx('button-box')}>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button type='primary' onClick={handleSubmit}>
+              Submit
+            </Button>
           </div>
         </Form>
       );
