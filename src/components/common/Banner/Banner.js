@@ -12,7 +12,7 @@ export default function Banner() {
             <b>The new EUN analyzer is now available!</b>
             <br />
             <div>
-              On December 31, 2023, EUN will be replaced by EUN-V2 and will be
+              On January 31, 2024, EUN will be replaced by EUN-V2 and will be
               deprecated. You can now use the EUN-V2{' '}
               <a href='https://eun-v2.com' _blank>
                 here
